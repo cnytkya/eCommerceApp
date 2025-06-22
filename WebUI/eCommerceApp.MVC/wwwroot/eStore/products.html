@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern E-Ticaret | Tüm Ürünler</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="top-bar py-2 text-center bg-dark text-white-50">
+        <div class="container">
+            <small>Ücretsiz Kargo! 750 TL ve Üzeri Alışverişlerde Geçerli</small>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4" href="index.html">
+                <i class="fas fa-store me-2 text-primary"></i>Modern E-Ticaret
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Kategoriler
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="products.html?category=elektronik">Elektronik</a></li>
+                            <li><a class="dropdown-item" href="products.html?category=giyim">Giyim</a></li>
+                            <li><a class="dropdown-item" href="products.html?category=ev-yasam">Ev & Yaşam</a></li>
+                            <li><a class="dropdown-item" href="products.html?category=aksesuarlar">Aksesuarlar</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="products.html">Tüm Ürünler</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">İletişim</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html"><i class="fas fa-user"></i> Giriş Yap</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html"><i class="fas fa-user-plus"></i> Kayıt Ol</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html"><i class="fas fa-shopping-cart"></i> Sepetim <span class="badge bg-primary ms-1">0</span></a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <button id="theme-toggle" class="btn btn-outline-secondary btn-sm rounded-pill"><i class="fas fa-moon"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="products-list py-5">
+        <div class="container">
+            <h1 class="text-center mb-5 display-4 fw-bold">Tüm Ürünler</h1>
+
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3">Filtrele</h5>
+                            <div class="mb-3">
+                                <label for="categoryFilter" class="form-label fw-bold">Kategori</label>
+                                <select class="form-select" id="categoryFilter">
+                                    <option value="all">Tüm Kategoriler</option>
+                                    <option value="elektronik">Elektronik</option>
+                                    <option value="giyim">Giyim</option>
+                                    <option value="ev-yasam">Ev & Yaşam</option>
+                                    <option value="aksesuarlar">Aksesuarlar</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="priceRange" class="form-label fw-bold">Fiyat Aralığı</label>
+                                <input type="range" class="form-range" id="priceRange" min="0" max="20000" step="500" value="20000">
+                                <div class="d-flex justify-content-between">
+                                    <span>0 TL</span>
+                                    <span id="priceValue">20.000 TL</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Marka</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="markaA" id="markaA">
+                                    <label class="form-check-label" for="markaA">
+                                        Marka A
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="markaB" id="markaB">
+                                    <label class="form-check-label" for="markaB">
+                                        Marka B
+                                    </label>
+                                </div>
+                                </div>
+                            <button class="btn btn-primary w-100 mt-3" id="applyFilterBtn">Filtrele</button>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm border-0 mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3">Sırala</h5>
+                            <select class="form-select" id="sortOptions">
+                                <option value="default">Varsayılan</option>
+                                <option value="price-asc">Fiyata Göre Artan</option>
+                                <option value="price-desc">Fiyata Göre Azalan</option>
+                                <option value="name-asc">İsme Göre (A-Z)</option>
+                                <option value="name-desc">İsme Göre (Z-A)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div id="product-list" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        </div>
+                    <nav aria-label="Page navigation example" class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Sonraki</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">Modern E-Ticaret</h5>
+                    <p class="text-white-50">Kaliteyi ve trendleri evinize getiriyoruz. En seçkin ürünler ve benzersiz alışveriş deneyimi için doğru adrestesiniz.</p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="fw-bold mb-3">Linkler</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="index.html" class="text-decoration-none text-white-50">Ana Sayfa</a></li>
+                        <li><a href="products.html" class="text-decoration-none text-white-50">Ürünler</a></li>
+                        <li><a href="about.html" class="text-decoration-none text-white-50">Hakkımızda</a></li>
+                        <li><a href="contact.html" class="text-decoration-none text-white-50">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold mb-3">Kategoriler</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="products.html?category=elektronik" class="text-decoration-none text-white-50">Elektronik</a></li>
+                        <li><a href="products.html?category=giyim" class="text-decoration-none text-white-50">Giyim</a></li>
+                        <li><a href="products.html?category=ev-yasam" class="text-decoration-none text-white-50">Ev & Yaşam</a></li>
+                        <li><a href="products.html?category=aksesuarlar" class="text-decoration-none text-white-50">Aksesuarlar</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold mb-3">Bize Ulaşın</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Adresiniz, Şehir, Ülke</li>
+                        <li><i class="fas fa-phone me-2"></i> +90 555 123 45 67</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@moderneticaret.com</li>
+                    </ul>
+                    <div class="social-icons mt-3">
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-white-50"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary mt-4">
+            <div class="text-center text-white-50">
+                <p class="mb-0">&copy; 2025 Modern E-Ticaret. Tüm Hakları Saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dark mode için kontrol (products.html özelinde)
+            const body = document.body;
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                body.classList.add(currentTheme);
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                 if (themeToggleBtn) {
+                    if (currentTheme === 'dark-mode') {
+                        themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                    } else {
+                        themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+                    }
+                }
+            }
+
+            // Temel ürün verisi (gerçek uygulamada API'den gelir)
+            const productsData = [
+                { id: 1, name: 'Gaming Klavye', category: 'elektronik', price: 12999, img: 'https://source.unsplash.com/300x200/?keyboard,gaming' },
+                { id: 2, name: 'Yazlık Tişört', category: 'giyim', price: 899, img: 'https://source.unsplash.com/300x200/?tshirt,summer' },
+                { id: 3, name: 'Akıllı Hoparlör', category: 'elektronik', price: 3499, img: 'https://source.unsplash.com/300x200/?smart-speaker' },
+                { id: 4, name: 'Dekoratif Vazo', category: 'ev-yasam', price: 1250, img: 'https://source.unsplash.com/300x200/?decorative-vase' },
+                { id: 5, name: 'Şık Güneş Gözlüğü', category: 'aksesuarlar', price: 1500, img: 'https://source.unsplash.com/300x200/?sunglasses,fashion' },
+                { id: 6, name: 'Kablosuz Kulaklık', category: 'elektronik', price: 2100, img: 'https://source.unsplash.com/300x200/?wireless-headphones' },
+                { id: 7, name: 'Spor Ayakkabı', category: 'giyim', price: 2500, img: 'https://source.unsplash.com/300x200/?sport-shoes' },
+                { id: 8, name: 'Modern Kitaplık', category: 'ev-yasam', price: 1800, img: 'https://source.unsplash.com/300x200/?bookshelf' },
+                { id: 9, name: 'Akıllı Telefon Kılıfı', category: 'aksesuarlar', price: 250, img: 'https://source.unsplash.com/300x200/?phone-case' },
+                { id: 10, name: 'Profesyonel Kamera', category: 'elektronik', price: 18000, img: 'https://source.unsplash.com/300x200/?camera,professional' },
+                { id: 11, name: 'Kot Ceket', category: 'giyim', price: 1200, img: 'https://source.unsplash.com/300x200/?denim-jacket' },
+                { id: 12, name: 'Salon Halısı', category: 'ev-yasam', price: 950, img: 'https://source.unsplash.com/300x200/?rug,living-room' },
+                { id: 13, name: 'Bileklik', category: 'aksesuarlar', price: 300, img: 'https://source.unsplash.com/300x200/?bracelet,jewelry' },
+                { id: 14, name: 'Robot Süpürge', category: 'elektronik', price: 5000, img: 'https://source.unsplash.com/300x200/?robot-vacuum' },
+                { id: 15, name: 'Şık Cüzdan', category: 'aksesuarlar', price: 450, img: 'https://source.unsplash.com/300x200/?wallet,leather' }
+            ];
+
+            const productListDiv = document.getElementById('product-list');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priceRange = document.getElementById('priceRange');
+            const priceValueSpan = document.getElementById('priceValue');
+            const sortOptions = document.getElementById('sortOptions');
+            const applyFilterBtn = document.getElementById('applyFilterBtn');
+
+            // URL'deki kategori parametresini kontrol et ve filtreyi ayarla
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryFromUrl = urlParams.get('category');
+            if (categoryFromUrl) {
+                categoryFilter.value = categoryFromUrl;
+            }
+
+            function displayProducts(products) {
+                productListDiv.innerHTML = ''; // Mevcut ürünleri temizle
+                if (products.length === 0) {
+                    productListDiv.innerHTML = '<div class="col-12 text-center text-muted">Ürün bulunamadı. Lütfen filtreleri ayarlayın.</div>';
+                    return;
+                }
+                products.forEach(product => {
+                    const col = document.createElement('div');
+                    col.classList.add('col');
+                    col.innerHTML = `
+                        <div class="card h-100 shadow-sm border-0" data-category="${product.category}" data-price="${product.price}">
+                            <img src="${product.img}" class="card-img-top" alt="${product.name}">
+                            <div class="card-body text-center">
+                                <h5 class="card-title fw-bold">${product.name}</h5>
+                                <p class="card-text text-muted">${product.category.charAt(0).toUpperCase() + product.category.slice(1).replace('-', ' ')}</p>
+                                <p class="card-text fs-5 fw-bold text-primary">${product.price.toLocaleString('tr-TR')} TL</p>
+                                <a href="product-detail.html?productId=${product.id}" class="btn btn-outline-primary btn-sm mt-2"><i class="fas fa-eye me-1"></i> Detaylar</a>
+                                <button class="btn btn-primary btn-sm mt-2 ms-2 add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}"><i class="fas fa-shopping-cart me-1"></i> Ekle</button>
+                            </div>
+                        </div>
+                    `;
+                    productListDiv.appendChild(col);
+                });
+
+                // Yeniden "Sepete Ekle" butonları için olay dinleyicileri ekleyin (önceki dinleyicileri kaldırmayı unutmayın)
+                document.querySelectorAll('.add-to-cart').forEach(button => {
+                    button.removeEventListener('click', addToCartHandler);
+                    button.addEventListener('click', addToCartHandler);
+                });
+            }
+
+            function filterAndSortProducts() {
+                let filteredProducts = [...productsData];
+
+                // Kategori Filtresi
+                const selectedCategory = categoryFilter.value;
+                if (selectedCategory !== 'all') {
+                    filteredProducts = filteredProducts.filter(product => product.category === selectedCategory);
+                }
+
+                // Fiyat Aralığı Filtresi
+                const maxPrice = parseInt(priceRange.value);
+                filteredProducts = filteredProducts.filter(product => product.price <= maxPrice);
+
+                // Marka Filtresi (varsa)
+                const selectedBrands = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                                         .map(checkbox => checkbox.value);
+                if (selectedBrands.length > 0) {
+                    filteredProducts = filteredProducts.filter(product => selectedBrands.includes(product.brand)); // Ürün datasında brand alanı olmalı
+                }
+
+
+                // Sıralama
+                const sortBy = sortOptions.value;
+                if (sortBy === 'price-asc') {
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                } else if (sortBy === 'price-desc') {
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                } else if (sortBy === 'name-asc') {
+                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name, 'tr', { sensitivity: 'base' }));
+                } else if (sortBy === 'name-desc') {
+                    filteredProducts.sort((a, b) => b.name.localeCompare(a.name, 'tr', { sensitivity: 'base' }));
+                }
+
+                displayProducts(filteredProducts);
+            }
+
+            // Filtre ve sıralama seçenekleri değiştiğinde ürünleri güncelle
+            categoryFilter.addEventListener('change', filterAndSortProducts);
+            sortOptions.addEventListener('change', filterAndSortProducts);
+            applyFilterBtn.addEventListener('click', filterAndSortProducts); // "Filtrele" butonu tıklandığında
+
+            priceRange.addEventListener('input', function() {
+                priceValueSpan.textContent = parseInt(this.value).toLocaleString('tr-TR') + ' TL';
+            });
+            // Range input'tan el çekildiğinde filtrele
+            priceRange.addEventListener('change', filterAndSortProducts);
+
+
+            // Başlangıçta tüm "Sepete Ekle" butonlarına olay dinleyici ekle
+            // Bu fonksiyon script.js'den kopyalandı ve ürün listesi her güncellendiğinde tekrar çağrılmalı
+            function addToCartHandler(event) {
+                const productId = event.target.dataset.productId;
+                const productName = event.target.dataset.productName;
+                const productPrice = parseFloat(event.target.dataset.productPrice);
+
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                let existingItem = cartItems.find(item => item.id == productId);
+
+                if (existingItem) {
+                    existingItem.quantity++;
+                    existingItem.totalPrice = existingItem.quantity * existingItem.price;
+                } else {
+                    cartItems.push({
+                        id: productId,
+                        name: productName,
+                        price: productPrice,
+                        quantity: 1,
+                        totalPrice: productPrice
+                    });
+                }
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+                let cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                localStorage.setItem('cartCount', cartItemCount);
+
+                const cartBadge = document.querySelector('.navbar-nav .badge');
+                if (cartBadge) {
+                    cartBadge.textContent = cartItemCount;
+                }
+
+                alert(`${productName} sepete eklendi!`);
+            }
+
+            // Sayfa yüklendiğinde sepet sayacını güncelle (navbar için)
+            let cartItemCountNav = parseInt(localStorage.getItem('cartCount')) || 0;
+            const cartBadgeNav = document.querySelector('.navbar-nav .badge');
+            if (cartBadgeNav) {
+                cartBadgeNav.textContent = cartItemCountNav;
+            }
+
+            // Sayfa yüklendiğinde ürünleri göster ve URL'den gelen kategori filtresini uygula
+            filterAndSortProducts();
+        });
+    </script>
+</body>
+</html>

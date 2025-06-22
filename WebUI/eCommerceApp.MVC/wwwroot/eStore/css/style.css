@@ -1,0 +1,431 @@
+/* Genel Stil Ayarları */
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #343a40;
+    transition: color 0.3s ease;
+}
+
+a {
+    color: #007bff; /* Bootstrap primary rengi */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Navbar Ayarları */
+.navbar-brand {
+    color: #007bff !important;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    margin-right: 15px;
+    color: #495057 !important;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #007bff !important;
+}
+
+.navbar-nav .dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar-nav .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+/* Üst Kısım / Duyuru Çubuğu */
+.top-bar {
+    background-color: #343a40 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.85rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Kahraman Bölümü (Hero Section) */
+.hero-section {
+    background-size: cover;
+    background-position: center center;
+    min-height: 500px;
+    position: relative;
+    z-index: 1;
+    display: flex; /* Dikey ortalama için eklendi */
+    align-items: center; /* Dikey ortalama için eklendi */
+    justify-content: center; /* Yatay ortalama için eklendi */
+    text-align: center; /* Metin ortalama için eklendi */
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay */
+    z-index: -1;
+    transition: background-color 0.3s ease;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-section p.lead {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-section .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.hero-section .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Genel Bölüm Başlıkları */
+section h2 {
+    font-size: 2.5rem;
+    color: #343a40;
+    margin-bottom: 3rem;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+section h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #007bff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Ürün Kartları */
+.card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: all 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.card-img-top {
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    object-fit: cover;
+    height: 200px; /* Sabit yükseklik */
+}
+
+.card-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #343a40;
+    transition: color 0.3s ease;
+}
+
+.card-text.text-muted {
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.card-text.fs-5 {
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.card .btn-primary, .card .btn-outline-primary {
+    border-radius: 0.5rem;
+}
+
+/* Hizmetler Bölümü */
+.service-box {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.service-box:hover {
+    background-color: #e9f5ff;
+    border-color: #cfe2ff;
+    transform: translateY(-5px);
+}
+
+.service-box i {
+    color: #007bff;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+/* Footer */
+footer {
+    background-color: #212529 !important;
+    transition: background-color 0.3s ease;
+}
+
+footer a {
+    color: rgba(255, 255, 255, 0.6) !important;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #fff !important;
+    text-decoration: none;
+}
+
+footer .social-icons a {
+    transition: all 0.3s ease;
+}
+
+footer .social-icons a:hover {
+    color: #007bff !important;
+}
+
+/* --- Dark Mode Stilleri --- */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #f8f9fa;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+    color: #fff;
+}
+
+body.dark-mode .top-bar {
+    background-color: #333 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.dark-mode .navbar {
+    background-color: #2c2c2c !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.075) !important;
+}
+
+body.dark-mode .navbar-brand {
+    color: #90caf9 !important; /* Açık mavi */
+}
+
+body.dark-mode .navbar-nav .nav-link {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .navbar-nav .nav-link:hover,
+body.dark-mode .navbar-nav .nav-link.active {
+    color: #90caf9 !important;
+}
+
+body.dark-mode .dropdown-menu {
+    background-color: #3a3a3a;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-mode .dropdown-item {
+    color: #e0e0e0;
+}
+
+body.dark-mode .dropdown-item:hover {
+    background-color: #4a4a4a;
+    color: #90caf9;
+}
+
+body.dark-mode .hero-section::before {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .btn-outline-secondary {
+    color: #e0e0e0;
+    border-color: #e0e0e0;
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+    background-color: #e0e0e0;
+    color: #1a1a1a;
+}
+
+body.dark-mode section.bg-light { /* Services Section gibi */
+    background-color: #2c2c2c !important;
+}
+
+body.dark-mode .card {
+    background-color: #3a3a3a;
+    border-color: #4a4a4a;
+    color: #f8f9fa;
+}
+
+body.dark-mode .card-title {
+    color: #fff;
+}
+
+body.dark-mode .card-text.text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.dark-mode .card-text.text-primary {
+    color: #90caf9 !important;
+}
+
+body.dark-mode .btn-outline-primary {
+    color: #90caf9;
+    border-color: #90caf9;
+}
+
+body.dark-mode .btn-outline-primary:hover {
+    background-color: #90caf9;
+    color: #1a1a1a;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #90caf9 !important;
+    border-color: #90caf9 !important;
+    color: #1a1a1a !important;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #64b5f6 !important; /* Biraz daha koyu mavi */
+    border-color: #64b5f6 !important;
+}
+
+
+body.dark-mode .service-box {
+    background-color: #3a3a3a;
+    border: 1px solid #4a4a4a;
+}
+
+body.dark-mode .service-box:hover {
+    background-color: #4a4a4a;
+    border-color: #5a5a5a;
+}
+
+body.dark-mode .service-box i {
+    color: #90caf9;
+}
+
+body.dark-mode footer {
+    background-color: #1a1a1a !important;
+}
+
+body.dark-mode footer a {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.dark-mode footer a:hover {
+    color: #fff !important;
+}
+
+body.dark-mode footer .social-icons a:hover {
+    color: #90caf9 !important;
+}
+
+/* Form Sayfaları (login, register) için özel stil */
+.form-signin {
+    max-width: 400px;
+    padding: 15px;
+    margin: auto;
+    text-align: center;
+}
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+body.dark-mode .form-signin .form-control {
+    background-color: #4a4a4a;
+    border-color: #666;
+    color: #eee;
+}
+body.dark-mode .form-signin .form-control:focus {
+    background-color: #5a5a5a;
+    border-color: #90caf9;
+    color: #fff;
+}
+body.dark-mode .form-signin .form-floating > label {
+    color: rgba(255, 255, 255, 0.7);
+}
+body.dark-mode .form-signin .form-check-input {
+    background-color: #666;
+    border-color: #999;
+}
+body.dark-mode .form-signin .form-check-input:checked {
+    background-color: #90caf9;
+    border-color: #90caf9;
+}
+
+/* Medya Sorguları (Duyarlılık için) */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-section p.lead {
+        font-size: 1rem;
+    }
+
+    section h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-nav .nav-item {
+        text-align: center;
+    }
+
+    .hero-section {
+        min-height: 400px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section .btn-lg {
+        font-size: 1rem;
+        padding: 0.8rem 2rem;
+    }
+}

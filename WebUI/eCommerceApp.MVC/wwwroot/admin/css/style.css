@@ -1,0 +1,143 @@
+/* Genel Sayfa Stilleri */
+body {
+	transition: background-color 0.3s, color 0.3s;
+}
+
+/* Giriş Sayfası */
+#login-page {
+	height: 100vh;
+}
+
+/* Admin Paneli Ana Yapısı */
+#admin-panel {
+	display: flex;
+	min-height: 100vh;
+}
+
+/* =================================================== */
+/* Sidebar (Yan Menü) Stilleri */
+/* =================================================== */
+#sidebar {
+	min-width: 250px;
+	max-width: 250px;
+	background-color: #343a40; /* Koyu tema için varsayılan */
+	color: #fff;
+	transition: all 0.3s;
+	position: fixed;
+	height: 100%;
+	z-index: 999;
+}
+
+	#sidebar.toggled {
+		margin-left: -250px;
+	}
+
+	#sidebar .sidebar-header {
+		padding: 20px;
+		background-color: #212529;
+		text-align: center;
+	}
+
+	#sidebar ul.components {
+		padding: 20px 0;
+		border-bottom: 1px solid #47748b;
+	}
+
+	#sidebar ul p {
+		color: #fff;
+		padding: 10px;
+	}
+
+	#sidebar ul li a {
+		padding: 15px 20px;
+		font-size: 1.1em;
+		display: block;
+		color: #adb5bd;
+		text-decoration: none;
+		transition: all 0.3s;
+	}
+
+		#sidebar ul li a:hover {
+			color: #fff;
+			background: #495057;
+		}
+
+		#sidebar ul li a.active {
+			color: #fff;
+			background-color: #0d6efd; /* Bootstrap primary color */
+		}
+
+		#sidebar ul li a i {
+			margin-right: 10px;
+		}
+
+/* =================================================== */
+/* Ana İçerik Alanı Stilleri */
+/* =================================================== */
+#main-content {
+	width: 100%;
+	padding-left: 250px; /* Sidebar genişliği kadar boşluk */
+	transition: all 0.3s;
+}
+
+	#main-content.toggled {
+		padding-left: 0;
+	}
+
+.page-content {
+	animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+
+/* =================================================== */
+/* Karanlık ve Açık Tema Ayarları (Bootstrap 5.3+ Yöntemi) */
+/* =================================================== */
+[data-bs-theme="dark"] #sidebar {
+	background-color: #212529;
+}
+
+	[data-bs-theme="dark"] #sidebar .sidebar-header {
+		background-color: #000;
+	}
+
+	[data-bs-theme="dark"] #sidebar ul li a {
+		color: #adb5bd;
+	}
+
+		[data-bs-theme="dark"] #sidebar ul li a:hover {
+			color: #fff;
+			background: #343a40;
+		}
+
+/* Sayfa içeriği karanlık mod için */
+[data-bs-theme="dark"] .card {
+	background-color: #2b3035;
+	color: #e9ecef;
+}
+
+[data-bs-theme="dark"] .table {
+	color: #e9ecef;
+}
+
+[data-bs-theme="dark"] .bg-light {
+	background-color: #343a40 !important;
+}
+
+[data-bs-theme="dark"] .border-bottom,
+[data-bs-theme="dark"] .border-top {
+	border-color: #495057 !important;
+}
+
+[data-bs-theme="dark"] .text-muted {
+	color: #adb5bd !important;
+}

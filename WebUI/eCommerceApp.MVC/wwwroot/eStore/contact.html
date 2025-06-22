@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern E-Ticaret | İletişim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="top-bar py-2 text-center bg-dark text-white-50">
+        <div class="container">
+            <small>Ücretsiz Kargo! 750 TL ve Üzeri Alışverişlerde Geçerli</small>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4" href="index.html">
+                <i class="fas fa-store me-2 text-primary"></i>Modern E-Ticaret
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Kategoriler
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="products.html?category=elektronik">Elektronik</a></li>
+                            <li><a class="dropdown-item" href="products.html?category=giyim">Giyim</a></li>
+                            <li><a class="dropdown-item" href="products.html?category=ev-yasam">Ev & Yaşam</a></li>
+                            <li><a class="dropdown-item" href="products.html?category=aksesuarlar">Aksesuarlar</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="products.html">Tüm Ürünler</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="contact.html">İletişim</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html"><i class="fas fa-user"></i> Giriş Yap</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html"><i class="fas fa-user-plus"></i> Kayıt Ol</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html"><i class="fas fa-shopping-cart"></i> Sepetim <span class="badge bg-primary ms-1">0</span></a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <button id="theme-toggle" class="btn btn-outline-secondary btn-sm rounded-pill"><i class="fas fa-moon"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="contact-section py-5">
+        <div class="container">
+            <h1 class="text-center mb-5 display-4 fw-bold">Bize Ulaşın</h1>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold mb-3">İletişim Bilgileri</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-map-marker-alt me-3 text-primary"></i>Adresiniz: Örnek Cad. No: 123, Şile, İstanbul, Türkiye</li>
+                                <li class="mb-3"><i class="fas fa-phone me-3 text-primary"></i>Telefon: +90 555 123 45 67</li>
+                                <li class="mb-3"><i class="fas fa-envelope me-3 text-primary"></i>E-posta: info@moderneticaret.com</li>
+                                <li class="mb-3"><i class="fas fa-clock me-3 text-primary"></i>Çalışma Saatleri: Pzt - Cum, 09:00 - 18:00</li>
+                            </ul>
+                            <h5 class="card-title fw-bold mt-4 mb-3">Sosyal Medya</h5>
+                            <div class="social-icons">
+                                <a href="#" class="text-dark me-3"><i class="fab fa-facebook-f fa-2x"></i></a>
+                                <a href="#" class="text-dark me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                                <a href="#" class="text-dark me-3"><i class="fab fa-instagram fa-2x"></i></a>
+                                <a href="#" class="text-dark"><i class="fab fa-linkedin-in fa-2x"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold mb-3">Mesaj Gönderin</h5>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="contactName" class="form-label">Adınız Soyadınız</label>
+                                    <input type="text" class="form-control" id="contactName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactEmail" class="form-label">E-posta Adresiniz</label>
+                                    <input type="email" class="form-control" id="contactEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactSubject" class="form-label">Konu</label>
+                                    <input type="text" class="form-control" id="contactSubject">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactMessage" class="form-label">Mesajınız</label>
+                                    <textarea class="form-control" id="contactMessage" rows="5" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Mesaj Gönder</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h5 class="fw-bold mb-3">Konumumuz</h5>
+                    <div class="map-container rounded shadow-sm" style="height: 400px; overflow: hidden;">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d192775.87033502693!2d29.508589658097968!3d41.13963489816503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x409cf46039434857%3A0x6431f13b56658021!2zxZ_pbGUvXEsxNjk1NSwgxLBTVEFOQlVM!5e0!3m2!1str!2str!4v1719001391696!5m2=1str!2str" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">Modern E-Ticaret</h5>
+                    <p class="text-white-50">Kaliteyi ve trendleri evinize getiriyoruz. En seçkin ürünler ve benzersiz alışveriş deneyimi için doğru adrestesiniz.</p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="fw-bold mb-3">Linkler</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="index.html" class="text-decoration-none text-white-50">Ana Sayfa</a></li>
+                        <li><a href="products.html" class="text-decoration-none text-white-50">Ürünler</a></li>
+                        <li><a href="about.html" class="text-decoration-none text-white-50">Hakkımızda</a></li>
+                        <li><a href="contact.html" class="text-decoration-none text-white-50">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold mb-3">Kategoriler</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="products.html?category=elektronik" class="text-decoration-none text-white-50">Elektronik</a></li>
+                        <li><a href="products.html?category=giyim" class="text-decoration-none text-white-50">Giyim</a></li>
+                        <li><a href="products.html?category=ev-yasam" class="text-decoration-none text-white-50">Ev & Yaşam</a></li>
+                        <li><a href="products.html?category=aksesuarlar" class="text-decoration-none text-white-50">Aksesuarlar</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold mb-3">Bize Ulaşın</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Adresiniz, Şehir, Ülke</li>
+                        <li><i class="fas fa-phone me-2"></i> +90 555 123 45 67</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@moderneticaret.com</li>
+                    </ul>
+                    <div class="social-icons mt-3">
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-white-50"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary mt-4">
+            <div class="text-center text-white-50">
+                <p class="mb-0">&copy; 2025 Modern E-Ticaret. Tüm Hakları Saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dark mode için kontrol (contact.html özelinde)
+            const body = document.body;
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                body.classList.add(currentTheme);
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                 if (themeToggleBtn) {
+                    if (currentTheme === 'dark-mode') {
+                        themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                    } else {
+                        themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+                    }
+                }
+            }
+             // Sepet sayacını güncelle (navbar için)
+            let cartItemCountNav = parseInt(localStorage.getItem('cartCount')) || 0;
+            const cartBadgeNav = document.querySelector('.navbar-nav .badge');
+            if (cartBadgeNav) {
+                cartBadgeNav.textContent = cartItemCountNav;
+            }
+        });
+    </script>
+</body>
+</html>
