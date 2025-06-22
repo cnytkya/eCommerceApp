@@ -1,143 +1,357 @@
-/* Genel Sayfa Stilleri */
+/* General Page Styles */
+html,
 body {
-	transition: background-color 0.3s, color 0.3s;
+    height: 100%;
+    /* Important for sticky footer */
+    margin: 0;
+    padding: 0;
 }
 
-/* Giriş Sayfası */
+body {
+    display: flex;
+    flex-direction: column;
+    /* Arrange children (login/admin panel) in a column */
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll bar from sidebar toggle */
+}
+
+/* Login Page - Centered and takes full height when visible */
 #login-page {
-	height: 100vh;
+    flex-grow: 1;
+    /* Allows login page to take all vertical space */
+    display: flex;
+    /* Use flexbox for centering */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
 }
 
-/* Admin Paneli Ana Yapısı */
+/* Admin Panel Main Structure */
 #admin-panel {
-	display: flex;
-	min-height: 100vh;
+    display: flex;
+    /* Main flex container for sidebar and content */
+    flex-grow: 1;
+    /* Ensures admin panel takes full height */
+    min-height: 100vh;
+    /* Fallback for older browsers, ensures min height */
 }
 
 /* =================================================== */
-/* Sidebar (Yan Menü) Stilleri */
+/* Sidebar (Side Menu) Styles */
 /* =================================================== */
 #sidebar {
-	min-width: 250px;
-	max-width: 250px;
-	background-color: #343a40; /* Koyu tema için varsayılan */
-	color: #fff;
-	transition: all 0.3s;
-	position: fixed;
-	height: 100%;
-	z-index: 999;
+    min-width: 250px;
+    max-width: 250px;
+    background-color: #343a40;
+    /* Default for dark theme */
+    color: #fff;
+    transition: all 0.3s;
+    position: fixed;
+    /* Fixed position relative to viewport */
+    height: 100%;
+    /* Full height of viewport */
+    z-index: 999;
 }
 
-	#sidebar.toggled {
-		margin-left: -250px;
-	}
+    #sidebar.toggled {
+        margin-left: -250px;
+        /* Hide sidebar */
+    }
 
-	#sidebar .sidebar-header {
-		padding: 20px;
-		background-color: #212529;
-		text-align: center;
-	}
+    #sidebar .sidebar-header {
+        padding: 20px;
+        background-color: #212529;
+        text-align: center;
+    }
 
-	#sidebar ul.components {
-		padding: 20px 0;
-		border-bottom: 1px solid #47748b;
-	}
+    #sidebar ul.components {
+        padding: 20px 0;
+        border-bottom: 1px solid #47748b;
+    }
 
-	#sidebar ul p {
-		color: #fff;
-		padding: 10px;
-	}
+    #sidebar ul p {
+        color: #fff;
+        padding: 10px;
+    }
 
-	#sidebar ul li a {
-		padding: 15px 20px;
-		font-size: 1.1em;
-		display: block;
-		color: #adb5bd;
-		text-decoration: none;
-		transition: all 0.3s;
-	}
+    #sidebar ul li a {
+        padding: 15px 20px;
+        font-size: 1.1em;
+        display: block;
+        color: #adb5bd;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
 
-		#sidebar ul li a:hover {
-			color: #fff;
-			background: #495057;
-		}
+        #sidebar ul li a:hover {
+            color: #fff;
+            background: #495057;
+        }
 
-		#sidebar ul li a.active {
-			color: #fff;
-			background-color: #0d6efd; /* Bootstrap primary color */
-		}
+        #sidebar ul li a.active {
+            color: #fff;
+            background-color: #0d6efd;
+            /* Bootstrap primary color */
+        }
 
-		#sidebar ul li a i {
-			margin-right: 10px;
-		}
+        #sidebar ul li a i {
+            margin-right: 10px;
+        }
 
 /* =================================================== */
-/* Ana İçerik Alanı Stilleri */
+/* Main Content Area Styles (including sticky footer logic) */
 /* =================================================== */
 #main-content {
-	width: 100%;
-	padding-left: 250px; /* Sidebar genişliği kadar boşluk */
-	transition: all 0.3s;
+    width: 100%;
+    padding-left: 250px;
+    /* Space equal to sidebar width */
+    transition: all 0.3s;
+    display: flex;
+    /* Make main-content a flex container for its children */
+    flex-direction: column;
+    /* Stack navbar, main, footer vertically */
+    min-height: 100vh;
+    /* Ensures it takes at least full viewport height */
+    flex-grow: 1;
+    /* Allows it to take remaining space when sidebar is not toggled */
 }
 
-	#main-content.toggled {
-		padding-left: 0;
-	}
+    #main-content.toggled {
+        padding-left: 0;
+        /* Remove padding when sidebar is hidden */
+    }
 
 .page-content {
-	animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+    flex-grow: 1;
+    /* This will make the page content area expand, pushing the footer down */
 }
 
 @keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
+    from {
+        opacity: 0;
+    }
 
-	to {
-		opacity: 1;
-	}
+    to {
+        opacity: 1;
+    }
 }
 
 
 /* =================================================== */
-/* Karanlık ve Açık Tema Ayarları (Bootstrap 5.3+ Yöntemi) */
+/* Dark and Light Theme Settings (Bootstrap 5.3+ Method) */
 /* =================================================== */
 [data-bs-theme="dark"] #sidebar {
-	background-color: #212529;
+    background-color: #212529;
 }
 
-	[data-bs-theme="dark"] #sidebar .sidebar-header {
-		background-color: #000;
-	}
+    [data-bs-theme="dark"] #sidebar .sidebar-header {
+        background-color: #000;
+    }
 
-	[data-bs-theme="dark"] #sidebar ul li a {
-		color: #adb5bd;
-	}
+    [data-bs-theme="dark"] #sidebar ul li a {
+        color: #adb5bd;
+    }
 
-		[data-bs-theme="dark"] #sidebar ul li a:hover {
-			color: #fff;
-			background: #343a40;
-		}
+        [data-bs-theme="dark"] #sidebar ul li a:hover {
+            color: #fff;
+            background: #343a40;
+        }
 
-/* Sayfa içeriği karanlık mod için */
+/* Page content for dark mode */
 [data-bs-theme="dark"] .card {
-	background-color: #2b3035;
-	color: #e9ecef;
+    background-color: #2b3035;
+    color: #e9ecef;
 }
 
 [data-bs-theme="dark"] .table {
-	color: #e9ecef;
+    color: #e9ecef;
 }
 
 [data-bs-theme="dark"] .bg-light {
-	background-color: #343a40 !important;
+    background-color: #343a40 !important;
 }
 
 [data-bs-theme="dark"] .border-bottom,
 [data-bs-theme="dark"] .border-top {
-	border-color: #495057 !important;
+    border-color: #495057 !important;
 }
 
 [data-bs-theme="dark"] .text-muted {
-	color: #adb5bd !important;
+    color: #adb5bd !important;
+}
+
+/* Custom Toggle Switch Styles */
+.form-check.form-switch.theme-switch {
+    min-width: 70px;
+    /* Adjust as needed */
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+    .form-check.form-switch.theme-switch .form-check-label {
+        position: relative;
+        cursor: pointer;
+        width: 50px;
+        /* Width of the switch track */
+        height: 26px;
+        /* Height of the switch track */
+        background-color: #ccc;
+        border-radius: 26px;
+        transition: background-color 0.3s;
+        display: inline-block;
+        /* To contain icons */
+    }
+
+        .form-check.form-switch.theme-switch .form-check-label::before {
+            content: "";
+            position: absolute;
+            width: 22px;
+            /* Width of the toggle handle */
+            height: 22px;
+            /* Height of the toggle handle */
+            border-radius: 50%;
+            background-color: white;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s, background-color 0.3s;
+            z-index: 2;
+            /* Ensure handle is above icons */
+        }
+
+    .form-check.form-switch.theme-switch .form-check-input {
+        display: none;
+    }
+
+        .form-check.form-switch.theme-switch .form-check-input:checked + .form-check-label {
+            background-color: #0d6efd;
+            /* Primary color for dark mode */
+        }
+
+            .form-check.form-switch.theme-switch .form-check-input:checked + .form-check-label::before {
+                transform: translateX(24px);
+                /* Move handle to the right */
+            }
+
+    /* Icons within the toggle - positioned absolutely */
+    .form-check.form-switch.theme-switch .theme-icon {
+        font-size: 1rem;
+        /* Smaller icons to fit inside */
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        /* Behind the handle */
+        transition: opacity 0.3s;
+    }
+
+    .form-check.form-switch.theme-switch .bi-sun-fill {
+        left: 5px;
+        /* Position for sun icon */
+        color: #fff;
+        /* White for light theme icon in dark mode, on the left side of the toggle */
+        opacity: 1;
+        /* Initially visible */
+    }
+
+    .form-check.form-switch.theme-switch .bi-moon-fill {
+        right: 5px;
+        /* Position for moon icon */
+        color: #fff;
+        /* White for dark theme icon in dark mode, on the right side of the toggle */
+        opacity: 0;
+        /* Initially hidden */
+    }
+
+/* Adjust icon visibility based on theme */
+[data-bs-theme="dark"] .form-check.form-switch.theme-switch .bi-sun-fill {
+    opacity: 0;
+    /* Hide sun in dark mode */
+}
+
+[data-bs-theme="dark"] .form-check.form-switch.theme-switch .bi-moon-fill {
+    opacity: 1;
+    /* Show moon in dark mode */
+}
+
+/* For the default light theme, ensure moon is hidden and sun is visible */
+[data-bs-theme="light"] .form-check.form-switch.theme-switch .bi-sun-fill {
+    opacity: 1;
+}
+
+[data-bs-theme="light"] .form-check.form-switch.theme-switch .bi-moon-fill {
+    opacity: 0;
+}
+
+/* Ensure theme icons in the toggle always have white color */
+.form-check.form-switch.theme-switch .theme-icon {
+    color: white !important;
+}
+
+/* Sticky Footer Specific Styles for the footer itself */
+.footer {
+    flex-shrink: 0;
+    /* Prevents footer from shrinking */
+}
+
+/* User List & Comments List Specific Styles */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    background-color: #0d6efd;
+    /* A default color, can be dynamic */
+    text-transform: uppercase;
+    flex-shrink: 0; /* Prevent avatar from shrinking */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+    .user-info .text-content {
+        margin-left: 10px;
+        flex-grow: 1;
+        min-width: 0; /* Allow text to shrink */
+    }
+
+        .user-info .text-content .user-name {
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-info .text-content .user-email {
+            font-size: 0.9em;
+            color: #6c757d;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+[data-bs-theme="dark"] .user-info .text-content .user-email {
+    color: #adb5bd;
+}
+
+.actions-dropdown .dropdown-toggle::after {
+    display: none;
+    /* Hide default caret */
+}
+
+/* Role Management Page Specific Styles */
+.permission-badge {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 0.85em;
+    padding: 0.4em 0.6em;
 }

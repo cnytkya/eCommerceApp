@@ -1,0 +1,1988 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Admin Panel</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="~/admin/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="login-page" class="container">
+        <div class="row vh-100 justify-content-center align-items-center">
+            <div class="col-md-5">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h3 class="card-title text-center mb-4">Admin Panel Login</h3>
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" value="admin" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" value="12345" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="d-none">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Admin Panel</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#" class="sidebar-link active" data-page="dashboard">
+                        <i class="bi bi-grid-fill"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" data-page="products">
+                        <i class="bi bi-box-seam-fill"></i>
+                        Products
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" data-page="categories">
+                        <i class="bi bi-tags-fill"></i>
+                        Categories
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" data-page="orders">
+                        <i class="bi bi-cart-check-fill"></i>
+                        Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" data-page="users">
+                        <i class="bi bi-people-fill"></i>
+                        Users
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" data-page="roles">
+                        <i class="bi bi-person-badge-fill"></i>
+                        Roles
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" data-page="comments">
+                        <i class="bi bi-chat-left-text-fill"></i>
+                        Comments
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" data-page="settings">
+                        <i class="bi bi-gear-fill"></i>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="main-content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <form class="d-flex ms-3">
+                        <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item d-flex align-items-center me-3">
+                                <div class="form-check form-switch theme-switch">
+                                    <input class="form-check-input" type="checkbox" id="themeSwitch">
+                                    <label class="form-check-label" for="themeSwitch">
+                                        <i class="bi bi-sun-fill theme-icon"></i>
+                                        <i class="bi bi-moon-fill theme-icon"></i>
+                                    </label>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-bell-fill"></i> <span class="badge bg-danger">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i> Admin
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item sidebar-link" href="#" data-page="settings">Profile</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#" id="logout-button">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="p-4">
+                <div id="dashboard" class="page-content">
+                    <h2 class="mb-4">Dashboard</h2>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="card text-white bg-primary h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Daily Sales</h5>
+                                    <p class="card-text fs-4">₺1,250</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card text-white bg-success h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Orders</h5>
+                                    <p class="card-text fs-4">150</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card text-white bg-warning h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Products</h5>
+                                    <p class="card-text fs-4">89</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card text-white bg-danger h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">New Customers</h5>
+                                    <p class="card-text fs-4">25</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sales Chart (Monthly)</h5>
+                                    <canvas id="salesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Category Distribution</h5>
+                                    <canvas id="categoryChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Recent Orders</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Customer</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>#1234</td>
+                                                <td>Ali Veli</td>
+                                                <td>₺150</td>
+                                                <td><span class="badge bg-success">Delivered</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>#1235</td>
+                                                <td>Ayşe Yılmaz</td>
+                                                <td>₺250</td>
+                                                <td><span class="badge bg-warning">In Transit</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>#1236</td>
+                                                <td>Fatma Kaya</td>
+                                                <td>₺80</td>
+                                                <td><span class="badge bg-info">Pending</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>#1237</td>
+                                                <td>Mehmet Öz</td>
+                                                <td>₺450</td>
+                                                <td><span class="badge bg-success">Delivered</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>#1238</td>
+                                                <td>Zeynep Can</td>
+                                                <td>₺120</td>
+                                                <td><span class="badge bg-danger">Cancelled</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="products" class="page-content d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Product Management</h2>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            <i class="bi bi-plus-circle"></i> Add New Product
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+                                            <th>Stock</th>
+                                            <th>Category</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Laptop XYZ</td>
+                                            <td>₺15,000</td>
+                                            <td>15</td>
+                                            <td>Electronics</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#editProductModal" data-product-id="1"
+                                                        data-product-name="Laptop XYZ"
+                                                        data-product-desc="High performance laptop with latest processor."
+                                                        data-product-price="15000" data-product-stock="15"
+                                                        data-product-category="Electronics" data-product-status="Active">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteProductModal" data-product-id="1">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                                        data-bs-target="#productDetailsModal" data-product-id="1"
+                                                        data-product-name="Laptop XYZ"
+                                                        data-product-desc="High performance laptop with latest processor."
+                                                        data-product-price="15000" data-product-stock="15"
+                                                        data-product-category="Electronics" data-product-status="Active"
+                                                        data-product-image="https://via.placeholder.com/150/0000FF/FFFFFF?text=Laptop">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Smart Watch</td>
+                                            <td>₺2,500</td>
+                                            <td>50</td>
+                                            <td>Electronics</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#editProductModal" data-product-id="2"
+                                                        data-product-name="Smart Watch"
+                                                        data-product-desc="Feature-rich smart watch with heart rate monitor."
+                                                        data-product-price="2500" data-product-stock="50"
+                                                        data-product-category="Electronics" data-product-status="Active">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteProductModal" data-product-id="2">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                                        data-bs-target="#productDetailsModal" data-product-id="2"
+                                                        data-product-name="Smart Watch"
+                                                        data-product-desc="Feature-rich smart watch with heart rate monitor."
+                                                        data-product-price="2500" data-product-stock="50"
+                                                        data-product-category="Electronics" data-product-status="Active"
+                                                        data-product-image="https://via.placeholder.com/150/FF0000/FFFFFF?text=Smart+Watch">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>T-Shirt</td>
+                                            <td>₺250</td>
+                                            <td>200</td>
+                                            <td>Apparel</td>
+                                            <td><span class="badge bg-danger">Inactive</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#editProductModal" data-product-id="3"
+                                                        data-product-name="T-Shirt"
+                                                        data-product-desc="Comfortable cotton t-shirt, various sizes."
+                                                        data-product-price="250" data-product-stock="200"
+                                                        data-product-category="Apparel" data-product-status="Inactive">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteProductModal" data-product-id="3">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                                        data-bs-target="#productDetailsModal" data-product-id="3"
+                                                        data-product-name="T-Shirt"
+                                                        data-product-desc="Comfortable cotton t-shirt, various sizes."
+                                                        data-product-price="250" data-product-stock="200"
+                                                        data-product-category="Apparel" data-product-status="Inactive"
+                                                        data-product-image="https://via.placeholder.com/150/00FF00/FFFFFF?text=T-Shirt">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="categories" class="page-content d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Category Management</h2>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                            <i class="bi bi-plus-circle"></i> Add New Category
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Category Name</th>
+                                            <th>Product Count</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Electronics</td>
+                                            <td>45</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apparel</td>
+                                            <td>120</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Home & Living</td>
+                                            <td>80</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="orders" class="page-content d-none">
+                    <h2 class="mb-4">Orders</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Customer</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#1234</td>
+                                            <td>Ali Veli</td>
+                                            <td>₺150</td>
+                                            <td>20.06.2025</td>
+                                            <td><span class="badge bg-success">Delivered</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#1235</td>
+                                            <td>Ayşe Yılmaz</td>
+                                            <td>₺250</td>
+                                            <td>20.06.2025</td>
+                                            <td><span class="badge bg-warning">In Transit</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#1236</td>
+                                            <td>Fatma Kaya</td>
+                                            <td>₺80</td>
+                                            <td>19.06.2025</td>
+                                            <td><span class="badge bg-info">Pending</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="users" class="page-content d-none">
+                    <h2 class="mb-4">Users</h2>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="input-group me-3">
+                                <input type="text" class="form-control" placeholder="Search users..."
+                                       aria-label="Search users">
+                                <button class="btn btn-outline-secondary" type="button">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                        id="dropdownRoleFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                                    All Roles
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownRoleFilter">
+                                    <li><a class="dropdown-item" href="#">All Roles</a></li>
+                                    <li><a class="dropdown-item" href="#">Admin</a></li>
+                                    <li><a class="dropdown-item" href="#">Customer</a></li>
+                                    <li><a class="dropdown-item" href="#">Editor</a></li>
+                                    <li><a class="dropdown-item" href="#">User</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                            <i class="bi bi-person-plus-fill me-2"></i>Add New User
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>USER</th>
+                                            <th>EMAIL</th>
+                                            <th>ROLE</th>
+                                            <th>STATUS</th>
+                                            <th>LAST LOGIN</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center user-info" data-user-id="1"
+                                                     data-user-name="John Doe" data-user-email="john@gmail.com"
+                                                     data-user-role="User" data-user-status="Locked"
+                                                     data-user-last-login="2025 years ago">
+                                                    <div class="user-avatar bg-primary">JD</div>
+                                                    <div class="text-content">
+                                                        <div class="user-name">John Doe</div>
+                                                        <div class="user-email d-none d-md-block">john@gmail.com</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>john@gmail.com</td>
+                                            <td><span class="badge bg-secondary">User</span></td>
+                                            <td><span class="badge bg-danger">Locked</span></td>
+                                            <td>2025 years ago</td>
+                                            <td>
+                                                <div class="dropdown actions-dropdown">
+                                                    <button class="btn btn-sm btn-secondary dropdown-toggle"
+                                                            type="button" id="userAction1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end"
+                                                        aria-labelledby="userAction1">
+                                                        <li>
+                                                            <a class="dropdown-item edit-user-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#editUserModal">
+                                                                <i class="bi bi-pencil-square me-2"></i>Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item change-status-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#changeUserStatusModal">
+                                                                <i class="bi bi-toggle-on me-2"></i>Change Status
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item view-user-details-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#userDetailsModal">
+                                                                <i class="bi bi-eye me-2"></i>Details
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item text-danger delete-user-btn"
+                                                               href="#" data-bs-toggle="modal"
+                                                               data-bs-target="#deleteUserModal">
+                                                                <i class="bi bi-trash me-2"></i>Delete
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center user-info" data-user-id="2"
+                                                     data-user-name="Admin User" data-user-email="admin@example.com"
+                                                     data-user-role="Admin" data-user-status="Active"
+                                                     data-user-last-login="2025 years ago">
+                                                    <div class="user-avatar bg-success">AU</div>
+                                                    <div class="text-content">
+                                                        <div class="user-name">Admin User</div>
+                                                        <div class="user-email d-none d-md-block">
+                                                            admin@example.com
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>admin@example.com</td>
+                                            <td><span class="badge bg-primary">Admin</span></td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>2025 years ago</td>
+                                            <td>
+                                                <div class="dropdown actions-dropdown">
+                                                    <button class="btn btn-sm btn-secondary dropdown-toggle"
+                                                            type="button" id="userAction2" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end"
+                                                        aria-labelledby="userAction2">
+                                                        <li>
+                                                            <a class="dropdown-item edit-user-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#editUserModal">
+                                                                <i class="bi bi-pencil-square me-2"></i>Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item change-status-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#changeUserStatusModal">
+                                                                <i class="bi bi-toggle-off me-2"></i>Change Status
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item view-user-details-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#userDetailsModal">
+                                                                <i class="bi bi-eye me-2"></i>Details
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item text-danger delete-user-btn"
+                                                               href="#" data-bs-toggle="modal"
+                                                               data-bs-target="#deleteUserModal">
+                                                                <i class="bi bi-trash me-2"></i>Delete
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center user-info" data-user-id="3"
+                                                     data-user-name="Cüneyt Admin" data-user-email="cuneyt@admin.com"
+                                                     data-user-role="Admin" data-user-status="Active"
+                                                     data-user-last-login="9 days ago">
+                                                    <div class="user-avatar bg-info">CA</div>
+                                                    <div class="text-content">
+                                                        <div class="user-name">Cüneyt Admin</div>
+                                                        <div class="user-email d-none d-md-block">
+                                                            cuneyt@admin.com
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>cuneyt@admin.com</td>
+                                            <td><span class="badge bg-primary">Admin</span></td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>9 days ago</td>
+                                            <td>
+                                                <div class="dropdown actions-dropdown">
+                                                    <button class="btn btn-sm btn-secondary dropdown-toggle"
+                                                            type="button" id="userAction3" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end"
+                                                        aria-labelledby="userAction3">
+                                                        <li>
+                                                            <a class="dropdown-item edit-user-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#editUserModal">
+                                                                <i class="bi bi-pencil-square me-2"></i>Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item change-status-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#changeUserStatusModal">
+                                                                <i class="bi bi-toggle-off me-2"></i>Change Status
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item view-user-details-btn" href="#"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#userDetailsModal">
+                                                                <i class="bi bi-eye me-2"></i>Details
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item text-danger delete-user-btn"
+                                                               href="#" data-bs-toggle="modal"
+                                                               data-bs-target="#deleteUserModal">
+                                                                <i class="bi bi-trash me-2"></i>Delete
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-muted mt-3">Showing 1 to 3 of 3 users</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="roles" class="page-content d-none">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2>Roles</h2>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                                    <i class="bi bi-plus-circle"></i> Add New Role
+                                </button>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">ROLE NAME</th>
+                                                    <th style="width: 15%;">USERS</th>
+                                                    <th style="width: 40%;">PERMISSIONS</th>
+                                                    <th style="width: 20%;">ACTIONS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">Assign Role to User</h5>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="assignUserSelect" class="form-label">Select User</label>
+                                            <select class="form-select" id="assignUserSelect">
+                                                <option value="">Choose a user...</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="assignRoleSelect" class="form-label">Assign Role</label>
+                                            <select class="form-select" id="assignRoleSelect">
+                                                <option value="">Select role...</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary d-block w-100">Assign Role</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">Recent Role Changes</h5>
+                                    <ul class="list-unstyled" id="recentRoleChangesList">
+                                        <li>No recent role changes.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="comments" class="page-content d-none">
+                    <h2 class="mb-4">Comments</h2>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="input-group me-3">
+                                <input type="text" class="form-control" placeholder="Search comments..."
+                                       aria-label="Search comments">
+                                <button class="btn btn-outline-secondary" type="button">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                        id="dropdownCommentFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                                    All Comments
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownCommentFilter">
+                                    <li><a class="dropdown-item" href="#">All Comments</a></li>
+                                    <li><a class="dropdown-item" href="#">Approved</a></li>
+                                    <li><a class="dropdown-item" href="#">Pending</a></li>
+                                    <li><a class="dropdown-item" href="#">Spam</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-danger me-2" id="deleteSelectedComments"><i class="bi bi-trash me-2"></i>Delete Selected</button>
+                            <button class="btn btn-success" id="approveSelectedComments"><i class="bi bi-check-circle me-2"></i>Approve Selected</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="selectAllComments"></th>
+                                            <th>AUTHOR</th>
+                                            <th>COMMENT</th>
+                                            <th>IN RESPONSE TO</th>
+                                            <th>DATE</th>
+                                            <th>STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="commentsTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-muted" id="commentPaginationInfo">Showing 1 to 3 of 24 comments</div>
+                                <nav aria-label="Comment Pagination">
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="settings" class="page-content d-none">
+                    <h2 class="mb-4">Settings</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Profile Information</h5>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" class="form-control" value="Admin">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" value="admin@example.com">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Change Password</h5>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">New Password</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Confirm New Password</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Change</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="footer mt-auto py-3 bg-light border-top">
+                <div class="container-fluid text-center">
+                    <span class="text-muted">© 2025 E-commerce Admin Panel</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Product Name</label><input type="text"
+                                                                                 class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label><textarea class="form-control"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price</label><input type="number"
+                                                                          class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label><select class="form-select">
+                                <option>Electronics</option>
+                                <option>Apparel</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Stock</label><input type="number"
+                                                                          class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Image</label><input type="file"
+                                                                          class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="editProductId">
+                        <div class="mb-3">
+                            <label class="form-label">Product Name</label><input type="text"
+                                                                                 class="form-control" id="editProductName" value="Laptop XYZ">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label><textarea class="form-control"
+                                                                                   id="editProductDescription">This is a sample laptop description.</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price</label><input type="number"
+                                                                          class="form-control" id="editProductPrice" value="15000">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label><select class="form-select"
+                                                                              id="editProductCategory">
+                                <option>Electronics</option>
+                                <option>Apparel</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Stock</label><input type="number"
+                                                                          class="form-control" id="editProductStock" value="15">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Image</label><input type="file"
+                                                                          class="form-control" id="editProductImage">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+                    <input type="hidden" id="deleteProductId">
+                    <p>Product to be Deleted: <strong id="deleteProductName"></strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailsModalLabel">Product Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 text-center">
+                            <img id="detailsProductImage" src="https://via.placeholder.com/250"
+                                 class="img-fluid rounded" alt="Product Image">
+                        </div>
+                        <div class="col-md-7">
+                            <h4 id="detailsProductName" class="mb-3"></h4>
+                            <p class="text-muted" id="detailsProductCategory"></p>
+                            <p><strong class="me-2">Price:</strong> <span id="detailsProductPrice"></span></p>
+                            <p><strong class="me-2">Stock:</strong> <span id="detailsProductStock"></span></p>
+                            <p><strong class="me-2">Status:</strong> <span id="detailsProductStatus"></span></p>
+                            <hr>
+                            <h6>Description:</h6>
+                            <p id="detailsProductDescription"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCategoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Category Name</label><input type="text"
+                                                                                  class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addRoleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Role Name</label><input type="text"
+                                                                              class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label><textarea class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editRoleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="editRoleId">
+                        <div class="mb-3">
+                            <label class="form-label">Role Name</label><input type="text"
+                                                                              class="form-control" id="editRoleName">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label><textarea class="form-control" id="editRoleDescription"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Permissions</label>
+                            <div id="editRolePermissions" class="d-flex flex-wrap">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteRoleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Are you sure you want to delete the role: <strong id="deleteRoleName"></strong>? This action
+                        cannot be undone.
+                    </p>
+                    <input type="hidden" id="deleteRoleId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="roleDetailsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Role Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong class="me-2">Role Name:</strong> <span id="detailsRoleName"></span></p>
+                    <p><strong class="me-2">Description:</strong> <span id="detailsRoleDescription"></span></p>
+                    <p><strong class="me-2">Users with this Role:</strong> <span id="detailsRoleUsersCount"></span></p>
+                    <h6>Permissions:</h6>
+                    <div id="detailsRolePermissions" class="d-flex flex-wrap">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label><input type="text"
+                                                                              class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label><input type="email"
+                                                                          class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label><input type="password"
+                                                                             class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <select class="form-select" required>
+                                <option value="">Select Role</option>
+                                <option>Admin</option>
+                                <option>Customer</option>
+                                <option>Editor</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" required>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Locked">Locked</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="editUserId">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label><input type="text"
+                                                                              class="form-control" id="editUserName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label><input type="email"
+                                                                          class="form-control" id="editUserEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <select class="form-select" id="editUserRole" required>
+                                <option>Admin</option>
+                                <option>Customer</option>
+                                <option>Editor</option>
+                                <option>User</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="editUserStatus" required>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Locked">Locked</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Are you sure you want to delete user: <strong id="deleteUserNameDisplay"></strong> (<span id="deleteUserEmailDisplay"></span>)? This action cannot be undone.
+                    </p>
+                    <input type="hidden" id="deleteUserId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changeUserStatusModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change User Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Change status for user: <strong id="statusUserNameDisplay"></strong>?</p>
+                    <input type="hidden" id="statusUserId">
+                    <div class="mb-3">
+                        <label for="newUserStatus" class="form-label">New Status</label>
+                        <select class="form-select" id="newUserStatus">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Locked">Locked</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Apply Change</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="userDetailsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">User Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong class="me-2">Name:</strong> <span id="detailsUserName"></span></p>
+                    <p><strong class="me-2">Email:</strong> <span id="detailsUserEmail"></span></p>
+                    <p><strong class="me-2">Role:</strong> <span id="detailsUserRole"></span></p>
+                    <p><strong class="me-2">Status:</strong> <span id="detailsUserStatusBadge"></span></p>
+                    <p><strong class="me-2">Last Login:</strong> <span id="detailsUserLastLogin"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="replyCommentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reply to Comment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Replying to comment by: <strong id="replyCommentAuthor"></strong></p>
+                    <p>Original comment: "<span id="replyCommentText"></span>"</p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="replyCommentMessage" class="form-label">Your Reply</label>
+                            <textarea class="form-control" id="replyCommentMessage" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Send Reply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteCommentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Comment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this comment? This action cannot be undone.</p>
+                    <p>Comment by <strong id="deleteCommentAuthor"></strong>: "<span id="deleteCommentText"></span>"</p>
+                    <input type="hidden" id="deleteCommentId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changeCommentStatusModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Comment Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Change status for comment by <strong id="statusCommentAuthor"></strong>?</p>
+                    <p>Current Status: <span id="currentCommentStatusBadge"></span></p>
+                    <input type="hidden" id="statusCommentId">
+                    <div class="mb-3">
+                        <label for="newCommentStatus" class="form-label">New Status</label>
+                        <select class="form-select" id="newCommentStatus">
+                            <option value="Approved">Approved</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Spam">Spam</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Apply Change</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dummy Data (for demonstration)
+            const dummyRoles = [
+                { id: 1, name: 'Admin', usersCount: 2, description: 'Full access to all administrative functions.', abilities: ['Full Access', 'View Admin Panel', 'Edit Posts', 'Delete Posts', 'Publish Posts', 'Manage Categories', 'Manage Comments', 'Manage Users', 'Assign Roles', 'Create Roles', 'Edit Roles', 'Delete Roles', 'View Reports', 'Manage Settings'] },
+                { id: 2, name: 'Author', usersCount: 0, description: 'Can create and publish their own posts.', abilities: ['Create Posts', 'Publish Posts'] },
+                { id: 3, name: 'Editor', usersCount: 0, description: 'Can manage products and categories.', abilities: ['Manage Products', 'Manage Categories'] },
+                { id: 4, name: 'User', usersCount: 1, description: 'Can browse products, place orders, and manage their profile.', abilities: ['View Products', 'Place Orders', 'Manage Profile'] },
+                { id: 5, name: 'Roman', usersCount: 0, description: 'A custom role with specific permissions.', abilities: ['View Reports'] },
+            ];
+
+            const dummyUsers = [
+                { id: 1, name: 'John Doe', email: 'john@gmail.com', role: 'User', status: 'Locked', lastLogin: '2025 years ago' },
+                { id: 2, name: 'Admin User', email: 'admin@example.com', role: 'Admin', status: 'Active', lastLogin: '2025 years ago' },
+                { id: 3, name: 'Cüneyt Admin', email: 'cuneyt@admin.com', role: 'Admin', status: 'Active', lastLogin: '9 days ago' },
+            ];
+
+            const dummyComments = [
+                { id: 1, authorName: 'John Doe', authorEmail: 'john@example.com', commentText: 'This is a fantastic overview of where smart home tech is heading! I’ve been hesitant to invest heavily because of the...', inResponseTo: 'The Future of Smart Home Technology', date: '2 hours ago', status: 'Approved' },
+                { id: 2, authorName: 'Sarah Johnson', authorEmail: 'sarah@example.com', commentText: 'Great article! The meal prep tips are really helpful. Would love to see more content like this.', inResponseTo: 'Meal Prep Strategies for Busy Professionals', date: '5 hours ago', status: 'Pending' },
+                { id: 3, authorName: 'Mike Wilson', authorEmail: 'mike@example.com', commentText: 'Check out these amazing deals on luxury watches! https://www.merriam-webster.com/dictionary/removed', inResponseTo: 'Mindfulness Practices for Everyday', date: '1 day ago', status: 'Spam' },
+                { id: 4, authorName: 'Emily White', authorEmail: 'emily@example.com', commentText: 'I completely agree with your points about sustainable living. More people need to read this!', inResponseTo: 'Sustainable Living: A Modern Guide', date: '2 days ago', status: 'Approved' },
+                { id: 5, authorName: 'David Lee', authorEmail: 'david@example.com', commentText: 'Is there a specific brand you recommend for budget-friendly tech gadgets?', inResponseTo: 'Top 10 Budget Gadgets of the Year', date: '3 days ago', status: 'Pending' },
+                { id: 6, authorName: 'Anna Smith', authorEmail: 'anna@example.com', commentText: 'This post is spam. It just links to a shady website.', inResponseTo: 'Boost Your Productivity with These Apps', date: '4 days ago', status: 'Spam' },
+            ];
+
+
+            // All possible permissions for the permission checkboxes in Edit Role Modal
+            const allPermissions = [
+                'Full Access', 'View Admin Panel', 'Edit Posts', 'Delete Posts', 'Publish Posts',
+                'Manage Categories', 'Manage Comments', 'Manage Users', 'Assign Roles', 'Create Roles',
+                'Edit Roles', 'Delete Roles', 'View Reports', 'Manage Settings', 'Manage Products',
+                'View Products', 'Place Orders', 'Manage Profile'
+            ];
+
+            // Required Elements
+            const loginForm = document.getElementById('login-form');
+            const loginPage = document.getElementById('login-page');
+            const adminPanel = document.getElementById('admin-panel');
+            const logoutButton = document.getElementById('logout-button');
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const pageContents = document.querySelectorAll('.page-content');
+            const themeSwitch = document.getElementById('themeSwitch');
+            const sidebarCollapse = document.getElementById('sidebarCollapse');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+
+            // Product Modals Elements
+            const addProductModal = document.getElementById('addProductModal');
+            const editProductModal = document.getElementById('editProductModal');
+            const deleteProductModal = document.getElementById('deleteProductModal');
+            const productDetailsModal = document.getElementById('productDetailsModal');
+
+            // Role Elements & Modals
+            const addRoleModal = document.getElementById('addRoleModal');
+            const editRoleModal = document.getElementById('editRoleModal');
+            const deleteRoleModal = document.getElementById('deleteRoleModal');
+            const roleDetailsModal = document.getElementById('roleDetailsModal');
+            const rolesTableBody = document.querySelector('#roles table tbody');
+            const assignUserSelect = document.getElementById('assignUserSelect');
+            const assignRoleSelect = document.getElementById('assignRoleSelect');
+            const recentRoleChangesList = document.getElementById('recentRoleChangesList');
+
+
+            // User Elements & Modals
+            const addUserModal = document.getElementById('addUserModal');
+            const editUserModal = document.getElementById('editUserModal');
+            const deleteUserModal = document.getElementById('deleteUserModal');
+            const changeUserStatusModal = document.getElementById('changeUserStatusModal');
+            const userDetailsModal = document.getElementById('userDetailsModal');
+            const usersTableBody = document.querySelector('#users table tbody');
+
+
+            // Comments Elements & Modals (New)
+            const commentsTableBody = document.getElementById('commentsTableBody');
+            const selectAllCommentsCheckbox = document.getElementById('selectAllComments');
+            const deleteSelectedCommentsButton = document.getElementById('deleteSelectedComments');
+            const approveSelectedCommentsButton = document.getElementById('approveSelectedComments');
+            const replyCommentModal = document.getElementById('replyCommentModal');
+            const deleteCommentModal = document.getElementById('deleteCommentModal');
+            const changeCommentStatusModal = document.getElementById('changeCommentStatusModal');
+
+
+            // ===================================================
+            // Utility Functions
+            // ===================================================
+
+            // Function to get initials for avatar
+            function getInitials(name) {
+                if (!name) return '';
+                const parts = name.split(' ');
+                if (parts.length > 1) {
+                    return (parts[0][0] + parts[1][0]).toUpperCase();
+                }
+                return parts[0][0].toUpperCase();
+            }
+
+            // Function to generate a random color for avatars
+            function getRandomColor() {
+                const colors = ['#0d6efd', '#6f42c1', '#dc3545', '#fd7e14', '#20c997', '#0dcaf0'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            // ===================================================
+            // 1. LOGIN & LOGOUT OPERATIONS (Dummy Logic)
+            // ===================================================
+            loginForm.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent default form submission
+                // In a real project, user authentication would be performed here
+                loginPage.classList.add('d-none');
+                adminPanel.classList.remove('d-none');
+                // Draw charts and populate dynamic content when logged in
+                initCharts();
+                populateUsersTable(); // Populate users table on login
+                populateRolesTable();
+                populateAssignRoleDropdowns();
+                updateRecentRoleChanges();
+                populateCommentsTable(); // Populate comments table on login
+            });
+
+            logoutButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                adminPanel.classList.add('d-none');
+                loginPage.classList.remove('d-none');
+            });
+
+            // ===================================================
+            // 2. PAGE NAVIGATION (SPA feel)
+            // ===================================================
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+
+                    // Hide all content
+                    pageContents.forEach(content => {
+                        content.classList.add('d-none');
+                    });
+
+                    // Show target content
+                    const targetPage = document.getElementById(pageId);
+                    if (targetPage) {
+                        targetPage.classList.remove('d-none');
+                        // Special handling for pages to refresh their content
+                        if (pageId === 'users') {
+                            populateUsersTable();
+                        } else if (pageId === 'roles') {
+                            populateRolesTable();
+                            populateAssignRoleDropdowns();
+                            updateRecentRoleChanges();
+                        } else if (pageId === 'comments') {
+                            populateCommentsTable();
+                        }
+                    }
+
+                    // Update active menu item
+                    sidebar.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // ===================================================
+            // 3. CHART CREATION (Chart.js)
+            // ===================================================
+            let salesChartInstance, categoryChartInstance;
+
+            function initCharts() {
+                // Bar Chart - Sales
+                const salesCtx = document.getElementById('salesChart').getContext('2d');
+                if (salesChartInstance) salesChartInstance.destroy(); // Clear previous chart
+                salesChartInstance = new Chart(salesCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                        datasets: [{
+                            label: 'Monthly Sales (₺)',
+                            data: [12000, 19000, 8000, 15000, 22000, 30000],
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { scales: { y: { beginAtZero: true } } }
+                });
+
+                // Pie Chart - Categories
+                const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+                if (categoryChartInstance) categoryChartInstance.destroy(); // Clear previous chart
+                categoryChartInstance = new Chart(categoryCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Electronics', 'Apparel', 'Home & Living', 'Cosmetics'],
+                        datasets: [{
+                            label: 'Category Distribution',
+                            data: [45, 25, 15, 15],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(75, 192, 192, 0.7)'
+                            ]
+                        }]
+                    }
+                });
+            }
+
+            // ===================================================
+            // 4. THEME SWITCHING (Light/Dark Mode)
+            // ===================================================
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                localStorage.setItem('theme', theme); // Save preference
+            }
+
+            themeSwitch.addEventListener('change', function () {
+                if (this.checked) {
+                    applyTheme('dark');
+                } else {
+                    applyTheme('light');
+                }
+            });
+
+            // Apply saved theme on page load and set toggle
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+            themeSwitch.checked = (savedTheme === 'dark');
+
+
+            // ===================================================
+            // 5. SIDEBAR HIDE/SHOW
+            // ===================================================
+            sidebarCollapse.addEventListener('click', function () {
+                sidebar.classList.toggle('toggled');
+                mainContent.classList.toggle('toggled');
+            });
+
+            // ===================================================
+            // 6. DYNAMIC TABLE POPULATION & MODAL INTERACTIONS
+            // ===================================================
+
+            // --- Products ---
+            // (Existing code for Product Modals remains the same)
+
+            // --- Users ---
+            function populateUsersTable() {
+                usersTableBody.innerHTML = ''; // Clear existing rows
+                dummyUsers.forEach(user => {
+                    const row = usersTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>
+                            <div class="d-flex align-items-center user-info"
+                                data-user-id="${user.id}"
+                                data-user-name="${user.name}"
+                                data-user-email="${user.email}"
+                                data-user-role="${user.role}"
+                                data-user-status="${user.status}"
+                                data-user-last-login="${user.lastLogin}">
+                                <div class="user-avatar bg-${user.role === 'Admin' ? 'success' : (user.role === 'User' ? 'primary' : 'info')}">${getInitials(user.name)}</div>
+                                <div class="text-content">
+                                    <div class="user-name">${user.name}</div>
+                                    <div class="user-email d-none d-md-block">${user.email}</div>
+                                </div>
+                            </td>
+                            <td>${user.email}</td>
+                            <td><span class="badge bg-${user.role === 'Admin' ? 'primary' : 'secondary'}">${user.role}</span></td>
+                            <td><span class="badge bg-${user.status === 'Active' ? 'success' : (user.status === 'Locked' ? 'danger' : 'warning')}">${user.status}</span></td>
+                            <td>${user.lastLogin}</td>
+                            <td>
+                                <div class="dropdown actions-dropdown">
+                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item edit-user-btn" href="#"><i class="bi bi-pencil-square me-2"></i>Edit</a></li>
+                                        <li><a class="dropdown-item change-status-btn" href="#"><i class="bi bi-toggle-on me-2"></i>Change Status</a></li>
+                                        <li><a class="dropdown-item view-user-details-btn" href="#"><i class="bi bi-eye me-2"></i>Details</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger delete-user-btn" href="#"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                // Attach event listeners for user action buttons
+                usersTableBody.querySelectorAll('.edit-user-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userInfoDiv = this.closest('.user-info');
+                        const userId = userInfoDiv.getAttribute('data-user-id');
+                        const userName = userInfoDiv.getAttribute('data-user-name');
+                        const userEmail = userInfoDiv.getAttribute('data-user-email');
+                        const userRole = userInfoDiv.getAttribute('data-user-role');
+                        const userStatus = userInfoDiv.getAttribute('data-user-status');
+
+                        document.getElementById('editUserId').value = userId;
+                        document.getElementById('editUserName').value = userName;
+                        document.getElementById('editUserEmail').value = userEmail;
+                        document.getElementById('editUserRole').value = userRole;
+                        document.getElementById('editUserStatus').value = userStatus;
+                        const modal = new bootstrap.Modal(editUserModal);
+                        modal.show();
+                    });
+                });
+
+                usersTableBody.querySelectorAll('.delete-user-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userInfoDiv = this.closest('.user-info');
+                        const userId = userInfoDiv.getAttribute('data-user-id');
+                        const userName = userInfoDiv.getAttribute('data-user-name');
+                        const userEmail = userInfoDiv.getAttribute('data-user-email');
+                        document.getElementById('deleteUserId').value = userId;
+                        document.getElementById('deleteUserNameDisplay').innerText = userName;
+                        document.getElementById('deleteUserEmailDisplay').innerText = userEmail;
+                        const modal = new bootstrap.Modal(deleteUserModal);
+                        modal.show();
+                    });
+                });
+
+                usersTableBody.querySelectorAll('.change-status-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userInfoDiv = this.closest('.user-info');
+                        const userId = userInfoDiv.getAttribute('data-user-id');
+                        const userName = userInfoDiv.getAttribute('data-user-name');
+                        const userStatus = userInfoDiv.getAttribute('data-user-status');
+                        document.getElementById('statusUserId').value = userId;
+                        document.getElementById('statusUserNameDisplay').innerText = userName;
+                        document.getElementById('newUserStatus').value = userStatus;
+                        const modal = new bootstrap.Modal(changeUserStatusModal);
+                        modal.show();
+                    });
+                });
+
+                usersTableBody.querySelectorAll('.view-user-details-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userInfoDiv = this.closest('.user-info');
+                        const userName = userInfoDiv.getAttribute('data-user-name');
+                        const userEmail = userInfoDiv.getAttribute('data-user-email');
+                        const userRole = userInfoDiv.getAttribute('data-user-role');
+                        const userStatus = userInfoDiv.getAttribute('data-user-status');
+                        const userLastLogin = userInfoDiv.getAttribute('data-user-last-login');
+
+                        document.getElementById('detailsUserName').innerText = userName;
+                        document.getElementById('detailsUserEmail').innerText = userEmail;
+                        document.getElementById('detailsUserRole').innerText = userRole;
+                        document.getElementById('detailsUserStatusBadge').innerHTML = `<span class="badge bg-${userStatus === 'Active' ? 'success' : userStatus === 'Locked' ? 'danger' : 'warning'}">${userStatus}</span>`;
+                        document.getElementById('detailsUserLastLogin').innerText = userLastLogin;
+                        const modal = new bootstrap.Modal(userDetailsModal);
+                        modal.show();
+                    });
+                });
+            }
+
+            // --- Roles ---
+            function populateRolesTable() {
+                rolesTableBody.innerHTML = ''; // Clear existing rows
+                dummyRoles.forEach(role => {
+                    const row = rolesTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>
+                            <div class="d-flex align-items-center user-info">
+                                <div class="user-avatar bg-${getRandomColor()}">${getInitials(role.name)}</div>
+                                <div class="text-content">
+                                    <div class="user-name">${role.name}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${role.usersCount} users</td>
+                        <td>
+                            <div class="d-flex flex-wrap">
+                                ${role.abilities.map(ability => `<span class="badge bg-secondary permission-badge">${ability}</span>`).join('') || '<span class="text-muted">No permissions assigned</span>'}
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-warning me-1 edit-role-btn"
+                                data-role-id="${role.id}"
+                                data-role-name="${role.name}"
+                                data-role-description="${role.description}"
+                                data-role-abilities="${role.abilities.join(',')}">Edit</button>
+                            <button class="btn btn-sm btn-outline-danger delete-role-btn"
+                                data-role-id="${role.id}"
+                                data-role-name="${role.name}">Delete</button>
+                        </td>
+                    `;
+                });
+
+                // Attach event listeners to newly created buttons
+                rolesTableBody.querySelectorAll('.edit-role-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const roleId = this.getAttribute('data-role-id');
+                        const roleName = this.getAttribute('data-role-name');
+                        const roleDescription = this.getAttribute('data-role-description');
+                        const roleAbilities = this.getAttribute('data-role-abilities').split(',').filter(a => a);
+
+                        document.getElementById('editRoleId').value = roleId;
+                        document.getElementById('editRoleName').value = roleName;
+                        document.getElementById('editRoleDescription').value = roleDescription;
+
+                        const permissionsContainer = document.getElementById('editRolePermissions');
+                        permissionsContainer.innerHTML = '';
+
+                        allPermissions.forEach(permission => {
+                            const checkboxId = `permission-${permission.replace(/\s/g, '-')}`;
+                            const isChecked = roleAbilities.includes(permission);
+                            permissionsContainer.innerHTML += `
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="${checkboxId}" value="${permission}" ${isChecked ? 'checked' : ''}>
+                                    <label class="form-check-label" for="${checkboxId}">${permission}</label>
+                                </div>
+                            `;
+                        });
+                        const editRoleModalInstance = new bootstrap.Modal(editRoleModal);
+                        editRoleModalInstance.show();
+                    });
+                });
+
+                rolesTableBody.querySelectorAll('.delete-role-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const roleId = this.getAttribute('data-role-id');
+                        const roleName = this.getAttribute('data-role-name');
+                        document.getElementById('deleteRoleId').value = roleId;
+                        document.getElementById('deleteRoleName').innerText = roleName;
+                        const deleteRoleModalInstance = new bootstrap.Modal(deleteRoleModal);
+                        deleteRoleModalInstance.show();
+                    });
+                });
+            }
+
+            function populateAssignRoleDropdowns() {
+                assignUserSelect.innerHTML = '<option value="">Choose a user...</option>';
+                dummyUsers.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.id;
+                    option.innerText = user.name;
+                    assignUserSelect.appendChild(option);
+                });
+
+                assignRoleSelect.innerHTML = '<option value="">Select role...</option>';
+                dummyRoles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.innerText = role.name;
+                    assignRoleSelect.appendChild(option);
+                });
+            }
+
+            function updateRecentRoleChanges() {
+                // This is dummy data, in a real app this would come from a log/database
+                const recentChanges = [
+                    { user: 'Admin User', oldRole: 'Editor', newRole: 'Admin', timestamp: '2 minutes ago' },
+                    { user: 'John Doe', oldRole: 'Customer', newRole: 'User', timestamp: '1 hour ago' },
+                ];
+
+                recentRoleChangesList.innerHTML = '';
+                if (recentChanges.length > 0) {
+                    recentChanges.forEach(change => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong>${change.user}</strong> changed role from <span class="badge bg-secondary">${change.oldRole}</span> to <span class="badge bg-primary">${change.newRole}</span> (${change.timestamp})`;
+                        recentRoleChangesList.appendChild(li);
+                    });
+                } else {
+                    recentRoleChangesList.innerHTML = '<li>No recent role changes.</li>';
+                }
+            }
+
+
+            // --- Comments --- (New Functions)
+            function populateCommentsTable() {
+                commentsTableBody.innerHTML = ''; // Clear existing rows
+                dummyComments.forEach(comment => {
+                    const row = commentsTableBody.insertRow();
+                    const statusClass = comment.status === 'Approved' ? 'success' : (comment.status === 'Pending' ? 'warning' : 'danger');
+                    row.innerHTML = `
+                        <td><input type="checkbox" class="comment-checkbox" data-comment-id="${comment.id}"></td>
+                        <td>
+                            <div class="d-flex align-items-center user-info"
+                                data-comment-id="${comment.id}"
+                                data-author-name="${comment.authorName}"
+                                data-author-email="${comment.authorEmail}"
+                                data-comment-text="${comment.commentText}"
+                                data-in-response-to="${comment.inResponseTo}"
+                                data-comment-date="${comment.date}"
+                                data-comment-status="${comment.status}">
+                                <div class="user-avatar bg-${getRandomColor()}">${getInitials(comment.authorName)}</div>
+                                <div class="text-content">
+                                    <div class="user-name">${comment.authorName}</div>
+                                    <div class="user-email d-none d-md-block">${comment.authorEmail}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${comment.commentText.length > 100 ? comment.commentText.substring(0, 100) + '...' : comment.commentText}</td>
+                        <td><a href="#" class="text-decoration-none">${comment.inResponseTo}</a></td>
+                        <td>${comment.date}</td>
+                        <td><span class="badge bg-${statusClass}">${comment.status}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-link text-primary p-0 reply-comment-btn me-2" data-bs-toggle="modal" data-bs-target="#replyCommentModal">Reply</button>
+                            ${comment.status === 'Spam' ?
+                                `<button class="btn btn-sm btn-link text-success p-0 change-comment-status-btn" data-new-status="Approved">Not Spam</button>` :
+                                `<button class="btn btn-sm btn-link text-warning p-0 change-comment-status-btn" data-new-status="Spam">Spam</button>`
+                            }
+                            <button class="btn btn-sm btn-link text-danger p-0 delete-comment-btn ms-2" data-bs-toggle="modal" data-bs-target="#deleteCommentModal">Delete</button>
+                        </td>
+                    `;
+                });
+
+                // Attach event listeners for comments
+                commentsTableBody.querySelectorAll('.reply-comment-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const commentInfoDiv = this.closest('.user-info');
+                        document.getElementById('replyCommentAuthor').innerText = commentInfoDiv.getAttribute('data-author-name');
+                        document.getElementById('replyCommentText').innerText = commentInfoDiv.getAttribute('data-comment-text');
+                    });
+                });
+
+                commentsTableBody.querySelectorAll('.delete-comment-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const commentInfoDiv = this.closest('.user-info');
+                        document.getElementById('deleteCommentId').value = commentInfoDiv.getAttribute('data-comment-id');
+                        document.getElementById('deleteCommentAuthor').innerText = commentInfoDiv.getAttribute('data-author-name');
+                        document.getElementById('deleteCommentText').innerText = commentInfoDiv.getAttribute('data-comment-text');
+                    });
+                });
+
+                commentsTableBody.querySelectorAll('.change-comment-status-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const commentInfoDiv = this.closest('.user-info');
+                        const currentStatus = commentInfoDiv.getAttribute('data-comment-status');
+                        const newStatusAction = this.getAttribute('data-new-status'); // 'Approved' or 'Spam'
+
+                        document.getElementById('statusCommentId').value = commentInfoDiv.getAttribute('data-comment-id');
+                        document.getElementById('statusCommentAuthor').innerText = commentInfoDiv.getAttribute('data-author-name');
+
+                        const currentStatusBadge = document.getElementById('currentCommentStatusBadge');
+                        currentStatusBadge.innerHTML = `<span class="badge bg-${currentStatus === 'Approved' ? 'success' : (currentStatus === 'Pending' ? 'warning' : 'danger')}">${currentStatus}</span>`;
+
+                        document.getElementById('newCommentStatus').value = newStatusAction;
+
+                        const modal = new bootstrap.Modal(changeCommentStatusModal);
+                        modal.show();
+                    });
+                });
+
+                // Handle select all checkbox
+                selectAllCommentsCheckbox.addEventListener('change', function() {
+                    const checkboxes = commentsTableBody.querySelectorAll('.comment-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                });
+            }
+
+            // --- Initial Calls (after login logic, or on page load if no login) ---
+            // These lines should be part of your `loginForm.addEventListener('submit', ...)` block
+            // or called directly if no login is required for initial view.
+            // populateUsersTable(); // Already moved to login success
+            // populateRolesTable(); // Already moved to login success
+            // populateAssignRoleDropdowns(); // Already moved to login success
+            // updateRecentRoleChanges(); // Already moved to login success
+            // populateCommentsTable(); // Already moved to login success
+
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
