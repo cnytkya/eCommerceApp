@@ -2,7 +2,6 @@
 using eCommerceApp.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace eCommerceApp.MVC.Areas.Admin.Controllers
 {
