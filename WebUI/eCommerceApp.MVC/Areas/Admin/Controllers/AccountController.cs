@@ -30,10 +30,11 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email,model.Password,model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email,model.Password,model.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     //TempData kullanılacak
+                    TempData["SuccessMessage"] = "Başarıyla giriş yaptınız. Admin paneline yönlendiriliyorsunuz.";
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -43,6 +44,13 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                         //admin ana sayfasına yönlendirme
                         return RedirectToAction("Index", "Main", new {area = "Admin"});
                     }
+                }
+                if (result.IsLockedOut)
+                {
+                    //kullanıcı başarısız girişten sonra hesap kilitlendi mesajı verdirelim
+                    ModelState.AddModelError(string.Empty, "Hesabınız kilitlendi. Lütfen daha sonra tekrar deneyiniz!");
+                    TempData["ErrorMessage"] = "Hesabınız kilitlendi. Lütfen daha sonra tekrar deneyiniz!";
+                    return View(model);
                 }
             }
             return View();
