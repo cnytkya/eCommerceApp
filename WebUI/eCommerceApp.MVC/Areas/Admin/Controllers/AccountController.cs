@@ -55,5 +55,13 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             }
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account", new { area = "Admin" });
+        }
+
     }
 }
