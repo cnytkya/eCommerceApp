@@ -6,14 +6,16 @@
     <title>@ViewData["Title"] - E-Commerce</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/eTradeWithOnionArchitecture.WebUI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/eCommerceApp.MVC.styles.css" asp-append-version="true" />
+
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="logo-image d-inline-block align-text-top me-2" src="/img/logo/hero.png" alt="Logo">
+                    <img style="width:100px;" class="logo-image d-inline-block align-text-top me-sm-0" src="https://png.pngtree.com/png-clipart/20211024/original/pngtree-salon-logo-png-image_6872052.png" alt="Logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,9 +27,27 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Categories
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Electronics</a></li>
+                                <li><a class="dropdown-item" href="#">Clothing</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Books</a></li>
+                            </ul>
                         </li>
                     </ul>
+                    <div class="d-flex">
+                        <a class="btn btn-success me-2" asp-area="Admin" asp-controller="Account" asp-action="Login">Login</a>
+                        <a class="btn btn-primary" asp-area="Admin" asp-controller="Account" asp-action="Register">Register</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -38,14 +58,59 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted fixed-bottom">
         <div class="container text-center">
             &copy; 2025 - E-Trade - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // Toastr ayarları
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        // TempData'dan gelen mesajları göster
+        // Bu kısım, Login gibi işlemler sonrası yönlendirmelerde kullanılacak.
+        var successMessage = '@TempData["SuccessMessage"]';
+        if (successMessage && successMessage.trim() !== '') {
+            toastr.success(successMessage);
+        }
+
+        var errorMessage = '@TempData["ErrorMessage"]';
+        if (errorMessage && errorMessage.trim() !== '') {
+            toastr.error(errorMessage);
+        }
+
+        // İsteğe bağlı olarak bilgi ve uyarı mesajları için de ekleyebilirsiniz
+        // var infoMessage = '@TempData["InfoMessage"]';
+        // if (infoMessage && infoMessage.trim() !== '') {
+        //     toastr.info(infoMessage);
+        // }
+
+        // var warningMessage = '@TempData["WarningMessage"]';
+        // if (warningMessage && warningMessage.trim() !== '') {
+        //     toastr.warning(warningMessage);
+        // }
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

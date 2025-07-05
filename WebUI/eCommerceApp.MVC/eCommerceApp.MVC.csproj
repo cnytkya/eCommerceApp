@@ -18,4 +18,8 @@
     <ProjectReference Include="..\..\Infrastructure\eCommerceApp.Infrastructure\eCommerceApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\logo\" />
+  </ItemGroup>
+
 </Project>
