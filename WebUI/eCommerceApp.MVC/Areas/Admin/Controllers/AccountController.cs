@@ -116,5 +116,56 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Profile(ProfileViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Kullanıcı bulunamadı";
+                return RedirectToAction("Login","Account", new {area = "Admin"});
+            }
+
+            if (ModelState.IsValid)
+            {
+                //Update user information
+                user.Fullname = model.Fullname;
+                user.Bio = model.Bio;
+                user.ProfilImgUrl = model.ProfileImgUrl;
+                user.Location = model.Location;
+                user.ModifiedDate = DateTime.UtcNow;
+
+                //Email update logic
+                if (user.Email != model.Email)
+                {
+                    var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                    if (!setEmailResult.Succeeded)
+                    {
+                        foreach (var error in setEmailResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        TempData["ErrorMessage"] = "Email güncelleme başarısız." + string.Join(", ", setEmailResult.Errors.Select(e => e.Description));
+                        return View(model);
+                    }
+                    user.EmailConfirmed = false;
+                    TempData["WarningMessage"] = "Email adresiniz değiştirildi. Yeni email adresinizi onaylamanız gerekebilir.";
+                }
+
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (updateResult.Succeeded)
+                {
+                    foreach (var error in updateResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    TempData["ErrorMessage"] = "Profil güncelleme başarısız." + string.Join(", ", updateResult.Errors.Select(e => e.Description));
+                    return View(model);
+                }
+                //Password change logic
+            }
+
+            return View(model);
+        }
+
     }
 }
