@@ -56,79 +56,64 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             }
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "Account", new { area = "Admin" });
+            // Çıkış sonrası ana sayfaya yönlendir ve başarı mesajı göster
+            TempData["SuccessMessage"] = "Başarıyla çıkış yaptınız.";
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpGet]
-
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken] // CSRF saldırılarına karşı koruma sağlar.
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Lütfen tüm zorunlu alanları doğru şekilde doldurunuz.";
-                return View(model); // Formu hatalarla birlikte tekrar göster
-            }
-
-            var user = new AppUser
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                Fullname = model.FullName,
-                IsActive = true,
-                RegistrationDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow
-            };
-
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                string defaultRoleName = "User"; // Atanacak varsayılan rol adı
-
-                if (!await _roleManager.RoleExistsAsync(defaultRoleName))
+                var user = new AppUser
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(defaultRoleName));
-                }
+                    UserName = model.Email, // Email'i aynı zamanda UserName olarak kullanıyoruz
+                    Email = model.Email,
+                    Fullname = model.FullName,
+                    IsActive = true, // Kayıt olan kullanıcıyı varsayılan olarak aktif yap
+                    RegistrationDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
+                    ModifiedDate = DateTime.UtcNow
+                    // Diğer AppUser alanları Identity tarafından otomatik olarak yönetilir veya varsayılan değerler alır
+                };
 
-                var addRoleResult = await _userManager.AddToRoleAsync(user, defaultRoleName);
+                var result = await _userManager.CreateAsync(user, model.Password);
 
-                if (!addRoleResult.Succeeded)
+                if (result.Succeeded)
                 {
-                    foreach (var error in addRoleResult.Errors)
+                    // Kullanıcıya varsayılan "User" rolünü ata
+                    var defaultRole = "User";
+                    if (!await _roleManager.RoleExistsAsync(defaultRole))
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        await _roleManager.CreateAsync(new IdentityRole(defaultRole));
                     }
-                    TempData["ErrorMessage"] = "Kullanıcı başarıyla oluşturuldu ancak rol atamasında hata oluştu.";
-                    return View(model);
+                    await _userManager.AddToRoleAsync(user, defaultRole);
+
+                    TempData["SuccessMessage"] = "Hesabınız başarıyla oluşturuldu! Şimdi giriş yapabilirsiniz.";
+                    return RedirectToAction("Login", "Account", new { area = "Admin" });
                 }
-
-                TempData["SuccessMessage"] = "Kaydınız başarıyla tamamlandı. Artık giriş yapabilirsiniz.";
-
-                return RedirectToAction("Login", "Account", new { area = "Admin" });
-            }
-            else
-            {
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
+                    TempData["ErrorMessage"] = "Kayıt işlemi başarısız: " + error.Description; // Toastr için
                 }
-
-                TempData["ErrorMessage"] = "Kayıt işlemi sırasında bir hata oluştu. Lütfen tekrar deneyiniz.";
-
-                return View(model);
             }
+            // Model validasyonu başarısız olursa veya Identity hatası oluşursa formu tekrar göster
+            return View(model);
         }
 
     }
