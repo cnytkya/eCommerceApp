@@ -1,4 +1,30 @@
 ﻿
+
 @{
     ViewData["Title"] = "Profile";
 }
+
+<div class="container-fluid px-4">
+    @* boostrap sınıfı: "container-fluid" içeriğin sayfa mgenişğinde olmasını sağlar. "px-4" yatay padding(sağdan ve soldan boşluk) ekler*@
+     <h1 mt-4>Profilim</h1> @*mt-4  üstten margin(boşluk) ekler*@
+    <ol class="breadcrumb mb-4">
+        @*mb-4  alttan margin(boşluk) ekler*@
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item active">Profilim</li>
+    </ol>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-user-circle"></i>
+                    Profil Bilgileri
+                </div>
+                <div class="card-body">
+                    <form asp-controller="Account" asp-action="Profile" method="post">
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
