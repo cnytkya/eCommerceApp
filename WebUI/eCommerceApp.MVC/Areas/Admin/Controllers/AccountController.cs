@@ -174,7 +174,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                 }
 
                 var updateResult = await _userManager.UpdateAsync(user);
-                if (updateResult.Succeeded)
+                if (!updateResult.Succeeded)
                 {
                     foreach (var error in updateResult.Errors)
                     {
