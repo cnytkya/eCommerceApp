@@ -4,14 +4,14 @@ namespace eCommerceApp.MVC.Models.ViewModels
 {
     public class ProfileViewModel
     {
-        [Required(ErrorMessage = "Adı Soyadı alanı boş bırakılama")]
+        [Required(ErrorMessage = "Adı Soyadı alanı boş bırakılamaz.")]
         [Display(Name = "Adı Soyadı")]
-        public string? Fullname { get; set; }
+        public string Fullname { get; set; }
 
         [Required(ErrorMessage ="Email alanı boş bırakılamaz.")]
         [EmailAddress(ErrorMessage = "Geçerli bir email adresi giriniz")]
         [Display(Name = "Email Adresi")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [Display(Name = "Biyografi")]
         public string? Bio { get; set; }

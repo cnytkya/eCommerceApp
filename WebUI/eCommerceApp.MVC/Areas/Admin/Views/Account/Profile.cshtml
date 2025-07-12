@@ -1,4 +1,4 @@
-﻿
+﻿@model ProfileViewModel
 
 @{
     ViewData["Title"] = "Profile";
@@ -6,7 +6,7 @@
 
 <div class="container-fluid px-4">
     @* boostrap sınıfı: "container-fluid" içeriğin sayfa mgenişğinde olmasını sağlar. "px-4" yatay padding(sağdan ve soldan boşluk) ekler*@
-     <h1 mt-4>Profilim</h1> @*mt-4  üstten margin(boşluk) ekler*@
+    <h1 mt-4>Profilim</h1> @*mt-4  üstten margin(boşluk) ekler*@
     <ol class="breadcrumb mb-4">
         @*mb-4  alttan margin(boşluk) ekler*@
         <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Main" asp-action="Index">Dashboard</a></li>
@@ -21,7 +21,53 @@
                 </div>
                 <div class="card-body">
                     <form asp-controller="Account" asp-action="Profile" method="post">
+                        @* ASP.NET Core Tag Helper: modeldeki tüm validasyon hatalarını(hem alan bazlı hem de genel) kırmızı renkte gösterir *@
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="mb-3">
+                            <label asp-for="Fullname" class="form-label"></label>
+                            <input asp-for="Fullname" class="form-control" />
+                            <span asp-validation-for="Fullname" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Bio" class="form-label"></label>
+                            <textarea asp-for="Bio" class="form-control"></textarea>
+                            <span asp-validation-for="Bio" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="ProfileImgUrl" class="form-label"></label>
+                            <input asp-for="ProfileImgUrl" class="form-control" />
+                            <span asp-validation-for="ProfileImgUrl" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Location" class="form-label"></label>
+                            <input asp-for="Location" class="form-control" />
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
 
+                        <hr />
+                        <h4>Şifre Değiştirme(İsteğe Bağlı)</h4>
+                        <p class="text-muted small">Şifrenizi değiştirmek istemiyorsanız bu alanları boş bırakabilirsiniz.</p>
+                        <div class="mb-3">
+                            <label asp-for="OldPassword" class="form-label"></label>
+                            <input asp-for="OldPassword" class="form-control" />
+                            <span asp-validation-for="OldPassword" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="NewPassword" class="form-label"></label>
+                            <input asp-for="NewPassword" class="form-control" />
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="ConfirmNewPassword" class="form-label"></label>
+                            <input asp-for="ConfirmNewPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Profili Güncelle</button>
                     </form>
                 </div>
             </div>

@@ -2,6 +2,7 @@
 using eCommerceApp.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace eCommerceApp.MVC.Areas.Admin.Controllers
 {
@@ -116,6 +117,27 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Kullanıcı bulunamadı";
+                return RedirectToAction("Login", "Account", new { area = "Admin" });
+            }
+            var model = new ProfileViewModel{
+                Fullname = user.Fullname,
+                Email = user.Email,
+                Bio = user.Bio,
+                ProfileImgUrl = user.ProfilImgUrl,
+                Location = user.Location
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Profile(ProfileViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -162,6 +184,35 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                     return View(model);
                 }
                 //Password change logic
+                if (!string.IsNullOrEmpty(model.OldPassword) || !string.IsNullOrEmpty(model.NewPassword) || !string.IsNullOrEmpty(model.ConfirmNewPassword))
+                {
+                    if (string.IsNullOrEmpty(model.OldPassword))
+                    {
+                        ModelState.AddModelError("OldPassword", "Şifrenizi değiştirmek için mevcut şifrenizi girmelisiniz");
+                        TempData["ErrorMessage"] = "Şifrenizi değiştirmek için mevcut şifrenizi girmelisiniz";
+                        return View(model);
+                    }
+
+                    var changePasswordResult = await _userManager.ChangePasswordAsync(user,model.OldPassword,model.NewPassword);
+                    if (!changePasswordResult.Succeeded)
+                    {
+                        foreach (var error in changePasswordResult.Errors)
+                        {
+                            if (error.Code == "PasswordMismatch")
+                            {
+                                ModelState.AddModelError("PasswordMismatch","Mevcut şifreniz yanlış.");
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                        }
+                    }
+                    TempData["SuccessMessage"] = (TempData["SuccessMessage"] !=null) ? TempData["SuccessMessage"] + " " : " " + "Şifreniz başarıyla güncellendi";
+                }
+                await _signInManager.RefreshSignInAsync(user);
+                TempData["SuccessMessage"] = (TempData["SuccessMessage"] != null) ? TempData["SuccessMessage"] + " " : " " + "Profile başarıyla güncellendi";
+                return RedirectToAction("Profile", "Account", new {area = "Admin"});
             }
 
             return View(model);
