@@ -5,6 +5,6 @@ namespace eCommerceApp.Application.Interface
     public interface IUserService
     {
         //aktif olan bütün kullanıcıları listelemek için
-        Task<IEnumerable<UserDto>> GetAllActiveUsersAsync();
+        Task<IEnumerable<UserListDto>> GetAllActiveUsersAsync();
     }
 }

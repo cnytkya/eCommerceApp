@@ -1,5 +1,8 @@
+using eCommerceApp.Application.Interface;
+using eCommerceApp.Application.Service;
 using eCommerceApp.Domain.Entities;
 using eCommerceApp.Infrastructure.Persistence;
+using eCommerceApp.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +13,9 @@ builder.Services.AddControllersWithViews();
 
 //Veritabaný baðlantýsý.
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 //login ve register ayarlarý
 // Identity servislerini uygulamaya ekler ve AppUser ile IdentityRole modellerini kullanacaðýný container'a belirtmemiz gerekir.

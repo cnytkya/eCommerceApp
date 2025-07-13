@@ -6,8 +6,9 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories
 {
     public class UserRepository : Repository<AppUser>, IUserRepository
     {
-        public UserRepository(DbSet<AppUser> dbSet, AppDbContext appDbContext) : base(dbSet, appDbContext)
+        public UserRepository(AppDbContext context) : base(context) 
         {
+            
         }
 
         public async Task<AppUser> GetUserWithRoleAsync(string userId)

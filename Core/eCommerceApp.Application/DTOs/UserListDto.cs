@@ -2,7 +2,7 @@
 
 namespace eCommerceApp.Application.DTOs
 {
-    public class UserDto
+    public class UserListDto
     {
         public string Id { get; set; }
         [Display(Name ="Kullanıcı Adı"),Required(ErrorMessage ="Fullname alanı boş bırakılamaz")]

@@ -6,14 +6,14 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly AppDbContext _appDbContext;
+        protected readonly AppDbContext _context;
         //Doğrudan erişim dbset kullanılabilir.
         protected readonly DbSet<T> _dbSet;
 
-        public Repository(DbSet<T> dbSet, AppDbContext appDbContext)
+        public Repository(AppDbContext context)
         {
-            _dbSet = dbSet;
-            _appDbContext = appDbContext;
+            _context = context;
+            _dbSet = _context.Set<T>();
         }
         public async Task<T?> GetByIdAsync(string id)
         {

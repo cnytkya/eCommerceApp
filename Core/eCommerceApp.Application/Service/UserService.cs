@@ -18,18 +18,18 @@ namespace eCommerceApp.Application.Service
             _roleManager = roleManager;
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllActiveUsersAsync()
+        public async Task<IEnumerable<UserListDto>> GetAllActiveUsersAsync()
         {
             //Tüm kullanıcıları repository'den çekiyoruz.
             //AppUser entity'den UserDto'ya dönüşüm burada yapılır.
             var users = await _userRepository.FindAsync(u=>u.IsDeleted == false);
-            var userDtos = new List<UserDto>();
+            var userDtos = new List<UserListDto>();
             foreach (var user in users)
             {
                 //her kullanıcının rol bilgisini çekiyoruz.
                 var roles = await _userManager.GetRolesAsync(user);
 
-                userDtos.Add(new UserDto
+                userDtos.Add(new UserListDto
                 {
                     Id = user.Id,
                     FullName = user.Fullname ?? "N/A", //null kontrolü
