@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace eCommerceApp.Application.Interface
 {
@@ -12,5 +7,7 @@ namespace eCommerceApp.Application.Interface
         Task<T?> GetByIdAsync(string id);//IdentityUser'lar string ID kullanır
         Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate);//Belirtilen koşula uyan ilk varlığı asenkron olarak getir.
         Task<IEnumerable<T>> GetAllAsync();
+        //Belirtilen koşula uyan varlıkları asenkron olarak getirir.
+        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
     }
 }

@@ -15,20 +15,22 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories
             _dbSet = dbSet;
             _appDbContext = appDbContext;
         }
-
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<T?> GetByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
+        }
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
+        public async Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.FirstOrDefaultAsync(predicate);
         }
 
-        public Task<T?> GetByIdAsync(string id)
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
-        {
-            throw new NotImplementedException();
+            return await _dbSet.Where(predicate).ToListAsync();
         }
     }
 }
