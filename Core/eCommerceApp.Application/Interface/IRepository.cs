@@ -9,6 +9,11 @@ namespace eCommerceApp.Application.Interface
         Task<IEnumerable<T>> GetAllAsync();
         //Belirtilen koşula uyan varlıkları asenkron olarak getirir.
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+
+        //Bir varlığı günceller
+        void Update(T entity);
+
+        //kayıtları veritabanına uygula
         Task<int> SaveChangesAync();
     }
 }

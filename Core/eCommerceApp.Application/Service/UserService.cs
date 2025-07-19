@@ -1,4 +1,4 @@
-﻿using eCommerceApp.Application.DTOs;
+﻿using eCommerceApp.Application.DTOs.User;
 using eCommerceApp.Application.Interface;
 using eCommerceApp.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +18,34 @@ namespace eCommerceApp.Application.Service
             _roleManager = roleManager;
         }
 
+
+        public async Task<IEnumerable<UserListDto>> GetAllActiveUsersAsync()
+        {
+            //Tüm kullanıcıları repository'den çekiyoruz.
+            //AppUser entity'den UserDto'ya dönüşüm burada yapılır.
+            var users = await _userRepository.FindAsync(u => u.IsDeleted == false);
+            var userDtos = new List<UserListDto>();
+            foreach (var user in users)
+            {
+                //her kullanıcının rol bilgisini çekiyoruz.
+                var roles = await _userManager.GetRolesAsync(user);
+
+                userDtos.Add(new UserListDto
+                {
+                    Id = user.Id,
+                    FullName = user.Fullname ?? "N/A", //null kontrolü
+                    Email = user.Email,
+                    Bio = user.Bio,
+                    ImgUrl = user.ProfilImgUrl,
+                    Location = user.Location,
+                    IsActive = user.IsActive,
+                    LastLoginDate = user.LastLoginDate,
+                    RegistrationDate = user.RegistrationDate,
+                    Roles = roles.ToList()//rolleri dto'ya ekliyoruz.
+                });
+            }
+            return userDtos;
+        }
         public async Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(CreateUserDto createUserDto, string roleName)
         {
             //email zaten kullanımda mı
@@ -63,38 +91,28 @@ namespace eCommerceApp.Application.Service
                 return (false, roleResult.Errors.Select(e => e.Description).Append("Kullanıcı oluşturuldu ancak rol ataması başarısız oldu ve kullanıcı silindi."));
             }
 
-            await _userRepository.SaveChangesAync();
+            await _userRepository.SaveChangesAync();//kaydı veritabanına yansıt
             return (true, Enumerable.Empty<string>());
         }
 
-        public async Task<IEnumerable<UserListDto>> GetAllActiveUsersAsync()
+        public Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(EditUserDto editUserDto)
         {
-            //Tüm kullanıcıları repository'den çekiyoruz.
-            //AppUser entity'den UserDto'ya dönüşüm burada yapılır.
-            var users = await _userRepository.FindAsync(u => u.IsDeleted == false);
-            var userDtos = new List<UserListDto>();
-            foreach (var user in users)
-            {
-                //her kullanıcının rol bilgisini çekiyoruz.
-                var roles = await _userManager.GetRolesAsync(user);
-
-                userDtos.Add(new UserListDto
-                {
-                    Id = user.Id,
-                    FullName = user.Fullname ?? "N/A", //null kontrolü
-                    Email = user.Email,
-                    Bio = user.Bio,
-                    ImgUrl = user.ProfilImgUrl,
-                    Location = user.Location,
-                    IsActive = user.IsActive,
-                    LastLoginDate = user.LastLoginDate,
-                    RegistrationDate = user.RegistrationDate,
-                    Roles = roles.ToList()//rolleri dto'ya ekliyoruz.
-                });
-            }
-            return userDtos;
+            throw new NotImplementedException();
         }
 
+        //public Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(EditUserDto editUserDto)
+        //{
+        //    //Kullanıcıyı ID'sine göre bul.
 
+        //    //e-posta değiştirme kontrolü.
+
+        //    //Diğer profil bilgilerini EditUserDto'dan AppUser entity'sine aktar.
+
+        //    // kullanıcı nesnesindeki değişiklikleri Identity UserManager üzerinden güncelle
+        //    // Bu , ıdentity'nin internal mekanizmalarını da çalışmasını sağlar.
+
+        //    // değişiklikleri veritabanına kaydet.
+
+        //}
     }
 }

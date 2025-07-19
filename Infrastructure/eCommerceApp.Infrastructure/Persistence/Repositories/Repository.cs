@@ -28,6 +28,11 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories
             return await _dbSet.FirstOrDefaultAsync(predicate);
         }
 
+        public void Update(T entity)
+        {
+            _dbSet.Update(entity);
+        }
+
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.Where(predicate).ToListAsync();
@@ -37,5 +42,6 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories
         {
              return await _context.SaveChangesAsync();
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace eCommerceApp.Application.DTOs
+namespace eCommerceApp.Application.DTOs.User
 {
     public class UserListDto
     {

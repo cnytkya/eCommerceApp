@@ -1,4 +1,4 @@
-﻿using eCommerceApp.Application.DTOs;
+﻿using eCommerceApp.Application.DTOs.User;
 
 namespace eCommerceApp.Application.Interface
 {
@@ -9,5 +9,9 @@ namespace eCommerceApp.Application.Interface
 
         //yeni user ekleme metodu.
         Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(CreateUserDto createUserDto, string roleName);
+
+        //user güncelleme metodu
+        Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(EditUserDto editUserDto);
+
     }
 }
