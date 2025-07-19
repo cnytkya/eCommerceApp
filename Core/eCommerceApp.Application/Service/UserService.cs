@@ -47,6 +47,24 @@ namespace eCommerceApp.Application.Service
             {
                 return (false, creatResult.Errors.Select(e => e.Description));
             }
+
+            //Rolün var olduğundan emin olmamız lazım. İlk defa oluşuyorsa default olarak User atanacak(Register tarafında). Admin tarafında oluşturulacaksa admin istediği rolü atayabilir.
+            if (!await _roleManager.RoleExistsAsync(roleName))//eğer rol smevcut değilse
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+
+            var roleResult = await _userManager.AddToRoleAsync(user, roleName);
+
+            if (!roleResult.Succeeded)
+            {
+                //Rol ataması başarısız olursa kullanıcıyı geri almayı düşün.
+                await _userManager.DeleteAsync(user);//Kullanıcıyı sil.
+                return (false, roleResult.Errors.Select(e => e.Description).Append("Kullanıcı oluşturuldu ancak rol ataması başarısız oldu ve kullanıcı silindi."));
+            }
+
+            await _userRepository.SaveChangesAync();
+            return (true, Enumerable.Empty<string>());
         }
 
         public async Task<IEnumerable<UserListDto>> GetAllActiveUsersAsync()
@@ -76,5 +94,7 @@ namespace eCommerceApp.Application.Service
             }
             return userDtos;
         }
+
+
     }
 }
