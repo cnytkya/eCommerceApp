@@ -95,24 +95,47 @@ namespace eCommerceApp.Application.Service
             return (true, Enumerable.Empty<string>());
         }
 
-        public Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(EditUserDto editUserDto)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(EditUserDto editUserDto)
         {
-            throw new NotImplementedException();
+            //Kullanıcıyı ID'sine göre bul.
+            var user = await _userRepository.GetByIdAsync(editUserDto.Id);
+            if (user == null)
+            {
+                return (false, new[] { "Güncelenecek kullanıcı bulunamadı." });
+            }
+            //e-posta değiştirme kontrolü.
+            if (user.Email != editUserDto.Email)
+            {
+                //Identity UserManager üzerinden email'i güvenli bir şekilde güncelle
+                var setEmailresult = await _userManager.SetEmailAsync(user, editUserDto.Email);
+                if (!setEmailresult.Succeeded)
+                {
+                    return (false, setEmailresult.Errors.Select(e=>e.Description));
+                }
+                //email güncelle
+                user.UserName = editUserDto.Email;
+                user.NormalizedUserName = _userManager.NormalizeName(editUserDto.Email);
+                user.NormalizedEmail = _userManager.NormalizeEmail(editUserDto.Email);
+                user.EmailConfirmed = false;//email değiştiyse e-posta onayı gerekbilir.
+            }
+            //Diğer profil bilgilerini EditUserDto'dan AppUser entity'sine aktar.
+            user.Fullname = editUserDto.Fullname;
+            user.Bio = editUserDto.Bio;
+            user.ProfilImgUrl = editUserDto.ImgUrl;
+            user.Location = editUserDto.Location;
+            user.IsActive = editUserDto.IsActive;//Aktif-Pasif olma durumunu güncelleyebilir.
+            user.ModifiedDate = DateTime.UtcNow;//son güncellenme tarihini al
+
+            // kullanıcı nesnesindeki değişiklikleri Identity UserManager üzerinden güncelle
+            // Bu , ıdentity'nin internal mekanizmalarını da çalışmasını sağlar.
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return (false, updateResult.Errors.Select(e => e.Description));
+            }
+            // değişiklikleri veritabanına kaydet.
+            await _userRepository.SaveChangesAync();
+            return (true, Enumerable.Empty<string>());
         }
-
-        //public Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(EditUserDto editUserDto)
-        //{
-        //    //Kullanıcıyı ID'sine göre bul.
-
-        //    //e-posta değiştirme kontrolü.
-
-        //    //Diğer profil bilgilerini EditUserDto'dan AppUser entity'sine aktar.
-
-        //    // kullanıcı nesnesindeki değişiklikleri Identity UserManager üzerinden güncelle
-        //    // Bu , ıdentity'nin internal mekanizmalarını da çalışmasını sağlar.
-
-        //    // değişiklikleri veritabanına kaydet.
-
-        //}
     }
 }
