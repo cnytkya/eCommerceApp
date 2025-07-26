@@ -140,20 +140,34 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                 {
                     //Role Yönetimi: Kullanıcının mevcut rolünü çek
                     var user = await _userManager.FindByIdAsync(model.Id);
-                    var currentRole = await _userManager.GetRolesAsync(user); 
+                    var currentRoles = await _userManager.GetRolesAsync(user); 
 
                     //Formdan rolleri al
                     var selectedRoles = model.SelectedRole ?? new List<string>();//null gelirse boş liste
                     //Kaldırılacak roller: Mevcut rollerde olup, seçilenlerde olmayanları kaldıralım.
-                    var rolesToRemove = currentRole.Except(selectedRoles).ToList();
+                    var rolesToRemove = currentRoles.Except(selectedRoles).ToList();
                     if (rolesToRemove.Any())
                     {
                         var removeResult = await _userManager.RemoveFromRolesAsync(user,rolesToRemove);
                         if (!removeResult.Succeeded)
                         {
-                            TempData["ErrorMessage"] = "Roller kaldırılırken hata oluştur: " + string.Join(", ",removeResult.Errors.Select(e=>e.Description));
+                            TempData["ErrorMessage"] = "Roller kaldırılırken hata oluştu: " + string.Join(", ",removeResult.Errors.Select(e=>e.Description));
                             //Hata oluşursa tekrar View'ı döndür ve mevcut durumu yükle.
                             model.AllRoles = new SelectList(await _roleManager.Roles.ToListAsync(), "Name","Name",selectedRoles);
+                            model.CurrentRoles = (await _userManager.GetRolesAsync(user)).ToList();
+                            return View(model);
+                        }
+                    }
+                    //Eklenecek roller: 
+                    var rolesToAdd = selectedRoles.Except(currentRoles).ToList();
+                    if (rolesToAdd.Any())
+                    {
+                        var addResult = await _userManager.AddToRolesAsync(user,rolesToAdd);
+                        if (!addResult.Succeeded)
+                        {
+                            TempData["ErrorMessage"] = "Roller eklenirken hata oluştu: " + string.Join(", ", addResult.Errors.Select(e => e.Description));
+                            //Hata oluşursa tekrar View'ı döndür ve mevcut durumu yükle.
+                            model.AllRoles = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name", selectedRoles);
                             model.CurrentRoles = (await _userManager.GetRolesAsync(user)).ToList();
                             return View(model);
                         }
