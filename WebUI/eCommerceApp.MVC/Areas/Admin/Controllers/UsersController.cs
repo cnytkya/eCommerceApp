@@ -1,6 +1,7 @@
 ﻿using eCommerceApp.Application.DTOs.User;
 using eCommerceApp.Application.Interface;
 using eCommerceApp.Domain.Entities;
+using eCommerceApp.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -72,6 +73,47 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             var roles =await _roleManager.Roles.ToListAsync();
             ViewBag.Roles = new SelectList(roles, "Name", "Name", selectedRole);//seçili rolü koru.
             return View(createUserDto);
+        }
+
+        [HttpGet]//.../Users/Edit/id 
+        public async Task<IActionResult> Edit(string id)
+        {
+            ViewData["Title"] = "Kullaınıcı Güncelle";
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["ErrorMessage"] = "Güncellenecek kullanıcının ID'si bulunamadı";
+                return RedirectToAction(nameof(Index));
+            }
+            var userDto = await _userService.GetUserByIdAsync(id);
+            if (userDto == null)
+            {
+                TempData["ErrorMessage"] = "Kullanıcı bulunamadı";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var model = new EditUserViewModel
+            {
+                Id = userDto.Id,
+                Fullname = userDto.Fullname,
+                Email= userDto.Email,
+                Bio = userDto.Bio,
+                ImgUrl = userDto.ImgUrl,
+                Location = userDto.Location,
+                IsActive = userDto.IsActive,
+                CurrentRoles = userDto.Roles.ToList()
+            };
+            var allRoles = await _roleManager.Roles.ToListAsync(); //her seferinde bütün roller dropdown içerisine aktarmak için.
+            model.AllRoles = new SelectList(allRoles, "Name", "Name");//Rol isimlerini kullan.
+            return View(model);
+        }
+
+        [HttpPost]//.../Users/Edit/post =>form işleme
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit()
+        {
+            //View data tanımlama
+            ViewData["Title"] = "Kullanıcı Düzenle";
+            //IsActive için eğer checkbox işaretle
         }
     }
 }

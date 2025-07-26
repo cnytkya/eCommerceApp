@@ -19,21 +19,21 @@ namespace eCommerceApp.Application.Service
         }
 
 
-        public async Task<IEnumerable<UserListDto>> GetAllActiveUsersAsync()
+        public async Task<IEnumerable<UserDto>> GetAllActiveUsersAsync()
         {
             //Tüm kullanıcıları repository'den çekiyoruz.
             //AppUser entity'den UserDto'ya dönüşüm burada yapılır.
             var users = await _userRepository.FindAsync(u => u.IsDeleted == false);
-            var userDtos = new List<UserListDto>();
+            var userDtos = new List<UserDto>();
             foreach (var user in users)
             {
                 //her kullanıcının rol bilgisini çekiyoruz.
                 var roles = await _userManager.GetRolesAsync(user);
 
-                userDtos.Add(new UserListDto
+                userDtos.Add(new UserDto
                 {
                     Id = user.Id,
-                    FullName = user.Fullname ?? "N/A", //null kontrolü
+                    Fullname = user.Fullname ?? "N/A", //null kontrolü
                     Email = user.Email,
                     Bio = user.Bio,
                     ImgUrl = user.ProfilImgUrl,
@@ -136,6 +136,28 @@ namespace eCommerceApp.Application.Service
             // değişiklikleri veritabanına kaydet.
             await _userRepository.SaveChangesAync();
             return (true, Enumerable.Empty<string>());
+        }
+
+        public async Task<UserDto> GetUserByIdAsync(string id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null) return null;
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return new UserDto
+            {
+                Id = user.Id,
+                Fullname = user.Fullname ?? "N/A",
+                Email = user.Email ?? "N/A",
+                Bio = user.Bio,
+                ImgUrl = user.ProfilImgUrl,
+                Location= user.Location,
+                IsActive = user.IsActive,
+                LastLoginDate = user.LastLoginDate,
+                RegistrationDate = user.RegistrationDate,
+                Roles = roles.ToList()
+            };
         }
     }
 }

@@ -1,32 +1,31 @@
-﻿@model CreateUserDto
+﻿@model EditUserViewModel
 
 @{
-    ViewData["Title"] = "Yeni Kullanıcı Ekle";
+    ViewData["Title"] = "Kullancı Güncelle";
 }
 
 <div class="container-fluid px-4">
-    <h1 mt-4>Kullanıcı Ekle</h1> @*mt-4  üstten margin(boşluk) ekler*@
-    <ol class="breadcrumb mb-4">
+    @*<h1 mt-4>Güncellenecek Kullanıcı</h1> mt-4  üstten margin(boşluk) ekler*@
+    <ol class="breadcrumb mb-4 mt-4">
         @*mb-4  alttan margin(boşluk) ekler*@
         <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
         <li class="breadcrumb-item">
             <a asp-controller="Users" asp-action="Index">Kullanıcılar</a>
         </li>
-        <li class="breadcrumb-item active">Yeni Kullanıcı Ekle</li>
+        <li class="breadcrumb-item active">Kullanıcıyı Güncelle</li>
     </ol>
 
     <div class="card mb-4">
         @* card header *@
         <div class="card-header">
-            <i class="fas fa-user-plus me-1"></i>
-            Yeni Kullanıcı Formu
+            <i class="fas fa-user-edit me-1"></i>
+            Kullanıcı Güncelle
         </div>
         @* card body (form kısmı)*@
         <div class="card-body">
-            <form asp-controller="Users" asp-action="Create" method="post">
-                
-                @* dış tehditlere karşı koruma  *@
+            <form asp-controller="Users" asp-action="Edit" method="post">
                 @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id"/>
                 <div class="mb-3">
                     <label asp-for="Fullname" class="form-label"></label>
                     <input asp-for="Fullname" class="form-control" />
@@ -34,18 +33,8 @@
                 </div>
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label"></label>
-                    <input asp-for="Email" class="form-control" autocomplete="new-username"/>
+                    <input asp-for="Email" class="form-control" autocomplete="new-username" />
                     <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Password" class="form-label"></label>
-                    <input asp-for="Password" class="form-control" autocomplete="new-password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="ConfirmPassword" class="form-label"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="Bio" class="form-label"></label>
@@ -53,11 +42,11 @@
                     <span asp-validation-for="Bio" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label for="selectedRole" class="form-label">Role Seç</label>
-                    <select name="selectedRole" id="selectedRole" class="form-select" asp-items="@ViewBag.Roles">
-                        <option value="">-- Role Seçiniz --</option>
+                    <label asp-for="SelectedRole" class="form-label">Rol Seçimi</label>
+                    <select asp-for="SelectedRole" asp-items="Model.AllRoles" multiple class="form-select">
+                        <option value="">--Rol Seç--</option>
                     </select>
-                    <span class="text-danger" data-valmsg-for="selectedRole"></span> @* role seçimi validasyonu için *@
+                    <span asp-validation-for="SelectedRole" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <input asp-for="IsActive" class="form-check-input" />@* asp-for ile IsActive'e bağlandı *@
@@ -65,7 +54,7 @@
                 </div>
                 <div class="mb-3">
                     <label asp-for="ImgUrl" class="form-label"></label>
-                    <input asp-for="ImgUrl" class="form-control"/>
+                    <input type="file" asp-for="ImgUrl" class="form-control" />
                     <span asp-validation-for="ImgUrl" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
@@ -75,7 +64,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save"></i>
-                    Kaydet
+                    Güncelle
                 </button>
                 <a class="btn btn-secondary" asp-controller="Users" asp-action="Index">
                     <i class="fas fa-times"></i>
