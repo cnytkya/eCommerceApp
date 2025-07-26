@@ -171,9 +171,34 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                             model.CurrentRoles = (await _userManager.GetRolesAsync(user)).ToList();
                             return View(model);
                         }
+                        TempData["SuccessMessage"] = "Kulalnıcı başarıyla güncellendi.";
+                        //eğer düzenleme başarılıysa kullanıcıyı Users/Index'e(kullanıcı listesi) yönlendir
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error);
+                        TempData["ErrorMessage"] = $"Kullanıcı oluşturulurken bir hata oluştu:  { string.Join(", ",errors)}"
+                    ;
                     }
                 }
             }
+            //Model validasyonları başarısız olursa veya hata oluşursa, View'ı tekrar döndür.
+            //Sayfa tekrar yüklenirken seçili olan rolleri korumalıyız.
+            var allRolesOnFailure = await _roleManager.Roles.ToListAsync();
+            model.AllRoles = new SelectList(allRolesOnFailure, "Name","Name", model.SelectedRole);
+
+            //Rolleri çektikten sonra View'e göndermemiz gerekir.
+            var userOnFailure = await _userManager.FindByIdAsync(model.Id);
+            if (userOnFailure != null)
+            {
+                model.CurrentRoles = (await _userManager.GetRolesAsync(userOnFailure)).ToList();
+            }
+
+            return View(model);
         }
     }
 }
