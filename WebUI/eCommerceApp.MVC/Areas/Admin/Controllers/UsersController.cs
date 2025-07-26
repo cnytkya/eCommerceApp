@@ -15,13 +15,13 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
         //private readonly AppDbContext _appDbContext; bunun yerine generic olan yapı üzerinden DI uyguluyor olacağız.
         private readonly IUserService _userService;
         private readonly RoleManager<IdentityRole> _roleManager;
-        //private readonly UserManager<AppUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
         public UsersController(IUserService userService, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
         {
             _userService = userService;
             _roleManager = roleManager;
-            //_userManager = userManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -109,11 +109,57 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
 
         [HttpPost]//.../Users/Edit/post =>form işleme
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             //View data tanımlama
             ViewData["Title"] = "Kullanıcı Düzenle";
-            //IsActive için eğer checkbox işaretle
+            //IsActive için eğer checkbox işaretlenmediyse(formdan gelmezse) false olarak al.
+            if (!ModelState.ContainsKey(nameof(model.IsActive)))
+            {
+                model.IsActive = false;
+            }
+
+            if (ModelState.IsValid)
+            {
+                //EditUserViewModel'den EditUserDto'ya manuel mapping yapalım.
+                //Service katmanı UI EditUserViewModel'ı bilmediği için DTO'ya dönüştürüyoruz.
+                var editUserDto = new EditUserDto
+                {
+                    Id = model.Id,
+                    Fullname= model.Fullname,
+                    Email= model.Email,
+                    Bio = model.Bio,
+                    ImgUrl = model.ImgUrl,
+                    Location = model.Location,
+                    IsActive = model.IsActive,
+                };
+                //Kullanıcı bilgileri güncelleme.
+                var (succeded, errors) = await _userService.UpdateUserAsync(editUserDto);
+
+                if (succeded)
+                {
+                    //Role Yönetimi: Kullanıcının mevcut rolünü çek
+                    var user = await _userManager.FindByIdAsync(model.Id);
+                    var currentRole = await _userManager.GetRolesAsync(user); 
+
+                    //Formdan rolleri al
+                    var selectedRoles = model.SelectedRole ?? new List<string>();//null gelirse boş liste
+                    //Kaldırılacak roller: Mevcut rollerde olup, seçilenlerde olmayanları kaldıralım.
+                    var rolesToRemove = currentRole.Except(selectedRoles).ToList();
+                    if (rolesToRemove.Any())
+                    {
+                        var removeResult = await _userManager.RemoveFromRolesAsync(user,rolesToRemove);
+                        if (!removeResult.Succeeded)
+                        {
+                            TempData["ErrorMessage"] = "Roller kaldırılırken hata oluştur: " + string.Join(", ",removeResult.Errors.Select(e=>e.Description));
+                            //Hata oluşursa tekrar View'ı döndür ve mevcut durumu yükle.
+                            model.AllRoles = new SelectList(await _roleManager.Roles.ToListAsync(), "Name","Name",selectedRoles);
+                            model.CurrentRoles = (await _userManager.GetRolesAsync(user)).ToList();
+                            return View(model);
+                        }
+                    }
+                }
+            }
         }
     }
 }
