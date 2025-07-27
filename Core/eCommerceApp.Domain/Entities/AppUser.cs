@@ -8,9 +8,9 @@ namespace eCommerceApp.Domain.Entities
 
         //Profile information
         public string? Bio { get; set; }
-        public string? ProfilImgUrl { get; set; }
+        public string? ProfileImgUrl { get; set; }
         public string? Location { get; set; }
-        
+
         //User status and activity tracking
         public bool IsActive { get; set; }
         public DateTime LastLoginDate { get; set; }
@@ -31,5 +31,6 @@ namespace eCommerceApp.Domain.Entities
         public bool IsDeleted { get; set; }
         public DateTime DeletedDate { get; set; } = DateTime.UtcNow;
         public string? DeletedBy { get; set; }
+
     }
 }

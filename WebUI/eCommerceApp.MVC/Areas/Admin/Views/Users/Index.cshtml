@@ -1,0 +1,92 @@
+﻿@model IEnumerable<UserListDto>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="container-fluid px-4 py-4">
+    <h2 class="fw-bold mb-3">👤 Kullanıcılar</h2>
+
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Kullanıcılar</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fa-solid fa-users me-5 text-primary"></i>
+                <strong class="bg-primary p-2 "  style="border-radius: 15px;"
+>Kullanıcı Listesi</strong>
+            </div>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fa-solid fa-circle-plus me-1"></i> Kullanıcı Ekle
+            </a>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="datatablesSimple" class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Adı Soyadı</th>
+                            <th>E-Posta</th>
+                            <th>Roller</th>
+                            <th>Aktif Mi?</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FullName</td>
+                                <td>@item.Email</td>
+                                <td>
+                                    @if (item.Roles != null && item.Roles.Any())
+                                    {
+                                        @foreach (var role in item.Roles)
+                                        {
+                                            <span class="badge bg-info text-dark me-1">@role</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted fst-italic">Rol Atanmadı</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Pasif</span>
+                                    }
+                                </td>
+                                <td>@item.RegistrationDate.ToShortDateString()</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a class="btn btn-sm btn-outline-primary" title="Düzenle">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-outline-secondary" title="Detaylar">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-outline-danger" title="Sil">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

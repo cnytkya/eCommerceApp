@@ -28,6 +28,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
+
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -36,7 +37,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                 if (result.Succeeded)
                 {
                     //TempData kullanılacak
-                    TempData["SuccessMessage"] = "Başarıyla giriş yaptınız. Admin paneline yönlendiriliyorsunuz.";
+                    TempData["SuccessMessage"] = "Başarıyla giriş yaptınız. Admin panelindesiniz.";
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -114,6 +115,114 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             }
             // Model validasyonu başarısız olursa veya Identity hatası oluşursa formu tekrar göster
             return View(model);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Kullanıcı bulunamadı.";
+                return RedirectToAction("Login", "Account", new { area = "Admin" });
+            }
+            // Profil bilgilerini model ile doldur
+            var model = new ProfileViewModel
+            {
+                Fullname = user.Fullname,
+                Email = user.Email,
+                Bio = user.Bio,
+                ProfileImgUrl = user.ProfileImgUrl,
+                Location = user.Location
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(ProfileViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Kullanıcı bulunamadı.";
+                return RedirectToAction("Login", "Account", new { area = "Admin" });
+            }
+
+            // Modeli kullanıcının bilgileriyle doldur
+
+            if (ModelState.IsValid)
+            {
+                //Update user information
+                user.Fullname = model.Fullname;
+                user.ProfileImgUrl = model.ProfileImgUrl; // Profil resmi URL'si
+                user.Bio = model.Bio;
+                user.Location = model.Location;
+                user.ModifiedDate = DateTime.UtcNow;
+
+                //Email update logic
+                if (user.Email != model.Email)
+                {
+                    var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                    if (!setEmailResult.Succeeded)
+                    {
+                        foreach (var error in setEmailResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                           
+                        }
+                        TempData["ErrorMessage"] = "Email güncelleme başarısız: " + string.Join(", ", setEmailResult.Errors.Select(e => e.Description));
+                        return View(model);
+                    }
+                    user.EmailConfirmed = false; // Email değiştiği için onaylanmamış olarak işaretle
+                    TempData["WarninMessage"] = "Email adresiniz güncellendi. Lütfen yeni email adresinizi onaylayın.";
+                }
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    foreach (var error in updateResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    TempData["ErrorMessage"] = "Profil güncelleme başarısız: " + string.Join(", ", updateResult.Errors.Select(e => e.Description));
+                    return View(model);
+                }
+                // Password change logic
+                if(!string.IsNullOrEmpty(model.OldPassword) || !string.IsNullOrEmpty(model.NewPassword) || !string.IsNullOrEmpty(model.ConfirmNewPassword))
+                {
+                    if (string.IsNullOrEmpty(model.OldPassword))
+                    {
+                        ModelState.AddModelError("OldPassword", "Şifrenizi girmek için mevcut şifrenizi giriniz");
+                        TempData["ErrorMessage"] = "Şifrenizi girmek için mevcut şifrenizi girmelisiniz.";
+                        return View(model);
+                    }
+
+                    var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    if (changePasswordResult.Succeeded)
+                    {
+                        foreach (var error in changePasswordResult.Errors)
+                        {
+                            if (error.Code == "PasswordMismatch") 
+                            {
+                                ModelState.AddModelError("PasswordMismatch", "Mevcut şifreniz yanlış");
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                        }
+
+                    }
+
+                    TempData["SuccessMessage"] = (TempData ["SuccessMessage"] !=null) ? TempData["SuccessMessage"] + " " : " " + "Şifreniz başarıyla güncellendi.";
+                }
+
+                await _signInManager.RefreshSignInAsync(user); // Kullanıcıyı yeniden oturum açtır
+                TempData["SuccessMessage"] = (TempData["SuccessMessage"] != null) ? TempData["SuccessMessage"] + " " : " " + "Profiliniz başarıyla güncellendi.";
+                return RedirectToAction("Profile", "Account", new { area = "Admin" });
+            }
+            return View(model);
+
         }
 
     }
