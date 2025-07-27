@@ -1,76 +1,130 @@
-﻿@model EditUserViewModel
+﻿@model EditUserViewModel 
 
 @{
-    ViewData["Title"] = "Kullancı Güncelle";
+    ViewData["Title"] = "Kullanıcı Düzenle";
+    Layout = "_AdminLayout"; // Admin paneli layout'unu kullanıyoruz
 }
 
 <div class="container-fluid px-4">
-    @*<h1 mt-4>Güncellenecek Kullanıcı</h1> mt-4  üstten margin(boşluk) ekler*@
-    <ol class="breadcrumb mb-4 mt-4">
-        @*mb-4  alttan margin(boşluk) ekler*@
-        <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
-        <li class="breadcrumb-item">
-            <a asp-controller="Users" asp-action="Index">Kullanıcılar</a>
-        </li>
-        <li class="breadcrumb-item active">Kullanıcıyı Güncelle</li>
+    <h1 class="mt-4">Kullanıcı Düzenle</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Users" asp-action="Index">Kullanıcılar</a></li>
+        <li class="breadcrumb-item active">Düzenle</li>
     </ol>
 
     <div class="card mb-4">
-        @* card header *@
         <div class="card-header">
             <i class="fas fa-user-edit me-1"></i>
-            Kullanıcı Güncelle
+            Kullanıcı Bilgilerini Düzenle
         </div>
-        @* card body (form kısmı)*@
         <div class="card-body">
-            <form asp-controller="Users" asp-action="Edit" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="Id"/>
+            <form asp-area="Admin" asp-controller="Users" asp-action="Edit" method="post">
+                @Html.AntiForgeryToken() @* CSRF koruması için *@
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <input type="hidden" asp-for="Id" /> @* Kullanıcının ID'sini gizli bir alan olarak gönderiyoruz *@
+
                 <div class="mb-3">
                     <label asp-for="Fullname" class="form-label"></label>
                     <input asp-for="Fullname" class="form-control" />
                     <span asp-validation-for="Fullname" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label"></label>
-                    <input asp-for="Email" class="form-control" autocomplete="new-username" />
+                    <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="Bio" class="form-label"></label>
-                    <textarea asp-for="Bio" class="form-control" autocomplete="new-password"></textarea>
+                    <textarea asp-for="Bio" class="form-control" rows="3"></textarea>
                     <span asp-validation-for="Bio" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
-                    <label asp-for="SelectedRole" class="form-label">Rol Seçimi</label>
-                    <select asp-for="SelectedRole" asp-items="Model.AllRoles" multiple class="form-select">
-                        <option value="">--Rol Seç--</option>
-                    </select>
-                    <span asp-validation-for="SelectedRole" class="text-danger"></span>
+                    <label asp-for="ProfilImgUrl" class="form-label"></label>
+                    <input asp-for="ProfilImgUrl" class="form-control" />
+                    <span asp-validation-for="ProfilImgUrl" class="text-danger"></span>
+                    @if (!string.IsNullOrEmpty(Model.ProfilImgUrl))
+                    {
+                        <div class="mt-2">
+                            <img src="@Model.ProfilImgUrl" alt="Profil Resmi" class="img-thumbnail" style="max-width: 150px; height: auto;" />
+                        </div>
+                    }
                 </div>
-                <div class="mb-3">
-                    <input asp-for="IsActive" class="form-check-input" />@* asp-for ile IsActive'e bağlandı *@
-                    <label asp-for="IsActive" class="form-check-label"></label>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="ImgUrl" class="form-label"></label>
-                    <input type="file" asp-for="ImgUrl" class="form-control" />
-                    <span asp-validation-for="ImgUrl" class="text-danger"></span>
-                </div>
+
                 <div class="mb-3">
                     <label asp-for="Location" class="form-label"></label>
                     <input asp-for="Location" class="form-control" />
                     <span asp-validation-for="Location" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i>
-                    Güncelle
-                </button>
-                <a class="btn btn-secondary" asp-controller="Users" asp-action="Index">
-                    <i class="fas fa-times"></i>
-                    İptal
-                </a>
+
+                <div class="mb-3 form-check">
+                    <input asp-for="IsActive" class="form-check-input" />
+                    <label asp-for="IsActive" class="form-check-label"></label>
+                </div>
+
+                <hr class="my-4" />
+                <h5>Rol Yönetimi</h5>
+                <p class="text-muted small">Kullanıcının mevcut rollerini aşağıda görebilir ve yeni roller atayabilirsiniz. Çoklu seçim için Ctrl (Windows) veya Command (Mac) tuşunu kullanın.</p>
+
+                <div class="mb-3">
+                    <label class="form-label">Mevcut Rolleri</label> @* asp-for kaldırıldı, sadece göstermek için *@
+                    <div class="form-control-plaintext">
+                        @if (Model.CurrentRoles != null && Model.CurrentRoles.Any())
+                        {
+                            foreach (var role in Model.CurrentRoles)
+                            {
+                                <span class="badge bg-info me-1">@role</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="text-muted">Bu kullanıcının atanmış rolü yok.</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="SelectedRoles" class="form-label">Roller (Seçim İçin)</label>
+                    <select asp-for="SelectedRoles" asp-items="Model.AllRoles" multiple class="form-select">
+                        @* Çoklu seçim kutusu, varsayılan olarak rol seçilmezse boş bir liste gönderecektir. *@
+                        @* Bu, rol atamayı zorunlu yapmama gereksinimini doğal olarak karşılar. *@
+                    </select>
+                    <span asp-validation-for="SelectedRoles" class="text-danger"></span>
+                </div>
+                
+                <hr class="my-4" />
+
+                <button type="submit" class="btn btn-primary me-2"><i class="fas fa-save"></i> Değişiklikleri Kaydet</button>
+                <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="btn btn-secondary"><i class="fas fa-times"></i> İptal</a>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Profil resmi URL'si değiştiğinde resmi önizleme (opsiyonel)
+        document.addEventListener('DOMContentLoaded', function () {
+            var profilImgUrlInput = document.getElementById('ProfilImgUrl'); 
+            var profilImgPreview = document.querySelector('.card-body .img-thumbnail'); 
+
+            if (profilImgUrlInput && profilImgPreview) {
+                profilImgUrlInput.addEventListener('input', function () {
+                    var newUrl = this.value;
+                    if (newUrl) {
+                        profilImgPreview.src = newUrl;
+                    } else {
+                        profilImgPreview.src = "https://via.placeholder.com/150"; 
+                    }
+                });
+            }
+        });
+    </script>
+}

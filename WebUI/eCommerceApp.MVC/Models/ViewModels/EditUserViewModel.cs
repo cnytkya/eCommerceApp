@@ -1,21 +1,19 @@
 ﻿using eCommerceApp.Application.DTOs.User;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering; // SelectListItem için
+using System.ComponentModel.DataAnnotations; // Display için
 
 namespace eCommerceApp.MVC.Models.ViewModels
 {
+    // EditUserDto'dan kalıtım alarak temel kullanıcı bilgilerini miras alıyoruz
     public class EditUserViewModel : EditUserDto
     {
-        //Kullanıcının o anki rolü
+        // UI'a özgü ek alanlar ve roller
         [Display(Name = "Mevcut Roller")]
-        public List<string> CurrentRoles { get; set; }
+        public List<string> CurrentRoles { get; set; } = new List<string>(); // Kullanıcının şu anki rolleri (sadece gösterim için)
 
-        // Formdan seçeceği roller
         [Display(Name = "Atanacak Roller")]
-        public List<string> SelectedRole { get; set; }
+        public List<string> SelectedRoles { get; set; } = new List<string>(); // Formdan seçilen yeni roller (POST için)
 
-        // Dropdown içerisine bütün rolleri ekleyelim.
-        public IEnumerable<SelectListItem> AllRoles { get; set; }
-
+        public IEnumerable<SelectListItem>? AllRoles { get; set; } // Dropdown için tüm roller (GET için)
     }
 }

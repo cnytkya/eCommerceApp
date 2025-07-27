@@ -1,0 +1,85 @@
+﻿@model UserDto 
+
+@{
+    ViewData["Title"] = "Kullanıcı Silme Onayı"; @* Sayfa başlığı *@
+    Layout = "_AdminLayout"; @* Admin paneli layout'unu kullanıyoruz *@
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Kullanıcı Silme Onayı</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Users" asp-action="Index">Kullanıcılar</a></li>
+        <li class="breadcrumb-item active">Sil</li> @* Aktif sayfa başlığı *@
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header bg-danger text-white">
+            @* Başlık kısmı, silme işlemi olduğu için kırmızı arkaplan ve uyarı ikonu *@
+            <i class="fas fa-exclamation-triangle me-1"></i>
+            Kullanıcı Silme Uyarısı
+        </div>
+        <div class="card-body">
+            @* Kullanıcıya silme işleminin soft delete olduğunu belirten açıklama *@
+            <p class="mb-3">Aşağıdaki kullanıcıyı silmek istediğinizden emin misiniz? Bu işlem, kullanıcıyı pasif hale getirecek ve listeden kaldıracaktır. (Fiziksel olarak silinmeyecektir.)</p>
+            
+            @* Kullanıcının detay bilgilerini görüntüleme *@
+            <dl class="row">
+                <dt class="col-sm-3">Tam Ad:</dt>
+                <dd class="col-sm-9">@Model.Fullname</dd>
+
+                <dt class="col-sm-3">Email:</dt>
+                <dd class="col-sm-9">@Model.Email</dd>
+
+                <dt class="col-sm-3">Kayıt Tarihi:</dt>
+                <dd class="col-sm-9">@Model.RegistrationDate.ToShortDateString()</dd>
+
+                <dt class="col-sm-3">Aktif Mi?</dt>
+                <dd class="col-sm-9">
+                    @* Kullanıcının aktiflik durumuna göre badge gösterimi *@
+                    @if (Model.IsActive)
+                    {
+                        <span class="badge bg-success">Aktif</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Pasif</span>
+                    }
+                </dd>
+                <dt class="col-sm-3">Roller:</dt>
+                <dd class="col-sm-9">
+                     @* Kullanıcının rollerini badge olarak listeleme *@
+                     @if (Model.Roles != null && Model.Roles.Any())
+                    {
+                        foreach (var role in Model.Roles)
+                        {
+                            <span class="badge bg-secondary me-1">@role</span>
+                        }
+                    }
+                    else
+                    {
+                        <span class="text-muted">Rol Yok</span>
+                    }
+                </dd>
+            </dl>
+            
+            <hr /> @* Ayırıcı çizgi *@
+
+            @* Silme işlemini tetikleyecek POST formu *@
+            <form asp-area="Admin" asp-controller="Users" asp-action="Delete" method="post">
+                @Html.AntiForgeryToken() @* CSRF saldırılarına karşı koruma için Anti-Forgery Token *@
+
+                @* Silinecek kullanıcının ID'sini gizli bir input alanı olarak gönderiyoruz *@
+                <input type="hidden" asp-for="Id" /> 
+
+                @* Silme ve İptal Butonları *@
+                <button type="submit" class="btn btn-danger me-2"><i class="fas fa-trash"></i> Sil</button>
+                <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="btn btn-secondary"><i class="fas fa-times"></i> İptal</a>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @* Bu sayfada form üzerinde validasyon kuralları olmadığı için genellikle özel validasyon scriptlerine ihtiyaç duyulmaz. *@
+    @* Sadece temel layout scriptleri yeterlidir. *@
+}

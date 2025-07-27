@@ -1,0 +1,104 @@
+﻿@model IEnumerable<UserDto>
+
+@{
+    ViewData["Title"] = "Çöp Kutusu"; @* Sayfa başlığı *@
+    Layout = "_AdminLayout"; @* Admin paneli layout'unu kullanıyoruz *@
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Çöp Kutusu</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Users" asp-action="Index">Kullanıcılar</a></li>
+        <li class="breadcrumb-item active">Çöp Kutusu</li> @* Aktif sayfa başlığı *@
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-white">
+            @* Başlık kısmı, uyarı renginde (sarı) arkaplan ve çöp kutusu ikonu *@
+            <i class="fas fa-trash-alt me-1"></i>
+            Silinmiş Kullanıcılar Listesi
+        </div>
+        <div class="card-body">
+            @* DataTables kütüphanesi için tablo *@
+            <table id="datatablesSimple" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Tam Ad</th>
+                        <th>Email</th>
+                        <th>Roller</th>
+                        <th>Silinme Tarihi</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Her soft-silinmiş kullanıcı için döngü *@
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Fullname</td>
+                            <td>@user.Email</td>
+                            <td>
+                                @* Kullanıcının rollerini badge olarak listeleme *@
+                                @if (user.Roles != null && user.Roles.Any())
+                                {
+                                    foreach (var role in user.Roles)
+                                    {
+                                        <span class="badge bg-secondary me-1">@role</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Rol Yok</span>
+                                }
+                            </td>
+                            <td>@user.DeletedDate?.ToShortDateString()</td> @* Nullable DateTime olduğu için ?. kullanıyoruz *@
+                            <td>
+                                @* Geri Yükle butonu *@
+                                <button type="button" class="btn btn-success btn-sm" onclick="confirmRestore('@user.Id', '@user.Fullname')"><i class="fas fa-undo"></i> Geri Yükle</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmRestore(userId, userName) {
+            // Kullanıcıya onay penceresi gösteriyoruz
+            if (confirm('"' + userName + '" adlı kullanıcıyı geri yüklemek istediğinizden emin misiniz?')) {
+                // Dinamik olarak bir form elementi oluşturuyoruz
+                var form = document.createElement('form');
+                form.method = 'post'; // Formun POST metoduyla gönderilmesini sağlıyoruz
+                // Formun gönderileceği URL'i belirliyoruz (Admin/User/Restore)
+                form.action = '@Url.Action("Restore", "Users", new { area = "Admin" })'; 
+
+                // Kullanıcı ID'sini taşıyacak gizli bir input alanı oluşturuyoruz
+                var input = document.createElement('input');
+                input.type = 'hidden'; // Gizli input
+                input.name = 'id'; // Controller'daki parametre adı
+                input.value = userId; // Geri yüklenecek kullanıcının ID'si
+                form.appendChild(input); // Input'u forma ekliyoruz
+
+                // CSRF (Çapraz Site İstek Sahteciliği) saldırılarına karşı koruma için
+                // __RequestVerificationToken'ı gizli bir input olarak forma ekliyoruz
+                var antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]');
+                if (antiforgeryToken) {
+                    var tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = '__RequestVerificationToken';
+                    tokenInput.value = antiforgeryToken.value;
+                    form.appendChild(tokenInput);
+                }
+
+                // Oluşturduğumuz formu HTML body'sine ekliyoruz
+                document.body.appendChild(form);
+                // Formu programatik olarak gönderiyoruz
+                form.submit();
+            }
+        }
+    </script>
+}

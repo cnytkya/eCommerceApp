@@ -19,7 +19,7 @@ namespace eCommerceApp.Application.DTOs.User
         [StringLength(500, ErrorMessage = "Biyografi en fazla 500 karakter uzunluğunda olmalı")]
         public string? Bio { get; set; }
         [Display(Name = "Profile Resmi URL")]
-        public string? ImgUrl { get; set; }
+        public string? ProfilImgUrl { get; set; }
 
         [Display(Name = "Konum Bilgisi")]
         [StringLength(100, ErrorMessage = "Konum en fazla 100 karakter uzunluğunda olmalı.")]

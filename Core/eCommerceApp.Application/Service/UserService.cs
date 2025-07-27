@@ -36,7 +36,7 @@ namespace eCommerceApp.Application.Service
                     Fullname = user.Fullname ?? "N/A", //null kontrolü
                     Email = user.Email,
                     Bio = user.Bio,
-                    ImgUrl = user.ProfilImgUrl,
+                    ProfilImgUrl = user.ProfilImgUrl,
                     Location = user.Location,
                     IsActive = user.IsActive,
                     LastLoginDate = user.LastLoginDate,
@@ -62,7 +62,7 @@ namespace eCommerceApp.Application.Service
                 Email = createUserDto.Email,
                 UserName = createUserDto.Email,
                 Bio = createUserDto.Bio,
-                ProfilImgUrl = createUserDto.ImgUrl,
+                ProfilImgUrl = createUserDto.ProfilImgUrl,
                 IsActive = createUserDto.IsActive,//cretauserdto'dan IsActive bilgisini alıyoruz.
                 RegistrationDate = DateTime.Now,
                 CreatedDate = DateTime.UtcNow,
@@ -121,7 +121,7 @@ namespace eCommerceApp.Application.Service
             //Diğer profil bilgilerini EditUserDto'dan AppUser entity'sine aktar.
             user.Fullname = editUserDto.Fullname;
             user.Bio = editUserDto.Bio;
-            user.ProfilImgUrl = editUserDto.ImgUrl;
+            user.ProfilImgUrl = editUserDto.ProfilImgUrl;
             user.Location = editUserDto.Location;
             user.IsActive = editUserDto.IsActive;//Aktif-Pasif olma durumunu güncelleyebilir.
             user.ModifiedDate = DateTime.UtcNow;//son güncellenme tarihini al
@@ -151,13 +151,108 @@ namespace eCommerceApp.Application.Service
                 Fullname = user.Fullname ?? "N/A",
                 Email = user.Email ?? "N/A",
                 Bio = user.Bio,
-                ImgUrl = user.ProfilImgUrl,
+                ProfilImgUrl = user.ProfilImgUrl,
                 Location= user.Location,
                 IsActive = user.IsActive,
                 LastLoginDate = user.LastLoginDate,
                 RegistrationDate = user.RegistrationDate,
                 Roles = roles.ToList()
             };
+        }
+
+        // TÜM SOFT-SİLİNMİŞ KULLANICILARI GETİRME METODU
+        public async Task<IEnumerable<UserDto>> GetAllDeletedUsersAsync()
+        {
+            // Sadece silinmiş (IsDeleted == true) kullanıcıları getiriyoruz
+            var users = await _userRepository.FindAsync(u => u.IsDeleted == true);
+
+            var userDtos = new List<UserDto>();
+            foreach (var user in users)
+            {
+                // Silinmiş kullanıcıların rollerini de çekiyoruz
+                var roles = await _userManager.GetRolesAsync(user);
+
+                userDtos.Add(new UserDto
+                {
+                    Id = user.Id,
+                    Fullname = user.Fullname ?? "N/A",
+                    Email = user.Email ?? "N/A",
+                    Bio = user.Bio,
+                    ProfilImgUrl = user.ProfilImgUrl,
+                    Location = user.Location,
+                    IsActive = user.IsActive,
+                    LastLoginDate = user.LastLoginDate,
+                    RegistrationDate = user.RegistrationDate,
+                    Roles = roles.ToList(),
+                    IsDeleted = user.IsDeleted,
+                    DeletedDate = user.DeletedDate, // DeletedDate'i DTO'ya eklemiştik
+                    DeletedBy = user.DeletedBy
+                });
+            }
+            return userDtos;
+        }
+
+        // KULLANICIYI GERİ YÜKLEME METODU
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> RestoreUserAsync(string userId, string restoredBy)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return (false, new[] { "Geri yüklenecek kullanıcı bulunamadı." });
+            }
+
+            if (!user.IsDeleted) // Eğer zaten silinmemişse geri yüklemeye çalışma
+            {
+                return (false, new[] { "Kullanıcı zaten silinmiş durumda değil." });
+            }
+
+            user.IsDeleted = false; // Silindi bayrağını kaldır
+            user.IsActive = true;   // Kullanıcıyı tekrar aktif yap
+            user.DeletedDate = null; // Silinme tarihini sıfırla
+            user.DeletedBy = null;   // Kimin sildiğini sıfırla
+            user.ModifiedDate = DateTime.UtcNow; // Güncelleme tarihini işaretle
+            user.ModifiedBy = restoredBy; // Kimin geri yüklediğini de kaydedelim (isteğe bağlı)
+
+            _userRepository.Update(user); // EF Core değişikliği izleyecek
+
+            // UserManager üzerinden güncelleme, Identity'nin internal state'ini de günceller
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return (false, updateResult.Errors.Select(e => e.Description));
+            }
+
+            await _userRepository.SaveChangesAync(); // Değişiklikleri veritabanına kaydet
+
+            return (true, Enumerable.Empty<string>());
+        }
+
+        // KULLANICIYI SOFT DELETE İLE SİLME METODU
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> SoftDeleteUserAsync(string userId, string deletedBy)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return (false, new[] { "Silinecek kullanıcı bulunamadı." });
+            }
+
+            user.IsDeleted = true;
+            user.IsActive = false; // Silinen kullanıcıyı aynı zamanda pasif yap
+            user.DeletedDate = DateTime.UtcNow;
+            user.DeletedBy = deletedBy;
+            user.ModifiedDate = DateTime.UtcNow; // Güncelleme tarihini de işaretle
+
+            _userRepository.Update(user); // EF Core değişikliği izleyecektir
+
+            var updateResult = await _userManager.UpdateAsync(user); // Identity'nin de güncellemeyi tanıması için
+            if (!updateResult.Succeeded)
+            {
+                return (false, updateResult.Errors.Select(e => e.Description));
+            }
+
+            await _userRepository.SaveChangesAync(); // Değişiklikleri kaydet
+
+            return (true, Enumerable.Empty<string>());
         }
     }
 }

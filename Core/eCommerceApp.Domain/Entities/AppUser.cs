@@ -29,7 +29,7 @@ namespace eCommerceApp.Domain.Entities
 
         //Soft delete
         public bool IsDeleted { get; set; }
-        public DateTime DeletedDate { get; set; } = DateTime.UtcNow;
+        public DateTime? DeletedDate { get; set; } = DateTime.UtcNow;
         public string? DeletedBy { get; set; }
     }
 }

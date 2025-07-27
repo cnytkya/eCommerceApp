@@ -14,5 +14,13 @@ namespace eCommerceApp.Application.Interface
         //user güncelleme metodu
         Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(EditUserDto editUserDto);
 
+        // KULLANICIYI SOFT DELETE İLE SİLMEK İÇİN
+        Task<(bool Succeeded, IEnumerable<string> Errors)> SoftDeleteUserAsync(string userId, string deletedBy);
+        // TÜM SOFT-SİLİNMİŞ KULLANICILARI LİSTELEMEK İÇİN
+        Task<IEnumerable<UserDto>> GetAllDeletedUsersAsync();
+
+        // SOFT-SİLİNMİŞ BİR KULLANICIYI GERİ YÜKLEMEK İÇİN
+        Task<(bool Succeeded, IEnumerable<string> Errors)> RestoreUserAsync(string userId, string restoredBy);
+
     }
 }

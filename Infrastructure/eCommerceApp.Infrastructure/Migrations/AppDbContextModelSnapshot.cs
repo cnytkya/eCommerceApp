@@ -51,13 +51,13 @@ namespace eCommerceApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6b791d3e-406c-4b8c-a188-f6a33451bc15",
+                            Id = "755dea4e-772e-487f-ace7-4eed35ea84d1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e15a4156-2867-4c9a-83c7-c9f0f1dc28e2",
+                            Id = "59c3ac8f-ded2-461a-87be-0e104b166088",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -152,13 +152,13 @@ namespace eCommerceApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "8cc9641b-ffca-4409-9aa8-178cae8112ed",
-                            RoleId = "6b791d3e-406c-4b8c-a188-f6a33451bc15"
+                            UserId = "74f25bef-2268-4486-8436-a4189f04f022",
+                            RoleId = "755dea4e-772e-487f-ace7-4eed35ea84d1"
                         },
                         new
                         {
-                            UserId = "476ff7bb-d243-4b7f-a4c7-88360245b763",
-                            RoleId = "e15a4156-2867-4c9a-83c7-c9f0f1dc28e2"
+                            UserId = "6b837925-fa3f-4bd9-b18f-4b5ce9d60128",
+                            RoleId = "59c3ac8f-ded2-461a-87be-0e104b166088"
                         });
                 });
 
@@ -205,7 +205,7 @@ namespace eCommerceApp.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DeletedDate")
+                    b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -290,49 +290,49 @@ namespace eCommerceApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8cc9641b-ffca-4409-9aa8-178cae8112ed",
+                            Id = "74f25bef-2268-4486-8436-a4189f04f022",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cccc3080-f456-4218-8c73-e33af7a6e78d",
-                            CreatedDate = new DateTime(2025, 6, 28, 10, 26, 30, 490, DateTimeKind.Utc).AddTicks(1845),
-                            DeletedDate = new DateTime(2025, 6, 28, 10, 26, 30, 491, DateTimeKind.Utc).AddTicks(9379),
+                            ConcurrencyStamp = "192b402a-e806-4315-bfa9-4684cf3cf40f",
+                            CreatedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            DeletedDate = new DateTime(2025, 7, 27, 7, 26, 59, 967, DateTimeKind.Utc).AddTicks(3405),
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             Fullname = "Admin User",
                             IsActive = true,
                             IsDeleted = false,
-                            LastLoginDate = new DateTime(2025, 6, 28, 10, 26, 30, 490, DateTimeKind.Utc).AddTicks(1845),
+                            LastLoginDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
                             LockoutEnabled = false,
-                            ModifiedDate = new DateTime(2025, 6, 28, 10, 26, 30, 490, DateTimeKind.Utc).AddTicks(1845),
+                            ModifiedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMuu8pDn1Mv8ur4hj/4JmR/ZMzNQy8UNbEl/OLa/xsef4oLd4FoismeH8jxtJZJsKg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ4LplCcv/e6F421uBGYjj/RVtEcyU3uQxtAfVZmCQ/bON7RgjPmb+n3ISLpWzdfzA==",
                             PhoneNumberConfirmed = false,
-                            RegistrationDate = new DateTime(2025, 6, 28, 10, 26, 30, 490, DateTimeKind.Utc).AddTicks(1845),
-                            SecurityStamp = "74c8a027-6087-4478-8f02-a072d05652a5",
+                            RegistrationDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            SecurityStamp = "695a8043-830b-4549-a3e4-927418ea45eb",
                             TwoFactorEnabled = false,
                             UserName = "admin@example.com"
                         },
                         new
                         {
-                            Id = "476ff7bb-d243-4b7f-a4c7-88360245b763",
+                            Id = "6b837925-fa3f-4bd9-b18f-4b5ce9d60128",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "81b5bacc-3ec7-4e7d-b3b2-52924357ad45",
-                            CreatedDate = new DateTime(2025, 6, 28, 10, 26, 30, 490, DateTimeKind.Utc).AddTicks(1845),
-                            DeletedDate = new DateTime(2025, 6, 28, 10, 26, 30, 535, DateTimeKind.Utc).AddTicks(2498),
+                            ConcurrencyStamp = "9e485cf7-f9ed-447c-a691-f5ad8d5fdae7",
+                            CreatedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            DeletedDate = new DateTime(2025, 7, 27, 7, 27, 0, 14, DateTimeKind.Utc).AddTicks(9666),
                             Email = "user@example.com",
                             EmailConfirmed = true,
                             Fullname = "Regular User",
                             IsActive = true,
                             IsDeleted = false,
-                            LastLoginDate = new DateTime(2025, 6, 28, 10, 26, 30, 490, DateTimeKind.Utc).AddTicks(1845),
+                            LastLoginDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
                             LockoutEnabled = false,
-                            ModifiedDate = new DateTime(2025, 6, 28, 10, 26, 30, 490, DateTimeKind.Utc).AddTicks(1845),
+                            ModifiedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
                             NormalizedEmail = "USER@EXAMPLE.COM",
                             NormalizedUserName = "USER@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPierKHsiYIRwgiJVVCHFiv6RDJnlnmdQ10HHwJmbCfJVvGYFYjfGeXRuEhjaHFDrw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGV0/+ZwI3/SLowqyK8T5eN6/3pN5ZqcCjDzDFGziYEmbs0k2GTQppnMihfNI2EC5A==",
                             PhoneNumberConfirmed = false,
-                            RegistrationDate = new DateTime(2025, 6, 28, 10, 26, 30, 490, DateTimeKind.Utc).AddTicks(1845),
-                            SecurityStamp = "54fb603d-d4fb-40db-bcfd-6a6e7919bfd1",
+                            RegistrationDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            SecurityStamp = "91799093-cd37-419f-a40b-c982f059195e",
                             TwoFactorEnabled = false,
                             UserName = "user@example.com"
                         });

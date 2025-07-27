@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace eCommerceApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Mig1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,7 +44,7 @@ namespace eCommerceApp.Infrastructure.Migrations
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -168,6 +170,33 @@ namespace eCommerceApp.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "59c3ac8f-ded2-461a-87be-0e104b166088", null, "User", "USER" },
+                    { "755dea4e-772e-487f-ace7-4eed35ea84d1", null, "Admin", "ADMIN" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Bio", "ConcurrencyStamp", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "Email", "EmailConfirmed", "Fullname", "IsActive", "IsDeleted", "LastLoginDate", "Location", "LockoutEnabled", "LockoutEnd", "ModifiedBy", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilImgUrl", "RegistrationDate", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "6b837925-fa3f-4bd9-b18f-4b5ce9d60128", 0, null, "9e485cf7-f9ed-447c-a691-f5ad8d5fdae7", null, new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978), null, new DateTime(2025, 7, 27, 7, 27, 0, 14, DateTimeKind.Utc).AddTicks(9666), "user@example.com", true, "Regular User", true, false, new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978), null, false, null, null, new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978), "USER@EXAMPLE.COM", "USER@EXAMPLE.COM", "AQAAAAIAAYagAAAAEGV0/+ZwI3/SLowqyK8T5eN6/3pN5ZqcCjDzDFGziYEmbs0k2GTQppnMihfNI2EC5A==", null, false, null, new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978), "91799093-cd37-419f-a40b-c982f059195e", false, "user@example.com" },
+                    { "74f25bef-2268-4486-8436-a4189f04f022", 0, null, "192b402a-e806-4315-bfa9-4684cf3cf40f", null, new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978), null, new DateTime(2025, 7, 27, 7, 26, 59, 967, DateTimeKind.Utc).AddTicks(3405), "admin@example.com", true, "Admin User", true, false, new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978), null, false, null, null, new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978), "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEJ4LplCcv/e6F421uBGYjj/RVtEcyU3uQxtAfVZmCQ/bON7RgjPmb+n3ISLpWzdfzA==", null, false, null, new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978), "695a8043-830b-4549-a3e4-927418ea45eb", false, "admin@example.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "59c3ac8f-ded2-461a-87be-0e104b166088", "6b837925-fa3f-4bd9-b18f-4b5ce9d60128" },
+                    { "755dea4e-772e-487f-ace7-4eed35ea84d1", "74f25bef-2268-4486-8436-a4189f04f022" }
                 });
 
             migrationBuilder.CreateIndex(

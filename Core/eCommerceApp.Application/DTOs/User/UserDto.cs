@@ -18,7 +18,7 @@ namespace eCommerceApp.Application.DTOs.User
         [StringLength(500, ErrorMessage = "Biyografi en fazla 500 karakter uzunluğunda olmalı")]
         public string? Bio { get; set; }
         [Display(Name = "Profile Resmi URL")]
-        public string? ImgUrl { get; set; }
+        public string? ProfilImgUrl { get; set; }
 
         [Display(Name = "Konum Bilgisi")]
         [StringLength(100, ErrorMessage = "Konum en fazla 100 karakter uzunluğunda olmalı.")]
@@ -29,6 +29,9 @@ namespace eCommerceApp.Application.DTOs.User
 
         [Display(Name = "Silinmiş Mi?")]
         public bool IsDeleted { get; set; }
+        public DateTime? DeletedDate { get; set; } = DateTime.UtcNow;
+
+        public string? DeletedBy { get; set; }
 
         [Display(Name = "Son Giriş Tarihi")]
         public DateTime LastLoginDate { get; set; }

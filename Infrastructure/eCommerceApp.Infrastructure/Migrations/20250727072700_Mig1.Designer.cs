@@ -12,8 +12,8 @@ using eCommerceApp.Infrastructure.Persistence;
 namespace eCommerceApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250622084024_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250727072700_Mig1")]
+    partial class Mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,20 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "755dea4e-772e-487f-ace7-4eed35ea84d1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "59c3ac8f-ded2-461a-87be-0e104b166088",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -137,6 +151,18 @@ namespace eCommerceApp.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "74f25bef-2268-4486-8436-a4189f04f022",
+                            RoleId = "755dea4e-772e-487f-ace7-4eed35ea84d1"
+                        },
+                        new
+                        {
+                            UserId = "6b837925-fa3f-4bd9-b18f-4b5ce9d60128",
+                            RoleId = "59c3ac8f-ded2-461a-87be-0e104b166088"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -182,7 +208,7 @@ namespace eCommerceApp.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DeletedDate")
+                    b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -263,6 +289,56 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "74f25bef-2268-4486-8436-a4189f04f022",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "192b402a-e806-4315-bfa9-4684cf3cf40f",
+                            CreatedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            DeletedDate = new DateTime(2025, 7, 27, 7, 26, 59, 967, DateTimeKind.Utc).AddTicks(3405),
+                            Email = "admin@example.com",
+                            EmailConfirmed = true,
+                            Fullname = "Admin User",
+                            IsActive = true,
+                            IsDeleted = false,
+                            LastLoginDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            LockoutEnabled = false,
+                            ModifiedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ4LplCcv/e6F421uBGYjj/RVtEcyU3uQxtAfVZmCQ/bON7RgjPmb+n3ISLpWzdfzA==",
+                            PhoneNumberConfirmed = false,
+                            RegistrationDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            SecurityStamp = "695a8043-830b-4549-a3e4-927418ea45eb",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@example.com"
+                        },
+                        new
+                        {
+                            Id = "6b837925-fa3f-4bd9-b18f-4b5ce9d60128",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9e485cf7-f9ed-447c-a691-f5ad8d5fdae7",
+                            CreatedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            DeletedDate = new DateTime(2025, 7, 27, 7, 27, 0, 14, DateTimeKind.Utc).AddTicks(9666),
+                            Email = "user@example.com",
+                            EmailConfirmed = true,
+                            Fullname = "Regular User",
+                            IsActive = true,
+                            IsDeleted = false,
+                            LastLoginDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            LockoutEnabled = false,
+                            ModifiedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            NormalizedEmail = "USER@EXAMPLE.COM",
+                            NormalizedUserName = "USER@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGV0/+ZwI3/SLowqyK8T5eN6/3pN5ZqcCjDzDFGziYEmbs0k2GTQppnMihfNI2EC5A==",
+                            PhoneNumberConfirmed = false,
+                            RegistrationDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
+                            SecurityStamp = "91799093-cd37-419f-a40b-c982f059195e",
+                            TwoFactorEnabled = false,
+                            UserName = "user@example.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
