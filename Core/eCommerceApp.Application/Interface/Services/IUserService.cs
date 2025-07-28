@@ -1,6 +1,6 @@
 ﻿using eCommerceApp.Application.DTOs.User;
 
-namespace eCommerceApp.Application.Interface
+namespace eCommerceApp.Application.Interface.Services
 {
     public interface IUserService
     {

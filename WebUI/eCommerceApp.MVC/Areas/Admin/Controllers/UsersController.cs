@@ -1,6 +1,7 @@
 ﻿using eCommerceApp.Application.DTOs.User;
-using eCommerceApp.Application.Interface;
+using eCommerceApp.Application.Interface.Services;
 using eCommerceApp.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity; // UserManager, RoleManager için
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering; // SelectListItem için
@@ -10,7 +11,7 @@ using System.Security.Claims; // ClaimTypes için
 namespace eCommerceApp.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    // [Authorize(Roles = "Admin")] // Bu Controller'a sadece Admin rolüne sahip kullanıcılar erişebilir (henüz aktif değil)
+    //[Authorize(Roles = "Admin")]  Bu Controller'a sadece Admin rolüne sahip kullanıcılar erişebilir (henüz aktif değil)
     public class UsersController : Controller
     {
         private readonly IUserService _userService;

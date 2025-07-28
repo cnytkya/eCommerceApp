@@ -1,6 +1,6 @@
 ﻿using eCommerceApp.Domain.Entities;
 
-namespace eCommerceApp.Application.Interface
+namespace eCommerceApp.Application.Interface.Repositories
 {
     public interface IUserRepository : IRepository<AppUser>
     {

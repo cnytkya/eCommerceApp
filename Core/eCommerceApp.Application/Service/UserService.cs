@@ -1,5 +1,6 @@
 ﻿using eCommerceApp.Application.DTOs.User;
-using eCommerceApp.Application.Interface;
+using eCommerceApp.Application.Interface.Repositories;
+using eCommerceApp.Application.Interface.Services;
 using eCommerceApp.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
