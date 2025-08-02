@@ -17,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Conf
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 //login ve register ayarlarý
 // Identity servislerini uygulamaya ekler ve AppUser ile IdentityRole modellerini kullanacaðýný container'a belirtmemiz gerekir.

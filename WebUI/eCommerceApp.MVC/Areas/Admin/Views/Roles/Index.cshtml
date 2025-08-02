@@ -1,1 +1,53 @@
-﻿Burası Role Index
+﻿@model IEnumerable<RoleDto>
+
+@{
+    ViewData["Title"] = "Roller";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Roller</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item active">Roller</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Rol Listesi
+
+            <a asp-controller="Roles" asp-action="Create" title="Yeni Rol Oluştur" class="btn btn-primary btn-sm float-end">
+                <i class="fas fa-plus-circle"></i>
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table id="datatablesSimple" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Role Adı</th>
+                        <th>Kullanıcı Sayısı</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var role in Model)
+                    {
+                        <tr>
+                            <td>@role.Name</td>
+                            <td>@role.Count</td>
+                            <td>
+                                <a class="btn btn-warning btn-sm me-1" title="Düzenle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a class="btn btn-danger btn-sm me-1" title="Sil">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
