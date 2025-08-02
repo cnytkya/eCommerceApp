@@ -11,7 +11,7 @@ using System.Security.Claims; // ClaimTypes için
 namespace eCommerceApp.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Admin")]  Bu Controller'a sadece Admin rolüne sahip kullanıcılar erişebilir (henüz aktif değil)
+    //[Authorize(Roles = "Admin")]  //Bu Controller'a sadece Admin rolüne sahip kullanıcılar erişebilir (henüz aktif değil)
     public class UsersController : Controller
     {
         private readonly IUserService _userService;

@@ -111,9 +111,27 @@ namespace eCommerceApp.Application.Service
             throw new NotImplementedException();
         }
 
-        public Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateRoleAsync(EditRoleDto editRoleDto)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateRoleAsync(EditRoleDto editRoleDto)
         {
-            throw new NotImplementedException();
+            var role = await _roleManager.FindByIdAsync(editRoleDto.Id);//Rolü Id'ye göre getir.
+            //Eğer yoksa bulunamadı hatası ver.
+            if (role == null)
+            {
+                return (false, new[] {"Güncellencek rol bulunamadı!"});
+            }
+            //Rol bilgisi değişmişse kontrol et
+            if (role.Name != editRoleDto.Name)//eğer kullanıcının inputu mevcut rolden farklıysa
+            {
+                //Yeni rol adı zaten mevcut mu
+                if (await _roleManager.RoleExistsAsync(editRoleDto.Name))
+                {
+                    return (false, new[] { "Bu rol adı zaten mevcut!" });
+                }
+                role.Name = editRoleDto.Name;
+                role.NormalizedName = _roleManager.NormalizeKey(editRoleDto.Name);//Normalize edilmiş rolü güncelle
+            }
+            var result = await _roleManager.UpdateAsync(role);
+            return (result.Succeeded, result.Errors.Select(e => e.Description));
         }
     }
 }
