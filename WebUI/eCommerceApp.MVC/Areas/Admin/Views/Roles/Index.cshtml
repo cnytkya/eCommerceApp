@@ -37,7 +37,7 @@
                             <td>@role.Name</td>
                             <td>@role.Count</td>
                             <td>
-                                <a class="btn btn-warning btn-sm me-1" title="Düzenle">
+                                <a asp-controller="Roles" asp-action="Edit" asp-route-roleId="@role.Id" class="btn btn-warning btn-sm me-1" title="Düzenle">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <a class="btn btn-danger btn-sm me-1" title="Sil">

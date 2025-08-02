@@ -1,0 +1,46 @@
+﻿@model CreateRoleDto
+
+@{
+    ViewData["Title"] = "Yeni Role Ekle";
+}
+
+<div class="container-fluid px-4">
+    <h1 mt-4>Role Ekle</h1> @*mt-4  üstten margin(boşluk) ekler*@
+    <ol class="breadcrumb mb-4">
+        @*mb-4  alttan margin(boşluk) ekler*@
+        <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Roles" asp-action="Index">Roller</a>
+        </li>
+        <li class="breadcrumb-item active">Yeni Role Ekle</li>
+    </ol>
+
+    <div class="card mb-4">
+        @* card header *@
+        <div class="card-header">
+            <i class="fas fa-user-plus me-1"></i>
+            Yeni Role Formu
+        </div>
+        @* card body (form kısmı)*@
+        <div class="card-body">
+            <form asp-controller="Roles" asp-action="Create" method="post">
+
+                @* dış tehditlere karşı koruma  *@
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    Kaydet
+                </button>
+                <a class="btn btn-secondary" asp-controller="Roles" asp-action="Index">
+                    <i class="fas fa-times"></i>
+                    İptal
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
