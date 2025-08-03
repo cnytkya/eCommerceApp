@@ -1,0 +1,47 @@
+﻿@model RoleDto
+
+@{
+    ViewData["Title"] = "Role Silme Onayı"; @* Sayfa başlığı *@
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">@ViewData["Title"]</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Roles" asp-action="Index">Roles</a></li>
+        <li class="breadcrumb-item active">@ViewData["Title"]</li> @* Aktif sayfa başlığı *@
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header bg-danger text-white">
+            @* Başlık kısmı, silme işlemi olduğu için kırmızı arkaplan ve uyarı ikonu *@
+            <i class="fas fa-exclamation-triangle me-1"></i>
+            Role Silme Uyarısı
+        </div>
+        <div class="card-body">
+            <p class="mb-3">Aşağıdaki kullanıcıyı silmek istediğinizden emin misiniz? Bu işlem, kullanıcıyı pasif hale getirecek ve listeden kaldıracaktır. (Fiziksel olarak silinmeyecektir.)</p>
+
+            @* Rol detay bilgilerini görüntüleme *@
+            <dl class="row">
+                <dt class="col-sm-3">Tam Ad:</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">Kullanıcı Sayısı:</dt>
+                <dd class="col-sm-9">@Model.Count</dd>
+            </dl>
+
+            <hr /> @* Ayırıcı çizgi *@
+
+            @* Silme işlemini tetikleyecek POST formu *@
+            <form asp-controller="Roles" asp-action="Delete" method="post">
+                @Html.AntiForgeryToken() @* CSRF saldırılarına karşı koruma için Anti-Forgery Token *@
+
+                @* Silinecek kullanıcının ID'sini gizli bir input alanı olarak gönderiyoruz *@
+                <input type="hidden" asp-for="Id" />
+
+                @* Silme ve İptal Butonları *@
+                <button type="submit" class="btn btn-danger me-2"><i class="fas fa-trash"></i> Sil</button>
+                <a asp-controller="Roles" asp-action="Index" class="btn btn-secondary"><i class="fas fa-times"></i> İptal</a>
+            </form>
+        </div>
+    </div>
+</div>

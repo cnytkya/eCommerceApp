@@ -1,6 +1,5 @@
 ﻿using eCommerceApp.Application.DTOs.Role;
 using eCommerceApp.Application.Interface.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerceApp.MVC.Areas.Admin.Controllers
@@ -18,6 +17,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewData["Title"] = "RolLer Sayfası";
             var roles = await _roleService.GetAllRolesAsync();
             return View(roles);
         }
@@ -25,6 +25,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            ViewData["Title"] = "Yeni Role Oluştur";
             return View();
         }
         [HttpPost]
@@ -57,6 +58,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string roleId)
         {
+            ViewData["Title"] = "Role Düzenle";
             if (string.IsNullOrEmpty(roleId))
             {
                 TempData["ErrorMessage"] = "Düzenlenecek rol Id'si bulunamadı!!!";
@@ -81,6 +83,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditRoleDto editRoleDto)
         {
+            ViewData["Title"] = "Role Düzenle";
             if (!ModelState.IsValid)
             {
                 TempData["ErrorMessage"] = "Rol adı boş bırakılamaz.";
@@ -101,6 +104,12 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Rol güncellenirken bir hata oluştu";
                 return View(editRoleDto);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string deleteRoleId)
+        {
+            return View();
         }
     }
 }

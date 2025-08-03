@@ -11,7 +11,7 @@ using System.Security.Claims; // ClaimTypes için
 namespace eCommerceApp.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]  //Bu Controller'a sadece Admin rolüne sahip kullanıcılar erişebilir (henüz aktif değil)
+    //[Authorize(Roles = "Admin")]  Bu Controller'a sadece Admin rolüne sahip kullanıcılar erişebilir (henüz aktif değil)
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -233,7 +233,6 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            ViewData["Title"] = "Kullanıcı Silme Onayı";
             if (string.IsNullOrEmpty(id))
             {
                 TempData["ErrorMessage"] = "Silinecek kullanıcı ID'si belirtilmedi.";

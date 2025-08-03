@@ -1,11 +1,7 @@
 ﻿@model IEnumerable<RoleDto>
 
-@{
-    ViewData["Title"] = "Roller";
-}
-
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Roller</h1>
+    <h1 class="mt-4">@ViewData["Title"]</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
         <li class="breadcrumb-item active">Roller</li>
@@ -40,7 +36,7 @@
                                 <a asp-controller="Roles" asp-action="Edit" asp-route-roleId="@role.Id" class="btn btn-warning btn-sm me-1" title="Düzenle">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a class="btn btn-danger btn-sm me-1" title="Sil">
+                                <a asp-controller="Roles" asp-action="Delete" class="btn btn-danger btn-sm me-1" title="Sil">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>

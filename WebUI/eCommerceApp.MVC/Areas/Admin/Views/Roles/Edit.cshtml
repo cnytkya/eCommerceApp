@@ -1,11 +1,11 @@
 ﻿@model EditRoleDto
 
-@{
+@* @{
     ViewData["Title"] = "Role Düzenle";
-}
+} *@
 
 <div class="container-fluid px-4">
-    <h1 mt-4>Role Düzenle</h1> @*mt-4  üstten margin(boşluk) ekler*@
+    <h1 class="mt-4">@ViewData["Title"]</h1> @*mt-4  üstten margin(boşluk) ekler*@
     <ol class="breadcrumb mb-4">
         @*mb-4  alttan margin(boşluk) ekler*@
         <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>

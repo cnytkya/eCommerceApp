@@ -2,11 +2,10 @@
 
 @{
     ViewData["Title"] = "Kullanıcı Silme Onayı"; @* Sayfa başlığı *@
-    Layout = "_AdminLayout"; @* Admin paneli layout'unu kullanıyoruz *@
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Kullanıcı Silme Onayı</h1>
+    <h1 class="mt-4">@ViewData["Title"]</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Main" asp-action="Index">Dashboard</a></li>
         <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Users" asp-action="Index">Kullanıcılar</a></li>
@@ -79,7 +78,3 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    @* Bu sayfada form üzerinde validasyon kuralları olmadığı için genellikle özel validasyon scriptlerine ihtiyaç duyulmaz. *@
-    @* Sadece temel layout scriptleri yeterlidir. *@
-}
