@@ -107,9 +107,46 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(string deleteRoleId)
+        public async Task<IActionResult> Delete(string roleId)
         {
-            return View();
+            if (string.IsNullOrEmpty(roleId))
+            {
+                TempData["ErrorMessage"] = "Silinecek Rol ID bulunamadı!";
+                return RedirectToAction("Index");
+            }
+            var roleDto = await _roleService.GetRoleByIdAsync(roleId);
+            if (roleDto == null)
+            {
+                TempData["ErrorMessage"] = "Rol bulunamadı!";
+                return RedirectToAction("Index");
+            }
+            return View(roleDto);//roleDto yu view'e gönderiyoruz.
+        }
+
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string roleId)
+        {
+            if (string.IsNullOrEmpty(roleId))
+            {
+                TempData["ErrorMessage"] = "Silinecek Rol ID bulunamadı!";
+                return RedirectToAction("Index");
+            }
+            var (succeeded,errors) = await _roleService.DeleteRoleAsync(roleId);
+            if (succeeded)
+            {
+                TempData["SuccessMessage"] = "Rol başarıyla silindi.";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var error in errors)
+                {
+                    ModelState.AddModelError(string.Empty, error);
+                }
+                TempData["ErrorMessage"] = "Rol silinirken bir hata oluştu" + string.Join(", ",errors);
+            }
+            return RedirectToAction("Index");
         }
     }
 }

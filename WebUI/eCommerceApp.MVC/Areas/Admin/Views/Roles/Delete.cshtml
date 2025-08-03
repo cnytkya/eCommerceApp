@@ -18,7 +18,7 @@
             Role Silme Uyarısı
         </div>
         <div class="card-body">
-            <p class="mb-3">Aşağıdaki kullanıcıyı silmek istediğinizden emin misiniz? Bu işlem, kullanıcıyı pasif hale getirecek ve listeden kaldıracaktır. (Fiziksel olarak silinmeyecektir.)</p>
+            <p class="mb-3">Aşağıdaki rolü silmek istediğinizden emin misiniz? Bu işlem, kullanıcıyı pasif hale getirecek ve listeden kaldıracaktır. (Fiziksel olarak silinmeyecektir.)</p>
 
             @* Rol detay bilgilerini görüntüleme *@
             <dl class="row">
@@ -35,8 +35,8 @@
             <form asp-controller="Roles" asp-action="Delete" method="post">
                 @Html.AntiForgeryToken() @* CSRF saldırılarına karşı koruma için Anti-Forgery Token *@
 
-                @* Silinecek kullanıcının ID'sini gizli bir input alanı olarak gönderiyoruz *@
-                <input type="hidden" asp-for="Id" />
+                @* Controller'daki DeleteConfirmed action'ı için Id'yi gönderiyoruz. *@
+                <input type="hidden" name="roleId" value="@Model.Id" />
 
                 @* Silme ve İptal Butonları *@
                 <button type="submit" class="btn btn-danger me-2"><i class="fas fa-trash"></i> Sil</button>
