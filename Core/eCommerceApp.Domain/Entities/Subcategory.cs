@@ -1,8 +1,12 @@
-﻿namespace eCommerceApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace eCommerceApp.Domain.Entities
 {
     public class Subcategory : BaseEntity
     {
+        [Display(Name = "Alt Kategori Adı")]
         public string Name { get; set; }
+        [Display(Name = "Açıklama")]
         public string? Description { get; set; }
         public string Slug { get; set; }
 

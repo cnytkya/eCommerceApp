@@ -13,6 +13,7 @@ namespace eCommerceApp.Domain.Entities
         public decimal? Price { get; set; }
         [Display(Name = "Ürün Adedi")]
         public int Stock { get; set; }
+        [Display(Name = "Stok Kodu(SKU)")]
         public string? SKU { get; set; }//Stok kodu
 
         //İlişkiler
