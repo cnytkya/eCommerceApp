@@ -11,7 +11,7 @@ namespace eCommerceApp.Domain.Entities
         public string Slug { get; set; }
 
         //Her bir alt kategori bir üst kategoriye aittir.
-        public int CategoryId { get; set; }//CategoryId => Id ilişkisi 
+        public Guid CategoryId { get; set; }//CategoryId => Id ilişkisi 
         public Category Category { get; set; }
         //Her bir alt kategori birden çok ürüne(product) sahip olabilir.
         public ICollection<Product> Products { get; set; } = new List<Product>();

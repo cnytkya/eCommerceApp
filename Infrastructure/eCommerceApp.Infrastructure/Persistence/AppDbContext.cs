@@ -1,8 +1,9 @@
 ﻿using eCommerceApp.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+using eCommerceApp.Infrastructure.Seed;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Reflection;
 
 namespace eCommerceApp.Infrastructure.Persistence
 {
@@ -23,8 +24,10 @@ namespace eCommerceApp.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
             //seed data(hazır kayıtları oluşturup veritabanına göndereceğiz)
-            var now = DateTime.UtcNow;
+            SeedData.SeedDataForDb(builder);
         }
     }
 }

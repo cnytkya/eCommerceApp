@@ -12,8 +12,8 @@ using eCommerceApp.Infrastructure.Persistence;
 namespace eCommerceApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250727072700_Mig1")]
-    partial class Mig1
+    [Migration("20250810095509_AddedSeedData")]
+    partial class AddedSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,20 +50,6 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "755dea4e-772e-487f-ace7-4eed35ea84d1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "59c3ac8f-ded2-461a-87be-0e104b166088",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -151,18 +137,6 @@ namespace eCommerceApp.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "74f25bef-2268-4486-8436-a4189f04f022",
-                            RoleId = "755dea4e-772e-487f-ace7-4eed35ea84d1"
-                        },
-                        new
-                        {
-                            UserId = "6b837925-fa3f-4bd9-b18f-4b5ce9d60128",
-                            RoleId = "59c3ac8f-ded2-461a-87be-0e104b166088"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -289,55 +263,259 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("eCommerceApp.Domain.Entities.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
                         {
-                            Id = "74f25bef-2268-4486-8436-a4189f04f022",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "192b402a-e806-4315-bfa9-4684cf3cf40f",
-                            CreatedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
-                            DeletedDate = new DateTime(2025, 7, 27, 7, 26, 59, 967, DateTimeKind.Utc).AddTicks(3405),
-                            Email = "admin@example.com",
-                            EmailConfirmed = true,
-                            Fullname = "Admin User",
-                            IsActive = true,
+                            Id = new Guid("c0000000-0000-0000-0000-000000000001"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Elektronik cihazlar ve aksesuarlar",
                             IsDeleted = false,
-                            LastLoginDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
-                            LockoutEnabled = false,
-                            ModifiedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
-                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
-                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ4LplCcv/e6F421uBGYjj/RVtEcyU3uQxtAfVZmCQ/bON7RgjPmb+n3ISLpWzdfzA==",
-                            PhoneNumberConfirmed = false,
-                            RegistrationDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
-                            SecurityStamp = "695a8043-830b-4549-a3e4-927418ea45eb",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@example.com"
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Elektronik",
+                            Slug = "elektronik"
                         },
                         new
                         {
-                            Id = "6b837925-fa3f-4bd9-b18f-4b5ce9d60128",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9e485cf7-f9ed-447c-a691-f5ad8d5fdae7",
-                            CreatedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
-                            DeletedDate = new DateTime(2025, 7, 27, 7, 27, 0, 14, DateTimeKind.Utc).AddTicks(9666),
-                            Email = "user@example.com",
-                            EmailConfirmed = true,
-                            Fullname = "Regular User",
-                            IsActive = true,
+                            Id = new Guid("c0000000-0000-0000-0000-000000000002"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Kadın ve erkek giyim ürünleri",
                             IsDeleted = false,
-                            LastLoginDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
-                            LockoutEnabled = false,
-                            ModifiedDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
-                            NormalizedEmail = "USER@EXAMPLE.COM",
-                            NormalizedUserName = "USER@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGV0/+ZwI3/SLowqyK8T5eN6/3pN5ZqcCjDzDFGziYEmbs0k2GTQppnMihfNI2EC5A==",
-                            PhoneNumberConfirmed = false,
-                            RegistrationDate = new DateTime(2025, 7, 27, 7, 26, 59, 965, DateTimeKind.Utc).AddTicks(3978),
-                            SecurityStamp = "91799093-cd37-419f-a40b-c982f059195e",
-                            TwoFactorEnabled = false,
-                            UserName = "user@example.com"
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Giyim",
+                            Slug = "giyim"
+                        });
+                });
+
+            modelBuilder.Entity("eCommerceApp.Domain.Entities.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SKU")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Stock")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid>("SubcategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("SKU")
+                        .IsUnique()
+                        .HasFilter("[SKU] IS NOT NULL");
+
+                    b.HasIndex("SubcategoryId");
+
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("70000000-0000-0000-0000-000000000001"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Latest smartphone with advanced features",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Smartphone X",
+                            Price = 999.99m,
+                            SKU = "SMX-2023",
+                            Stock = 100,
+                            SubcategoryId = new Guid("50000000-0000-0000-0000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000002"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Noise cancelling wireless headphones",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Wireless Headphones",
+                            Price = 199.99m,
+                            SKU = "WH-2023",
+                            Stock = 50,
+                            SubcategoryId = new Guid("60000000-0000-0000-0000-000000000002")
+                        });
+                });
+
+            modelBuilder.Entity("eCommerceApp.Domain.Entities.Subcategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("Subcategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000001"),
+                            CategoryId = new Guid("c0000000-0000-0000-0000-000000000001"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "En son teknoloji akıllı telefonlar",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Akıllı Telefonlar",
+                            Slug = "akilli-telefonlar"
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000002"),
+                            CategoryId = new Guid("c0000000-0000-0000-0000-000000000001"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Kablosuz ve gürültü önleyici kulaklıklar",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Kulaklıklar",
+                            Slug = "kulakliklar"
                         });
                 });
 
@@ -390,6 +568,38 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("eCommerceApp.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("eCommerceApp.Domain.Entities.Subcategory", "Subcategory")
+                        .WithMany("Products")
+                        .HasForeignKey("SubcategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Subcategory");
+                });
+
+            modelBuilder.Entity("eCommerceApp.Domain.Entities.Subcategory", b =>
+                {
+                    b.HasOne("eCommerceApp.Domain.Entities.Category", "Category")
+                        .WithMany("Subcategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("eCommerceApp.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Subcategories");
+                });
+
+            modelBuilder.Entity("eCommerceApp.Domain.Entities.Subcategory", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

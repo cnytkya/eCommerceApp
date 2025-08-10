@@ -281,7 +281,8 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -294,15 +295,47 @@ namespace eCommerceApp.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c0000000-0000-0000-0000-000000000001"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Elektronik cihazlar ve aksesuarlar",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Elektronik",
+                            Slug = "elektronik"
+                        },
+                        new
+                        {
+                            Id = new Guid("c0000000-0000-0000-0000-000000000002"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Kadın ve erkek giyim ürünleri",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Giyim",
+                            Slug = "giyim"
+                        });
                 });
 
             modelBuilder.Entity("eCommerceApp.Domain.Entities.Product", b =>
@@ -324,7 +357,8 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -337,25 +371,66 @@ namespace eCommerceApp.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SKU")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Stock")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<Guid>("SubcategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("SKU")
+                        .IsUnique()
+                        .HasFilter("[SKU] IS NOT NULL");
+
                     b.HasIndex("SubcategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("70000000-0000-0000-0000-000000000001"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Latest smartphone with advanced features",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Smartphone X",
+                            Price = 999.99m,
+                            SKU = "SMX-2023",
+                            Stock = 100,
+                            SubcategoryId = new Guid("50000000-0000-0000-0000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000002"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Noise cancelling wireless headphones",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Wireless Headphones",
+                            Price = 199.99m,
+                            SKU = "WH-2023",
+                            Stock = 50,
+                            SubcategoryId = new Guid("60000000-0000-0000-0000-000000000002")
+                        });
                 });
 
             modelBuilder.Entity("eCommerceApp.Domain.Entities.Subcategory", b =>
@@ -364,10 +439,7 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("CategoryId1")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
@@ -383,7 +455,8 @@ namespace eCommerceApp.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -396,17 +469,51 @@ namespace eCommerceApp.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId1");
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
 
                     b.ToTable("Subcategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000001"),
+                            CategoryId = new Guid("c0000000-0000-0000-0000-000000000001"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "En son teknoloji akıllı telefonlar",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Akıllı Telefonlar",
+                            Slug = "akilli-telefonlar"
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000002"),
+                            CategoryId = new Guid("c0000000-0000-0000-0000-000000000001"),
+                            CreatedBy = "System",
+                            CreatedDate = new DateTime(2025, 8, 10, 9, 55, 9, 25, DateTimeKind.Utc).AddTicks(7603),
+                            Description = "Kablosuz ve gürültü önleyici kulaklıklar",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Kulaklıklar",
+                            Slug = "kulakliklar"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -465,7 +572,7 @@ namespace eCommerceApp.Infrastructure.Migrations
                     b.HasOne("eCommerceApp.Domain.Entities.Subcategory", "Subcategory")
                         .WithMany("Products")
                         .HasForeignKey("SubcategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Subcategory");
@@ -475,8 +582,8 @@ namespace eCommerceApp.Infrastructure.Migrations
                 {
                     b.HasOne("eCommerceApp.Domain.Entities.Category", "Category")
                         .WithMany("Subcategories")
-                        .HasForeignKey("CategoryId1")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
