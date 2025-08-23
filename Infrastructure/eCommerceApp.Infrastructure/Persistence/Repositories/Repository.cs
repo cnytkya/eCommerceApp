@@ -38,10 +38,29 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
+
+        public async Task AddAsync(T entity)
+        {
+            await _dbSet.AddAsync(entity);//Tek bir entity'yi dbset'e ekler(henüz veritabanına kaydetmez)
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);//Birden fazla entity'yi dbset'e ekler(henüz veritabanına kaydetmez)
+        }
+
+        public void Remove(T entity)
+        {
+            _dbSet.Remove(entity);
+        }
+
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            _dbSet.RemoveRange(entities);
+        }
         public async Task<int> SaveChangesAync()
         {
              return await _context.SaveChangesAsync();
         }
-
     }
 }

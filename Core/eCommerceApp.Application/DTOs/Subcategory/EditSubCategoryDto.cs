@@ -4,7 +4,7 @@ namespace eCommerceApp.Application.DTOs.Subcategory
 {
     public class EditSubCategoryDto
     {
-        public Guid Id { get; set; }//get isteğine karşı Id bilgisini de getir.
+        public Guid Id { get; set; }//get isteğine karşı Id bilgisini de getirmek için.
         [Display(Name = "Alt Kategori Adı")]
         public string CategoryName { get; set; }
         [Display(Name = "Açıklama")]

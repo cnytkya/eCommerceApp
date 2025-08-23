@@ -10,8 +10,13 @@ namespace eCommerceApp.Application.Interface.Repositories
         //Belirtilen koşula uyan varlıkları asenkron olarak getirir.
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
 
-        //Bir varlığı günceller
+        //Write(yazma) methods
+        Task AddAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
         void Update(T entity);
+        void Remove(T entity);
+        void RemoveRange(IEnumerable<T> entities);
+
 
         //kayıtları veritabanına uygula
         Task<int> SaveChangesAync();
