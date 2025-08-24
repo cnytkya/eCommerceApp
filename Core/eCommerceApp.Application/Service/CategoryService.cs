@@ -1,6 +1,9 @@
-﻿using eCommerceApp.Application.DTOs.Category;
+﻿using AutoMapper;
+using eCommerceApp.Application.DTOs.Category;
 using eCommerceApp.Application.DTOs.Subcategory;
+using eCommerceApp.Application.Interface.Repositories.Categories;
 using eCommerceApp.Application.Interface.Services;
+using eCommerceApp.Domain.Entities;
 
 namespace eCommerceApp.Application.Service
 {
@@ -8,49 +11,149 @@ namespace eCommerceApp.Application.Service
     {
 
         //DI
-        public Task<(bool succeeded, IEnumerable<string> errors)> CreateCategoryAsync(CreateCategoryDto createCategoryDto)
+        private readonly ICategoryRepo _categoryRepo;
+        private readonly ISubCategoryRepo _subCategoryRepo;
+        private IMapper _mapper;
+
+        public CategoryService(ICategoryRepo categoryRepo, ISubCategoryRepo subCategoryRepo, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _categoryRepo = categoryRepo;
+            _subCategoryRepo = subCategoryRepo;
+            _mapper = mapper;
         }
 
-        public Task<(bool succeeded, IEnumerable<string> errors)> CreateSubCategoryAsync(CreateSubCategoryDto createSubCategoryDto)
+        //kategori CRUD operasyonları
+        public async Task<(bool succeeded, IEnumerable<string> errors)> CreateCategoryAsync(CreateCategoryDto createCategoryDto)
         {
-            throw new NotImplementedException();
+            //Aynı slug'a sahip başka bir kategori var mı?
+            var existingCategory = await _categoryRepo.GetFirstOrDefaultAsync(c => c.Slug == createCategoryDto.Slug);
+            if (existingCategory != null)
+            {
+                return (false, new[] { "Bu slug'a sahip bir kategori zaten mevcut." });
+            }
+            var category = _mapper.Map<Category>(createCategoryDto);
+
+            await _categoryRepo.AddAsync(category);//yeni nesne oluşturuldu.
+            await _categoryRepo.SaveChangesAync(); //yeni oluşturulan nesneyi veritabanına yansıt.
+
+            return (true, Enumerable.Empty<string>());
         }
 
-        public Task<(bool succeeded, IEnumerable<string> errors)> DeleteCategoryAsync(Guid id)
+        public async Task<(bool succeeded, IEnumerable<string> errors)> CreateSubCategoryAsync(CreateSubCategoryDto createSubCategoryDto)
         {
-            throw new NotImplementedException();
+            //Aynı slug'a sahip başka bir alt kategori var mı?
+            var existingSubCategory = await _subCategoryRepo.GetFirstOrDefaultAsync(c => c.Slug == createSubCategoryDto.Slug);
+            if (existingSubCategory != null)
+            {
+                return (false, new[] { "Bu slug'a sahip bir alt kategori zaten mevcut." });
+            }
+            var subCategory = _mapper.Map<Subcategory>(createSubCategoryDto);
+
+            await _subCategoryRepo.AddAsync(subCategory);//yeni nesne oluşturuldu.
+            await _subCategoryRepo.SaveChangesAync(); //yeni oluşturulan nesneyi veritabanına yansıt.
+
+            return (true, Enumerable.Empty<string>());
         }
 
-        public Task<(bool succeeded, IEnumerable<string> errors)> DeleteSubCategoryAsync(Guid id)
+        public async Task<(bool succeeded, IEnumerable<string> errors)> DeleteCategoryAsync(Guid id)
         {
-            throw new NotImplementedException();
+            //veritabanından kaydı alalım yani kaydı id'sine göre çekelim.
+            var category = await _categoryRepo.GetByIdAsync(id.ToString());
+            //aldığımız kayıt veritabanında var mı(null kontrolü). eğer null ise
+            if (category == null)
+            {
+                return (false, new[] { "Silinecek kategori bulunamadı" });
+            }
+            //bu kategoriye ait alt kategoriler var mı?
+            var subCategories = await _subCategoryRepo.FindAsync(c => c.CategoryId == id);
+            if (subCategories.Any())
+            {
+                return (false, new[] { "Bu kategoriye bağlı alt kategoriler mevcut. Lütfen önce bağlı alt kategoriyi(kategorileri) silin." });
+            }
+            //herhangi bir sorun yoksa o zaman nesneyi veritabanından sil.
+            _categoryRepo.Remove(category);
+            await _subCategoryRepo.SaveChangesAync();//nesne silindikten sonra veritabanına değişikliği uygula.
+            return (true, Enumerable.Empty<string>());
         }
 
-        public Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync()
+        public async Task<(bool succeeded, IEnumerable<string> errors)> DeleteSubCategoryAsync(Guid id)
         {
-            throw new NotImplementedException();
+            //önce silinecek alt kategoriyi id'ye göre çağır.
+            var subCategory = await _subCategoryRepo.GetByIdAsync(id.ToString());
+            //category boş mu kontrolü
+            if (subCategory == null)
+            {
+                return (false, new[] { "Silinecek alt kategori bulunamadı!" });
+            }
+            //eğer silinecek alt kategoriye bağlı ürünler var ise silinmesini engelle. burda veritabanındaki ürünlerin alt kategorilerle ilişkisini sorgulamamız lazım. Eğer ilişkili alt kategoriye ait ürün veya ürünler var ise kategorinin silinmesini engelle.
+            //var productsInSubcategory 
+            return (true, Enumerable.Empty<string>());
         }
 
-        public Task<CategoryDto?> GetCategoryByIdAsync(Guid id)
+        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync()
         {
-            throw new NotImplementedException();
+            //veritabanından kategorileri çek.
+            var categories = await _categoryRepo.GetAllAsync();
+            return _mapper.Map<IEnumerable<CategoryDto>>(categories);
         }
 
-        public Task<IEnumerable<SubCategoryDto>> GetSubCategoriesByCategoryIdAsync(Guid categoryId)
+        public async Task<CategoryDto?> GetCategoryByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            //kategoriyi id'ye göre getir.
+            var category = await _categoryRepo.GetByIdAsync(id.ToString());
+            return _mapper.Map<CategoryDto>(category);
         }
 
-        public Task<(bool succeeded, IEnumerable<string> errors)> UpdateCategoryAsync(EditCategoryDto editCategoryDto)
+        public async Task<IEnumerable<SubCategoryDto>> GetSubCategoriesByCategoryIdAsync(Guid categoryId)
         {
-            throw new NotImplementedException();
+            //bir üst kategoriye ait alt kategorileri listele.
+            var subCategories = await _subCategoryRepo.FindAsync(c => c.CategoryId == categoryId);
+            return _mapper.Map<IEnumerable<SubCategoryDto>>(subCategories);
+
         }
 
-        public Task<(bool succeeded, IEnumerable<string> errors)> UpdateSubCategoryAsync(EditSubCategoryDto editSubCategoryDto)
+        public async Task<(bool succeeded, IEnumerable<string> errors)> UpdateCategoryAsync(EditCategoryDto editCategoryDto)
         {
-            throw new NotImplementedException();
+            var category = await _categoryRepo.GetByIdAsync(editCategoryDto.Id.ToString());//güncellenecek kategorinin id'si
+            if (category == null)
+            {
+                return (false, new[] {"Güncellenecek kategori bulunamadı."});
+            }
+            //aynı slug'a sahip başka bir kategori mevcut mu?
+            if (category.Slug != editCategoryDto.Slug)
+            {
+                var existingCategory = await _categoryRepo.GetFirstOrDefaultAsync(c => c.Slug == editCategoryDto.Slug);
+                if (existingCategory != null)
+                {
+                    return (false, new[] {"Bu slug'a sahip bir kategori zaten mevcut"});
+                }
+            }
+            _mapper.Map(editCategoryDto, category);
+            _categoryRepo.Update(category);
+            await _categoryRepo.SaveChangesAync();
+            return (true, Enumerable.Empty<string>());
+        }
+
+        public async Task<(bool succeeded, IEnumerable<string> errors)> UpdateSubCategoryAsync(EditSubCategoryDto editSubCategoryDto)
+        {
+            var subcategory = await _subCategoryRepo.GetByIdAsync(editSubCategoryDto.Id.ToString());//güncellenecek kategorinin id'si
+            if (subcategory == null)
+            {
+                return (false, new[] { "Güncellenecek kategori bulunamadı." });
+            }
+            //aynı slug'a sahip başka bir kategori mevcut mu?
+            if (subcategory.Slug != editSubCategoryDto.Slug)
+            {
+                var existingSubCategory = await _categoryRepo.GetFirstOrDefaultAsync(c => c.Slug == editSubCategoryDto.Slug);
+                if (existingSubCategory != null)
+                {
+                    return (false, new[] { "Bu slug'a sahip bir kategori zaten mevcut" });
+                }
+            }
+            _mapper.Map(editSubCategoryDto, subcategory);
+            _subCategoryRepo.Update(subcategory);
+            await _categoryRepo.SaveChangesAync();
+            return (true, Enumerable.Empty<string>());
         }
     }
 }
