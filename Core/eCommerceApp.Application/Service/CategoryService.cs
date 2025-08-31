@@ -2,6 +2,7 @@
 using eCommerceApp.Application.DTOs.Category;
 using eCommerceApp.Application.DTOs.Subcategory;
 using eCommerceApp.Application.Interface.Repositories.Categories;
+using eCommerceApp.Application.Interface.Repositories.Products;
 using eCommerceApp.Application.Interface.Services;
 using eCommerceApp.Domain.Entities;
 
@@ -9,16 +10,17 @@ namespace eCommerceApp.Application.Service
 {
     public class CategoryService : ICategoryService
     {
-
         //DI
         private readonly ICategoryRepo _categoryRepo;
         private readonly ISubCategoryRepo _subCategoryRepo;
+        private readonly IProductRepositories _productRepositories;
         private IMapper _mapper;
 
-        public CategoryService(ICategoryRepo categoryRepo, ISubCategoryRepo subCategoryRepo, IMapper mapper)
+        public CategoryService(ICategoryRepo categoryRepo, ISubCategoryRepo subCategoryRepo, IProductRepositories productRepositories, IMapper mapper)
         {
             _categoryRepo = categoryRepo;
             _subCategoryRepo = subCategoryRepo;
+            _productRepositories = productRepositories;
             _mapper = mapper;
         }
 
@@ -86,7 +88,18 @@ namespace eCommerceApp.Application.Service
                 return (false, new[] { "Silinecek alt kategori bulunamadı!" });
             }
             //eğer silinecek alt kategoriye bağlı ürünler var ise silinmesini engelle. burda veritabanındaki ürünlerin alt kategorilerle ilişkisini sorgulamamız lazım. Eğer ilişkili alt kategoriye ait ürün veya ürünler var ise kategorinin silinmesini engelle.
-            //var productsInSubcategory 
+            //_productRepositories üzerinden bağlı ürün var mı kontrolü
+
+            var productsInSubcategory = await _productRepositories.GetFirstOrDefaultAsync(p=>p.SubcategoryId == id);//bağlı ürün varsa productsInSubcategory değişkenine atanır.
+
+            //productsInSubcategory değişkeninde eğer ürün varsa silinmesini engelle
+            if (productsInSubcategory != null)
+            {
+                return (false, new[] { "Bu alt kategoriye bvağlı ürünler mevcut. Lütfen ürünleri siliniz ya da başka bir yere taşınıyınız." });
+            }
+            //eğer silinecek kategoride ürün yoksa o zaman silmeyi gerçekleştir.
+            _productRepositories.Remove(productsInSubcategory);
+            await _productRepositories.SaveChangesAync();
             return (true, Enumerable.Empty<string>());
         }
 

@@ -18,8 +18,4 @@
     <ProjectReference Include="..\..\Core\eCommerceApp.Application\eCommerceApp.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Persistence\Repositories\Products\" />
-  </ItemGroup>
-
 </Project>
