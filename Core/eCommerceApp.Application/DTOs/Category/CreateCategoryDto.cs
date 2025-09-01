@@ -5,7 +5,7 @@ namespace eCommerceApp.Application.DTOs.Category
     public class CreateCategoryDto
     {
         [Display(Name = "Kategori Adı"), Required(ErrorMessage = "Kategori Adı boş bırakılamaz!")]
-        public string CategoryName { get; set; }
+        public string Name { get; set; }
         [Display(Name = "Açıklama")]
         public string? Description { get; set; }
         [Required(ErrorMessage = "Slug boş bırakılamaz!")]

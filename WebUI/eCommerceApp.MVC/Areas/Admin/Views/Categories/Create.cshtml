@@ -1,0 +1,55 @@
+﻿@model CreateCategoryDto
+
+@{
+    ViewData["Title"] = "Yeni Kategori Ekle";
+}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">@ViewData["Title"]</h1> @*mt-4  üstten margin(boşluk) ekler*@
+    <ol class="breadcrumb mb-4">
+        @*mb-4  alttan margin(boşluk) ekler*@
+        <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Categories" asp-action="Index">Kategoriler</a>
+        </li>
+        <li class="breadcrumb-item active">Yeni Kategori Ekle</li>
+    </ol>
+
+    <div class="card mb-4">
+        @* card header *@
+        <div class="card-header">
+            <i class="fas fa-user-plus me-1"></i>
+            Yeni Kategori Formu
+        </div>
+        @* card body (form kısmı)*@
+        <div class="card-body">
+            <form asp-controller="Categories" asp-action="Create" method="post">
+
+                @* dış tehditlere karşı koruma  *@
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Slug" class="form-label"></label>
+                    <input asp-for="Slug" class="form-control" />
+                    <span asp-validation-for="Slug" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    Kaydet
+                </button>
+                <a class="btn btn-secondary" asp-controller="Categories" asp-action="Index">
+                    <i class="fas fa-times"></i>
+                    İptal
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

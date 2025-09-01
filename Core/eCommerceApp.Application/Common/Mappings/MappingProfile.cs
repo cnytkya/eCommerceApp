@@ -7,7 +7,7 @@ namespace eCommerceApp.Application.Common.Mappings
 {
     public class MappingProfile : Profile
     {
-        protected MappingProfile()
+        public MappingProfile()
         {
             #region category
             //Category için mapping

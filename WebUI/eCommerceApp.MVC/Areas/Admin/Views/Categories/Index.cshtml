@@ -37,10 +37,10 @@
                     @foreach (var category in Model)
                     {
                         <tr>
-                            <td>@category.CategoryName</td>
+                            <td>@category.Name</td>
                             <td>@category.Description</td>
                             <td>@category.Slug</td>
-                            <td>@category.SubCategories?.Count ?? 0</td>
+                            <td>@(category.SubCategories?.Count ?? 0)</td>
                             <td>
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning btn-sm me-1" title="Düzenle">
                                     <i class="fas fa-edit"></i>

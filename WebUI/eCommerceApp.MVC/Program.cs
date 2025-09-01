@@ -1,9 +1,14 @@
+using eCommerceApp.Application.Common.Mappings;
 using eCommerceApp.Application.Interface.Repositories;
+using eCommerceApp.Application.Interface.Repositories.Categories;
+using eCommerceApp.Application.Interface.Repositories.Products;
 using eCommerceApp.Application.Interface.Services;
 using eCommerceApp.Application.Service;
 using eCommerceApp.Domain.Entities;
 using eCommerceApp.Infrastructure.Persistence;
 using eCommerceApp.Infrastructure.Persistence.Repositories;
+using eCommerceApp.Infrastructure.Persistence.Repositories.Categories;
+using eCommerceApp.Infrastructure.Persistence.Repositories.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,10 +19,22 @@ builder.Services.AddControllersWithViews();
 
 //Veritabaný baðlantýsý.
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
+//repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+builder.Services.AddScoped<ISubCategoryRepo, SubCategoryRepo>();
+builder.Services.AddScoped<IProductRepositories, ProductRepo>();
+//services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+//AutoMapper servisini DI konteyner'a ekle
+builder.Services.AddAutoMapper(x =>
+{
+    x.AddProfile<MappingProfile>();
+});
 
 //login ve register ayarlarý
 // Identity servislerini uygulamaya ekler ve AppUser ile IdentityRole modellerini kullanacaðýný container'a belirtmemiz gerekir.
