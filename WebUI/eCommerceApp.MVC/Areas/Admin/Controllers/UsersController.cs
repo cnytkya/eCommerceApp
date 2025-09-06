@@ -38,7 +38,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ViewData["Title"] = "Yeni Kullanıcı Ekle";
+            //ViewData["Title"] = "Yeni Kullanıcı Ekle";
             var roles = await _roleManager.Roles.ToListAsync();
             ViewBag.Roles = new SelectList(roles, "Name", "Name");
 
@@ -83,8 +83,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            ViewData["Title"] = "Kullanıcı Düzenle";
-
+            //ViewData["Title"] = "Kullanıcı Düzenle";
             if (string.IsNullOrEmpty(id))
             {
                 TempData["ErrorMessage"] = "Düzenlenecek kullanıcı ID'si belirtilmedi.";

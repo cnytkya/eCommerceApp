@@ -60,7 +60,7 @@ namespace eCommerceApp.Application.Service
         public async Task<(bool succeeded, IEnumerable<string> errors)> DeleteCategoryAsync(Guid id)
         {
             //veritabanından kaydı alalım yani kaydı id'sine göre çekelim.
-            var category = await _categoryRepo.GetByIdAsync(id.ToString());
+            var category = await _categoryRepo.GetByIdAsync(id);
             //aldığımız kayıt veritabanında var mı(null kontrolü). eğer null ise
             if (category == null)
             {
@@ -113,7 +113,7 @@ namespace eCommerceApp.Application.Service
         public async Task<CategoryDto?> GetCategoryByIdAsync(Guid id)
         {
             //kategoriyi id'ye göre getir.
-            var category = await _categoryRepo.GetByIdAsync(id.ToString());
+            var category = await _categoryRepo.GetByIdAsync(id);
             return _mapper.Map<CategoryDto>(category);
         }
 
@@ -127,7 +127,7 @@ namespace eCommerceApp.Application.Service
 
         public async Task<(bool succeeded, IEnumerable<string> errors)> UpdateCategoryAsync(EditCategoryDto editCategoryDto)
         {
-            var category = await _categoryRepo.GetByIdAsync(editCategoryDto.Id.ToString());//güncellenecek kategorinin id'si
+            var category = await _categoryRepo.GetByIdAsync(editCategoryDto.Id);//güncellenecek kategorinin id'si. GetByIdAsync metodu Guid tipinde nesne alır. 
             if (category == null)
             {
                 return (false, new[] {"Güncellenecek kategori bulunamadı."});

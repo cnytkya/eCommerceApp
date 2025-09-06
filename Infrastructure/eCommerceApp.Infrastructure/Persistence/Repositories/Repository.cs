@@ -62,5 +62,11 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories
         {
              return await _context.SaveChangesAsync();
         }
+
+        public async Task<T?> GetByIdAsync(Guid id)
+        {
+            //Guid id'ye sahip entity(varlıklar)'ler için kullanılır.
+            return await _dbSet.FindAsync(id);
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿@using eCommerceApp.Application.DTOs.Category
-@model IEnumerable<CategoryDto>
+﻿@model IEnumerable<CategoryDto>
 
 @{
     ViewData["Title"] = "Kategoriler";
@@ -42,10 +41,13 @@
                             <td>@category.Slug</td>
                             <td>@(category.SubCategories?.Count ?? 0)</td>
                             <td>
+                                <a asp-controller="Subcategory" asp-action="Index" asp-route-id="@category.Id" class="btn btn-info btn-sm me-1" title="Alt kategorileri listele">
+                                    <i class="fas fa-list-ul"></i>
+                                </a>
                                 <a asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning btn-sm me-1" title="Düzenle">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a asp-controller="Categories" asp-action="Delete" asp-route-roleId="@category.Id" class="btn btn-danger btn-sm me-1" title="Sil">
+                                <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger btn-sm me-1" title="Sil">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>

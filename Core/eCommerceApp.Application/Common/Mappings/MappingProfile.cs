@@ -24,6 +24,8 @@ namespace eCommerceApp.Application.Common.Mappings
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.ModifiedBy, opt => opt.MapFrom(src => "System"));
 
+            CreateMap<CategoryDto, EditCategoryDto>().ReverseMap();
+            
             //subcategory için mapping.
             CreateMap<Subcategory,SubCategoryDto>().ReverseMap();
             //create
