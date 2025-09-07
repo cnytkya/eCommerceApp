@@ -6,7 +6,7 @@ namespace eCommerceApp.Application.DTOs.Subcategory
     {
         [Display(Name = "Alt Kategori Adı"), Required(ErrorMessage = "Alt Kategori Adı boş bırakılamaz!")]
         [StringLength(100,ErrorMessage = "Alt Kategori Adı en fazla 100 karakter olabilir.")]
-        public string SubCategoryName { get; set; }
+        public string Name { get; set; }
         [Display(Name = "Açıklama")]
         [StringLength(100, ErrorMessage = "Alt Kategori Açıklaması en fazla 100 karakter olabilir.")]
         public string? Description { get; set; }

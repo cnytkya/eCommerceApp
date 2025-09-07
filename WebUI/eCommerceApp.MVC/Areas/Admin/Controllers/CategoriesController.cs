@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace eCommerceApp.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-
     public class CategoriesController : Controller
     {
         //DI ile kategori CRUD için ICategoryService i buraya inject(uygula) ediyoruz.
