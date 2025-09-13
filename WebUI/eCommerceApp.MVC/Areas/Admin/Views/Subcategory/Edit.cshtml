@@ -1,0 +1,51 @@
+﻿@model EditSubCategoryDto
+
+@{
+    ViewData["Title"] = "Alt Kategori Düzenle";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">@ViewData["Title"]</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Categories" asp-action="Index">Kategoriler</a></li>
+        <li class="breadcrumb-item active">Alt Kategori Düzenle</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-user-edit me-1"></i>
+            Alt Kategori Bilgilerini Düzenle
+        </div>
+        <div class="card-body">
+            <form asp-controller="Subcategory" asp-action="Edit" method="post">
+                @Html.AntiForgeryToken() @* CSRF koruması için *@
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <input type="hidden" asp-for="Id" /> @* Kullanıcının ID'sini gizli bir alan olarak gönderiyoruz.*@
+                <input type="hidden" asp-for="CategoryId" />
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Slug" class="form-label"></label>
+                    <input asp-for="Slug" class="form-control" />
+                    <span asp-validation-for="Slug" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary me-2"><i class="fas fa-save"></i> Değişiklikleri Kaydet</button>
+                <a asp-controller="Subcategory" asp-action="Index" asp-route-id="@Model.CategoryId" class="btn btn-secondary"><i class="fas fa-times"></i> İptal</a>
+            </form>
+        </div>
+    </div>
+</div>

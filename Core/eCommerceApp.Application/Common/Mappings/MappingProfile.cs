@@ -36,6 +36,8 @@ namespace eCommerceApp.Application.Common.Mappings
             //edit
             CreateMap<EditSubCategoryDto, Subcategory>()
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+            CreateMap<Subcategory, SubCategoryDto>().ReverseMap();
+            CreateMap<SubCategoryDto,EditSubCategoryDto>().ReverseMap();
             #endregion
 
             #region product

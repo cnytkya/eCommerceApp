@@ -103,8 +103,35 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Kategori bulunamadı";
                 return RedirectToAction("Index", "Subcategory");
             }
+            ViewData["Title"] = $"Alt kategori: {subcategoryDto.Name}";
+            ViewBag.CategoryName = categroy.Name;
+            var model = _mapper.Map<EditSubCategoryDto>(subcategoryDto);
+            return View(model);
+        }
 
-            var model = _mapp
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditSubCategoryDto model) //Upsert yapılabilir. Edit ve Create metotlarını birleştirebiliriz.
+        {
+            ViewData["Title"] = $"Alt Kategori Düzenle {model.Name}";
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Lütfen tüm alanları doğru doldurnuz";
+                return View(model);
+            }
+            var (succeeded, errors) = await _categoryService.UpdateSubCategoryAsync(model);
+            if (succeeded)
+            {
+                TempData["SuccessMessage"] = "Alt kategori başarıyla güncellendi";
+                return RedirectToAction("Index", new { id = model.CategoryId });
+            }
+
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            TempData["ErrorMessage"] = $"Alt kategori güncellenirken bir hata oluştu: {string.Join(", ", errors)}";
+            return View(model);
         }
     }
 }

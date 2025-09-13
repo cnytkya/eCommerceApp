@@ -81,7 +81,7 @@ namespace eCommerceApp.Application.Service
         public async Task<(bool succeeded, IEnumerable<string> errors)> DeleteSubCategoryAsync(Guid id)
         {
             //önce silinecek alt kategoriyi id'ye göre çağır.
-            var subCategory = await _subCategoryRepo.GetByIdAsync(id.ToString());
+            var subCategory = await _subCategoryRepo.GetByIdAsync(id);
             //category boş mu kontrolü
             if (subCategory == null)
             {
@@ -159,7 +159,7 @@ namespace eCommerceApp.Application.Service
 
         public async Task<(bool succeeded, IEnumerable<string> errors)> UpdateSubCategoryAsync(EditSubCategoryDto editSubCategoryDto)
         {
-            var subcategory = await _subCategoryRepo.GetByIdAsync(editSubCategoryDto.Id.ToString());//güncellenecek kategorinin id'si
+            var subcategory = await _subCategoryRepo.GetByIdAsync(editSubCategoryDto.Id);//güncellenecek kategorinin id'si
             if (subcategory == null)
             {
                 return (false, new[] { "Güncellenecek kategori bulunamadı." });
