@@ -106,7 +106,7 @@ namespace eCommerceApp.Application.Service
         public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync()
         {
             //veritabanından kategorileri çek.
-            var categories = await _categoryRepo.GetAllAsync();
+            var categories = await _categoryRepo.GetAllCategoriesWithSubcategoriesAsync();
             return _mapper.Map<IEnumerable<CategoryDto>>(categories);
         }
 
@@ -123,6 +123,16 @@ namespace eCommerceApp.Application.Service
             var subCategories = await _subCategoryRepo.FindAsync(c => c.CategoryId == categoryId);
             return _mapper.Map<IEnumerable<SubCategoryDto>>(subCategories);
 
+        }
+
+        public async Task<SubCategoryDto> GetSubcategoryByIdAsync(Guid id)
+        {
+            var subcategory = await _subCategoryRepo.GetByIdAsync(id);
+            if (subcategory == null)
+            {
+                return null;
+            }
+            return _mapper.Map<SubCategoryDto>(subcategory);
         }
 
         public async Task<(bool succeeded, IEnumerable<string> errors)> UpdateCategoryAsync(EditCategoryDto editCategoryDto)

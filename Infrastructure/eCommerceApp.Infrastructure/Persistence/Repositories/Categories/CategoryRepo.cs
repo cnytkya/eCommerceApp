@@ -10,6 +10,12 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories.Categories
         {
         }
 
+        public async Task<IEnumerable<Category>> GetAllCategoriesWithSubcategoriesAsync()
+        {
+            //Include metodu ile EF Core'a,veritabanından nesne(Category)'yi çekilirken o arada Subcategories nesnesini içeri aktar. Yani subcategories'i dahil et.
+            return await _dbSet.Include(c=>c.Subcategories).ToListAsync();
+        }
+
         public async Task<Category?> GetCategoryBySlugAsync(string slug)
         {
             return await _dbSet.Include(c => c.Subcategories)//Alt kategorileri de dahil et.

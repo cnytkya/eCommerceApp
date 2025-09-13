@@ -27,6 +27,8 @@ namespace eCommerceApp.Application.Interface.Services
         Task<(bool succeeded, IEnumerable<string> errors)> UpdateSubCategoryAsync(EditSubCategoryDto editSubCategoryDto);
         Task<(bool succeeded, IEnumerable<string> errors)> DeleteSubCategoryAsync(Guid id);
 
+        Task<SubCategoryDto> GetSubcategoryByIdAsync(Guid id);//alt kategoriyi id'ye göre çekecek metot.
+
         #endregion
     }
 }

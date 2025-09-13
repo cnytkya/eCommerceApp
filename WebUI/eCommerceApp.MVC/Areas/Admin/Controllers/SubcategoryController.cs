@@ -1,4 +1,5 @@
-﻿using eCommerceApp.Application.DTOs.Subcategory;
+﻿using AutoMapper;
+using eCommerceApp.Application.DTOs.Subcategory;
 using eCommerceApp.Application.Interface.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
     public class SubcategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
 
-        public SubcategoryController(ICategoryService categoryService)
+        public SubcategoryController(ICategoryService categoryService, IMapper mapper)
         {
             _categoryService = categoryService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index(Guid id)//bir üst kategoriye ait alt kategorilerin listesini tutacak.
@@ -82,6 +85,26 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             }
             TempData["ErrorMessage"] = $"Alt kategori oluşturulurken bir hata oluştu: {string.Join(", ",errors)}";
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var subcategoryDto = await _categoryService.GetSubcategoryByIdAsync(id);
+            if (subcategoryDto == null)
+            {
+                TempData["ErrorMessage"] = "Alt kategori bulunamadı";
+                return RedirectToAction("Index","Subcategory");
+            }
+
+            var categroy = await _categoryService.GetCategoryByIdAsync(subcategoryDto.CategoryId);
+            if (categroy == null)
+            {
+                TempData["ErrorMessage"] = "Kategori bulunamadı";
+                return RedirectToAction("Index", "Subcategory");
+            }
+
+            var model = _mapp
         }
     }
 }
