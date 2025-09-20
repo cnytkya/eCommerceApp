@@ -133,5 +133,25 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             TempData["ErrorMessage"] = $"Alt kategori güncellenirken bir hata oluştu: {string.Join(", ", errors)}";
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var subcategoryDto = await _categoryService.GetSubcategoryByIdAsync(id);
+            if (subcategoryDto == null)
+            {
+                TempData["ErrorMessage"] = "Alt kategori bulunamadı";
+                return RedirectToAction("Index","Subcategory");
+            }
+            var category = await _categoryService.GetCategoryByIdAsync(subcategoryDto.CategoryId);
+            if (category == null)
+            {
+                TempData["ErrorMessage"] = "Kategori bulunamadı";
+                return RedirectToAction("Index", "Subcategory");
+            }
+            ViewData["Title"] = $"Alt kategori silme onayı: {subcategoryDto.Name}";
+            ViewBag.CategoryName = category.Name;
+            return View(subcategoryDto);
+        }
     }
 }
