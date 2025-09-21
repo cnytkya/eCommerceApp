@@ -88,18 +88,18 @@ namespace eCommerceApp.Application.Service
                 return (false, new[] { "Silinecek alt kategori bulunamadı!" });
             }
             //eğer silinecek alt kategoriye bağlı ürünler var ise silinmesini engelle. burda veritabanındaki ürünlerin alt kategorilerle ilişkisini sorgulamamız lazım. Eğer ilişkili alt kategoriye ait ürün veya ürünler var ise kategorinin silinmesini engelle.
-            //_productRepositories üzerinden bağlı ürün var mı kontrolü
+            //_productRepositories üzerinden bağlı ürün var mı kontrolü.
 
             var productsInSubcategory = await _productRepositories.GetFirstOrDefaultAsync(p=>p.SubcategoryId == id);//bağlı ürün varsa productsInSubcategory değişkenine atanır.
 
             //productsInSubcategory değişkeninde eğer ürün varsa silinmesini engelle
             if (productsInSubcategory != null)
             {
-                return (false, new[] { "Bu alt kategoriye bvağlı ürünler mevcut. Lütfen ürünleri siliniz ya da başka bir yere taşınıyınız." });
+                return (false, new[] { "Bu alt kategoriye bvağlı ürünler mevcut. Lütfen ürünleri siliniz ya da başka bir yere taşıyınız." });
             }
             //eğer silinecek kategoride ürün yoksa o zaman silmeyi gerçekleştir.
-            _productRepositories.Remove(productsInSubcategory);
-            await _productRepositories.SaveChangesAync();
+            _subCategoryRepo.Remove(subCategory);
+            await _subCategoryRepo.SaveChangesAync();
             return (true, Enumerable.Empty<string>());
         }
 

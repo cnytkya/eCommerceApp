@@ -29,6 +29,7 @@ builder.Services.AddScoped<IProductRepositories, ProductRepo>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 //AutoMapper servisini DI konteyner'a ekle
 builder.Services.AddAutoMapper(x =>

@@ -1,10 +1,6 @@
 ﻿using eCommerceApp.Application.Interface.Repositories.Products;
 using eCommerceApp.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceApp.Infrastructure.Persistence.Repositories.Products
 {
@@ -12,6 +8,18 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories.Products
     {
         public ProductRepo(AppDbContext context) : base(context)
         {
+        }
+
+        public async Task<IEnumerable<Product>> GetAllProductsWithSubcategoryAsync()
+        {
+            //Ürünleri, ait oldukları alt kategorileri ile birlikte getir.
+            return await _dbSet.Include(p => p.Subcategory).ToListAsync();
+        }
+
+        public async Task<Product?> GetProductWithSubcategoryIdAsync(Guid id)
+        {
+            //Belirli bir ürünü, ait olduğu alt kategoriyle birlikte ID'ye göre getir.
+            return await _dbSet.Include(p => p.Subcategory).FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

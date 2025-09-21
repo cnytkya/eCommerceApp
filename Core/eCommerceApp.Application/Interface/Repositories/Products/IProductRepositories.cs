@@ -6,5 +6,10 @@ namespace eCommerceApp.Application.Interface.Repositories.Products
     {
         //İleriki aşamalarda product modeline özel metotlar burda tanımlanabilir.
         //Örneğin fiyata veya stoğa göre ürün araması.
+
+        //product'ları alt kategorileriyle birlikte asenkron olarak getir.
+        Task<IEnumerable<Product>> GetAllProductsWithSubcategoryAsync();
+        //ID'ye ürünü alt kategorisiyle birlikte asenkron olarak getir.
+        Task<Product?> GetProductWithSubcategoryIdAsync(Guid id);
     }
 }

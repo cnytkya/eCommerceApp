@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ProductDto>
+
+@{
+    ViewData["Title"] = "Ürünler";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">@ViewData["Title"]</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Ürün Listesi
+
+            <a asp-controller="Products" asp-action="Create" title="Yeni Ürün Oluştur" class="btn btn-primary btn-sm float-end">
+                <i class="fas fa-plus-circle"></i>
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table id="datatablesSimple" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Ürün Adı</th>
+                        <th>Stok Kodu</th>
+                        <th>Fiyat</th>
+                        <th>Stok</th>
+                        <th>Alt Kategori</th>
+                        <th>Kategori</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.SKU</td>
+                            <td>@item.Price</td>
+                            <td>@item.Stock</td>
+                            <td>@item.SubcategoryName</td>
+                            <td>@item.CategoryName</td>
+                            <td>
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm me-1" title="Düzenle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm me-1" title="Sil">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

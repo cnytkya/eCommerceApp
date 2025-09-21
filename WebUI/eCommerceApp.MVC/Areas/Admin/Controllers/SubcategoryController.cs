@@ -153,5 +153,32 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             ViewBag.CategoryName = category.Name;
             return View(subcategoryDto);
         }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var subcategoryDto = await _categoryService.GetSubcategoryByIdAsync(id);
+            if (subcategoryDto == null)
+            {
+                TempData["ErrorMessage"] = "Alt kategori bulunamadı";
+                return RedirectToAction("Index", "Subcategory");
+            }
+            //burda silme işlemi gerçekleşsin
+            var (succedeed, errors) = await _categoryService.DeleteSubCategoryAsync(id);
+            if (succedeed)
+            {
+                TempData["SuccessMessage"] = "Alt kategori başarıyla silindi.";
+            }
+            else
+            {
+                foreach (var error in errors)
+                {
+                    ModelState.AddModelError(string.Empty, error);
+                }
+                TempData["ErrorMessage"] = $" Alt kategori silinirken bir hata oluştu: {string.Join(", ", errors)}";
+            }
+            return RedirectToAction("Index", new {id = subcategoryDto.CategoryId});
+        }
     }
 }

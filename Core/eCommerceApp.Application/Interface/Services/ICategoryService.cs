@@ -1,10 +1,5 @@
 ﻿using eCommerceApp.Application.DTOs.Category;
 using eCommerceApp.Application.DTOs.Subcategory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCommerceApp.Application.Interface.Services
 {
