@@ -3,6 +3,7 @@ using eCommerceApp.Application.DTOs.Product;
 using eCommerceApp.Application.Interface.Repositories.Categories;
 using eCommerceApp.Application.Interface.Repositories.Products;
 using eCommerceApp.Application.Interface.Services;
+using eCommerceApp.Domain.Entities;
 
 namespace eCommerceApp.Application.Service
 {
@@ -24,26 +25,59 @@ namespace eCommerceApp.Application.Service
             var products = await _productRepo.GetAllProductsWithSubcategoryAsync();
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
-        public Task<ProductDto?> GetProductByIdAsync(Guid id)
+        public async Task<ProductDto?> GetProductByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var product = await _productRepo.GetProductWithSubcategoryIdAsync(id);
+            return _mapper.Map<ProductDto?>(product);
         }
 
-        public Task<(bool succedeed, IEnumerable<string> errors)> CreateProductAsync(CreateProductDto model)
+        public async Task<(bool succedeed, IEnumerable<string> errors)> CreateProductAsync(CreateProductDto createProductDto)
         {
-            throw new NotImplementedException();
+            //Aynı SKU'ya sahip başka bir ürün var mı
+            var existingProduct =  await _productRepo.GetFirstOrDefaultAsync(p => p.SKU == createProductDto.SKU);
+            if (existingProduct != null)
+            {
+                return (false, new[] { "Bu stok koduna(SKU) sahip bir ürün zaten var" });
+            }
+            var product = _mapper.Map<Product>(createProductDto);
+            await _productRepo.AddAsync(product);
+            await _productRepo.SaveChangesAync();
+            return (true, Enumerable.Empty<string>());
+        }
+        public async Task<(bool succedeed, IEnumerable<string> errors)> UpdateProductAsync(EditProductDto editProductDto)
+        {
+            var product = await _productRepo.GetByIdAsync(editProductDto.Id);
+            if (product == null)
+            {
+                return (false, new[] { "Güncellenecek ürün bulunamadı" });
+            }
+            //SKU değişmisşe aynı SKU'ya sahip başka ürün var mı kontrolü
+            if(product.SKU != editProductDto.SKU)
+            {
+                var exsitingProduct = await _productRepo.GetFirstOrDefaultAsync(p => p.SKU == editProductDto.SKU);
+                if(exsitingProduct != null)
+                {
+                    return (false, new[] { "Bu stok koduna (SKU) sahip bir ürün zaten var." });
+                }
+            }
+            //DTO'dan entity'ye mapping
+            _mapper.Map(editProductDto, product);
+            _productRepo.Update(product);
+            await _productRepo.SaveChangesAync();
+            return (true, Enumerable.Empty<string>());
         }
 
-        public Task<(bool succedeed, IEnumerable<string> errors)> DeleteProductByIdAsync(Guid id)
+        public async Task<(bool succedeed, IEnumerable<string> errors)> DeleteProductByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-
-
-        public Task<(bool succedeed, IEnumerable<string> errors)> UpdateProductAsync(EditProductDto entity)
-        {
-            throw new NotImplementedException();
+            //Önce silinecek ürünü veritabanında getir.
+            var product = await _productRepo.GetByIdAsync(id);
+            if(product == null)
+            {
+                return (false, new[] { "Silinecek ürün bulunamadı." });
+            }
+            _productRepo.Remove(product);
+            await _productRepo.SaveChangesAync();
+            return (true, Enumerable.Empty<string>());
         }
     }
 }
