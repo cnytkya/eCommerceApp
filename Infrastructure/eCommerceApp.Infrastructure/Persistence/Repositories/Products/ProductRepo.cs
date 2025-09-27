@@ -13,13 +13,17 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories.Products
         public async Task<IEnumerable<Product>> GetAllProductsWithSubcategoryAsync()
         {
             //Ürünleri, ait oldukları alt kategorileri ile birlikte getir.
-            return await _dbSet.Include(p => p.Subcategory).ToListAsync();
+            return await _dbSet.Include(p => p.Subcategory)
+                .ThenInclude(p => p.Category)
+                .ToListAsync();
         }
 
         public async Task<Product?> GetProductWithSubcategoryIdAsync(Guid id)
         {
             //Belirli bir ürünü, ait olduğu alt kategoriyle birlikte ID'ye göre getir.
-            return await _dbSet.Include(p => p.Subcategory).FirstOrDefaultAsync(p => p.Id == id);
+            return await _dbSet.Include(p => p.Subcategory)
+                .ThenInclude(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

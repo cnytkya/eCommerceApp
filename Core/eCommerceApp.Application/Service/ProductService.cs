@@ -4,6 +4,7 @@ using eCommerceApp.Application.Interface.Repositories.Categories;
 using eCommerceApp.Application.Interface.Repositories.Products;
 using eCommerceApp.Application.Interface.Services;
 using eCommerceApp.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace eCommerceApp.Application.Service
 {
@@ -31,7 +32,7 @@ namespace eCommerceApp.Application.Service
             return _mapper.Map<ProductDto?>(product);
         }
 
-        public async Task<(bool succedeed, IEnumerable<string> errors)> CreateProductAsync(CreateProductDto createProductDto)
+        public async Task<(bool succedeed, IEnumerable<string> errors)> CreateProductAsync(CreateProductDto createProductDto,IFormFile formFile)
         {
             //Aynı SKU'ya sahip başka bir ürün var mı
             var existingProduct =  await _productRepo.GetFirstOrDefaultAsync(p => p.SKU == createProductDto.SKU);
@@ -39,6 +40,7 @@ namespace eCommerceApp.Application.Service
             {
                 return (false, new[] { "Bu stok koduna(SKU) sahip bir ürün zaten var" });
             }
+
             var product = _mapper.Map<Product>(createProductDto);
             await _productRepo.AddAsync(product);
             await _productRepo.SaveChangesAync();

@@ -21,6 +21,8 @@ namespace eCommerceApp.Application.DTOs.Product
         [Range(0, double.MaxValue, ErrorMessage = "Fiyat negatif olamaz!")]
         [Display(Name = "Ürün Fiyatı")]
         public decimal Price { get; set; }
+        [Display(Name = "Ürün Resmi")]
+        public string? ImageUrl { get; set; }
 
         [Required(ErrorMessage = "Stok bilgisi boş bırakılamaz.")]
         [Display(Name = "Ürün Adedi")]

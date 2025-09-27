@@ -19,10 +19,14 @@ namespace eCommerceApp.Application.DTOs.Product
         [Display(Name = "Silindi Mi?")]
         public bool IsDeleted { get; set; }
 
+        [Display(Name = "Ürün Resmi")]
+        public string? ImageUrl { get; set; }
+
         //navigation properties için DTO
         [Display(Name = "Alt Kategori Adı")]
         public string SubcategoryName { get; set; }
         [Display(Name = "Kategori Adı")]
         public string CategoryName { get; set; }
+        public Guid SubcategoryId { get; set; }
     }
 }

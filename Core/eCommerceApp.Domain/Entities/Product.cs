@@ -15,7 +15,8 @@ namespace eCommerceApp.Domain.Entities
         public int Stock { get; set; }
         [Display(Name = "Stok Kodu(SKU)")]
         public string? SKU { get; set; }//Stok kodu
-
+        [Display(Name = "Ürün Resmi")]
+        public string? ImageUrl { get; set; }
         //İlişkiler
         public Guid SubcategoryId { get; set; }
         public Subcategory Subcategory { get; set; }//Navigation property

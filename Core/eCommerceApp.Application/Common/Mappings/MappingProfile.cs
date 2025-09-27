@@ -57,6 +57,9 @@ namespace eCommerceApp.Application.Common.Mappings
             //edit product
             CreateMap<EditProductDto, Product>()
                 .ForMember(p => p.ModifiedDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+
+            CreateMap<ProductDto, EditProductDto>()
+                .ForMember(dest => dest.SubcategoryId, opt => opt.MapFrom(src => src.SubcategoryId)).ReverseMap();
             #endregion
         }
     }

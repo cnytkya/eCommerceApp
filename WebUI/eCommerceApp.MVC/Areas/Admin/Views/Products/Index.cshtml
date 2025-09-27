@@ -25,6 +25,7 @@
             <table id="datatablesSimple" class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th>Resim</th>
                         <th>Ürün Adı</th>
                         <th>Stok Kodu</th>
                         <th>Fiyat</th>
@@ -38,6 +39,17 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            @* resim gösterimi *@
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                {
+                                    <img src="@Url.Content(item.ImageUrl)" alt="@item.Name" style="width:50px; height:50px;object-fit:cover" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Resim Yok</span>
+                                }
+                            </td>
                             <td>@item.Name</td>
                             <td>@item.SKU</td>
                             <td>@item.Price</td>

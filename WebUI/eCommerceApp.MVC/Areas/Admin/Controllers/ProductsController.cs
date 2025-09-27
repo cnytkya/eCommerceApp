@@ -11,12 +11,14 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
 
-        public ProductsController(IProductService productService, ICategoryService categoryService, IMapper mapper)
+        public ProductsController(IProductService productService, ICategoryService categoryService, IWebHostEnvironment webHostEnvironment, IMapper mapper)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _webHostEnvironment = webHostEnvironment;
             _mapper = mapper;
         }
 
@@ -26,9 +28,7 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             var products = await _productService.GetAllProductsAsync();
             return View(products);
         }
-
-        [HttpGet] //CRUD --> Create(Get)
-        public async Task<IActionResult> Create()
+        public async Task PrepareSubcategoryViewBag(Guid? selectedId = null)//Create ve Edit için ortak metot.
         {
             //Alt kategori dropdown'ı için verileri alalım
             var subcategories = await _categoryService.GetAllCategoriesAsync();
@@ -43,52 +43,77 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
                     {
                         subcategoryList.Add(new SelectListItem
                         {
-                            Text = category.Name,
+                            Text = subcategory.Name,
                             Value = subcategory.Id.ToString(),
-                            Group = categoryGroup
+                            Group = categoryGroup,
+                            Selected = (selectedId.HasValue && subcategory.Id == selectedId.Value)
                         });
                     }
                 }
             }
-            ViewBag.Subcategories = new SelectList(subcategoryList, "Value", "Text", "Group.Name", null);
+            ViewBag.Subcategories = subcategoryList;
+        }
+
+        [HttpGet] //CRUD --> Create(Get)
+        public async Task<IActionResult> Create()
+        {
+            await PrepareSubcategoryViewBag();
             return View();
         }
 
         [HttpPost] //CRUD --> Create(Post)
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateProductDto createProductDto)
+        public async Task<IActionResult> Create(CreateProductDto createProductDto, IFormFile imgFile)//Upsert => update ve create(insert) için ortak metot oluşturulabilir)
         {
+            if (imgFile == null && imgFile.Length == 0)
+            {
+                ModelState.AddModelError("imgFile", "Ürün resmi seçmeniz gerekiyor!");
+            }
+
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Lütfen tüm zorunlu alanaları doğru doldurun";
-                var subcategories = await _categoryService.GetAllCategoriesAsync();
-                var subcategoryList = new List<SelectListItem>();
-                foreach (var category in subcategories)
-                {
-                    if (category.SubCategories != null && category.SubCategories.Any())
-                    {
-                        var categoryGroup = new SelectListGroup { Name = category.Name };
-                        foreach (var subcategory in category.SubCategories)
-                        {
-                            subcategoryList.Add(new SelectListItem
-                            {
-                                Text = category.Name,
-                                Value = subcategory.Id.ToString(),
-                                Group = categoryGroup
-                            });
-                        }
-                    }
-                }
-                ViewBag.Subcategories = new SelectList(subcategoryList, "Value", "Text", "Group.Name", null);
+                TempData["ErrorMessafe"] = "Lütfen tüm zorunlu alanları doğru doldurun";
+                //Hata durumunda kategorileri dropdown'a tekrar yüklenmesi gerekir.
+                await PrepareSubcategoryViewBag(createProductDto.SubcategoryId);
                 return View(createProductDto);
             }
-            var (succedeed,errors) = await _productService.CreateProductAsync(createProductDto);
-            if (succedeed)
+
+            string uniqueFileName = null;
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            try
             {
-                TempData["SuccessMessage"] = "Ürün başarıyla oluşturuldu.";
-                return RedirectToAction("Index");
+                if (imgFile != null && imgFile.Length > 0)
+                {
+                    string uploadsFolder = Path.Combine(wwwRootPath, "img", "products");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+                    string extension = Path.GetExtension(imgFile.FileName);
+                    uniqueFileName = Guid.NewGuid().ToString() + extension;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imgFile.CopyToAsync(fileStream);
+                    }
+                    createProductDto.ImageUrl = Path.Combine("~/", "img", "products", uniqueFileName).Replace("\\", "/");
+                }
+                var (succeeded, errors) = await _productService.CreateProductAsync(createProductDto, imgFile);
+
+                if (succeeded)
+                {
+                    TempData["SuccessMessage"] = "Ürün başarıyla oluşturuldu";
+                    return RedirectToAction("Index");
+                }
             }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Dosya yüklenirken bir hata oluştu." + ex.Message);
+            }
+
             TempData["ErrorMessage"] = "Ürün oluşturulken bir hata oluştu";
+            await PrepareSubcategoryViewBag(createProductDto.SubcategoryId);
             return View(createProductDto);
         }
     }

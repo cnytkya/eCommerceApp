@@ -18,7 +18,8 @@ namespace eCommerceApp.Application.DTOs.Product
         [Required(ErrorMessage = "Stok bilgisi boş bırakılamaz.")]
         [Display(Name = "Ürün Adedi")]
         public int Stock { get; set; }
-
+        [Display(Name = "Ürün Resmi")]
+        public string? ImageUrl { get; set; }
         [Display(Name = "Stok kodu")]
         [StringLength(50, ErrorMessage = "Stok kodu en fazla {1} karakter olmalı.")]
         public string? SKU { get; set; }

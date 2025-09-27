@@ -22,7 +22,7 @@
         </div>
         @* card body (form kısmı)*@
         <div class="card-body">
-            <form asp-controller="Products" asp-action="Create" method="post">
+            <form asp-controller="Products" asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="All" class="text-danger mb-3"></div>
                 @* dış tehditlere karşı koruma  *@
                 @Html.AntiForgeryToken()
@@ -58,11 +58,16 @@
                     </select>
                     <span asp-validation-for="SubcategoryId" class="text-danger"></span>
                 </div>
+                <div class="mb-3">
+                    <label for="imgFile" class="form-label">Ürün Resmi Yükleyin</label>
+                    <input name="imgFile"  type="file" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save"></i>
                     Kaydet
                 </button>
-                <a class="btn btn-secondary" asp-controller="Categories" asp-action="Index">
+                <a class="btn btn-secondary" asp-controller="Products" asp-action="Index">
                     <i class="fas fa-times"></i>
                     İptal
                 </a>

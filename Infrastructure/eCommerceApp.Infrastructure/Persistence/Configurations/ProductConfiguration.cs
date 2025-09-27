@@ -18,7 +18,10 @@ namespace eCommerceApp.Infrastructure.Persistence.Configurations
 
             //İlişkiler: Ürün üst kategoriye değil alt kategoriye ait olsun.
             builder.HasOne(p => p.Subcategory).WithMany(p=>p.Products).HasForeignKey(p=>p.SubcategoryId).OnDelete(DeleteBehavior.Restrict);//Alt kategori silinirken ürünlerin silinmesini engelle.
-
+            builder.Property(p => p.ImageUrl)
+                .IsRequired(false)
+                .HasMaxLength(250);//resim url için max uzunluk.
+                
             //Indexes
             builder.HasIndex(x => x.Name).IsUnique();
             builder.HasIndex(x => x.SKU).IsUnique();
