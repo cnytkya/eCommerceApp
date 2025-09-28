@@ -116,5 +116,18 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             await PrepareSubcategoryViewBag(createProductDto.SubcategoryId);
             return View(createProductDto);
         }
+
+        [HttpGet] //CRUD --> Edit(Get)
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var product = await _productService.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                TempData["ErrorMessage"] = "Ürün bulunamadı.";
+            }
+            var model = _mapper.Map<EditProductDto>(product);
+            await PrepareSubcategoryViewBag(model.SubcategoryId);
+            return View();
+        }
     }
 }
