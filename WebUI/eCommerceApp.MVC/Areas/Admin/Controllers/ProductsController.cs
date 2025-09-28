@@ -127,7 +127,66 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             }
             var model = _mapper.Map<EditProductDto>(product);
             await PrepareSubcategoryViewBag(model.SubcategoryId);
-            return View();
+            return View(model);
+        }
+        [HttpPost] //CRUD --> Edit(Post)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditProductDto model, IFormFile? imgFile)
+        {
+            string uniqueFileName = null;
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            string oldImgPath = model.ImageUrl;
+
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Lütfen tüm zorunlu alanları doldurun.";
+                await PrepareSubcategoryViewBag(model.SubcategoryId);
+                return View(model);
+            }
+            try
+            {
+                if (imgFile != null && imgFile.Length > 0)
+                {
+                    string uploadsFolder = Path.Combine(wwwRootPath, "img", "products");
+                    string extension = Path.GetExtension(imgFile.FileName);
+                    uniqueFileName = Guid.NewGuid().ToString() + extension;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imgFile.CopyToAsync(fileStream);
+                    }
+                    model.ImageUrl = Path.Combine("~/", "img", "products", uniqueFileName).Replace("\\", "/");
+                    if (!string.IsNullOrEmpty(oldImgPath))
+                    {
+                        string oldImgFileName = Path.GetFileName(oldImgPath);
+                        string fileToDeletepath = Path.Combine(wwwRootPath, "img", "products",oldImgFileName);
+                        if (System.IO.File.Exists(fileToDeletepath))
+                        {
+                            System.IO.File.Delete(fileToDeletepath);
+                        }
+                    }
+                }
+                var (succeeded, errors) = await _productService.UpdateProductAsync(model);
+
+                if (succeeded)
+                {
+                    TempData["SuccessMessage"] = "Ürün başarıyla güncellendi.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                foreach (var er in errors)
+                {
+                    ModelState.AddModelError(string.Empty,er);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Dosya yüklenirken bir hata oluştu." + ex.Message);
+            }
+            TempData["ErrorMessage"] = "Ürün oluşturulken bir hata oluştu";
+            await PrepareSubcategoryViewBag(model.SubcategoryId);
+            return View(model);
         }
     }
 }
