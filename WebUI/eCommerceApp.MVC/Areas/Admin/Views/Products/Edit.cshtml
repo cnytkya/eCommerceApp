@@ -64,14 +64,11 @@
                         @* resmi göster, yoksa placeholder'ı göster *@
                         @if (!string.IsNullOrEmpty(Model.ImageUrl))
                         {
-                            @* Resim varsa göster *@
-                            <img id="currentImagePreview" src="@Url.Content(Model.ImageUrl)" class="img-thumbnail" style="width:350px;height:350px" alt="Mevcut ürün resmi"/>
+                            <img id="currentImagePreview" src="@Url.Content(Model.ImageUrl)" class="img-thumbnail" style="width: 100%; height: auto; max-height: 200px; object-fit: cover;" alt="Mevcut Ürün Resmi" />
                         }
                         else
                         {
-                            <img id="currentImagePreview" src="https://via.placeholder.com/150x150?text=No+Image"
-                                 class="img-thumbnail"
-                                 alt="No Image Available" />
+                            <img id="currentImagePreview" src="https://via.placeholder.com/200?text=Resim+Yok" class="img-thumbnail" style="width: 100%; height: auto; max-height: 200px; object-fit: cover;" alt="Varsayılan Resim" />
                         }
                         <div class="mt-3">
                             <label for="imgFile" class="form-label">Yeni Resim Seçin</label>
@@ -87,7 +84,7 @@
         </div>
     </div>
 </div>
-
+@* Yeni resim ön izleme *@
 <script>
     //Sayfa tamamen yüklendiğinde (HTML + CSS) çalışacak şekilde olay dinleyicisi
     document.addEventListener('DOMContentLoaded', function ()

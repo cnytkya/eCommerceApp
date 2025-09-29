@@ -1,0 +1,66 @@
+﻿@using System.Globalization
+@model ProductDto
+
+@{
+    ViewData["Title"] = "Ürün Silme Onayı";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">@ViewData["Title"]</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Main" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index">Ürünler</a></li>
+        <li class="breadcrumb-item active">Sil</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header bg-danger text-white">
+            <i class="fas fa-exclamation-triangle me-1"></i>
+            Ürün Silme Uyarısı
+        </div>
+        <div class="card-body">
+            <p class="mb-3">Aşağıdaki ürünü silmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve ** fiziksel olarak resim dosyasını da silecek **</p>
+
+            <div class="row">
+                <div class="col-md-8">
+                    @* Sol kısım: Ürün detay bilgileri *@
+                    <dl class="row">
+                        <dt class="col-sm-4">Ürün Adı:</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
+
+                        <dt class="col-sm-4">Ürün Fiyatı:</dt>
+                        <dd class="col-sm-8">@Model.Price?.ToString("C2", new CultureInfo("tr-TR"))</dd>
+
+                        <dt class="col-sm-4">Üst Kategori:</dt>
+                        <dd class="col-sm-8">@Model.CategoryName</dd>
+
+                        <dt class="col-sm-4">Alt Kategori:</dt>
+                        <dd class="col-sm-8">@Model.SubcategoryName</dd>
+                    </dl>
+                </div>
+                <div class="col-md-4 text-center">
+                    @* Sağ kısım: Resim *@
+                    <dt>Resim:</dt>
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Url.Content(Model.ImageUrl)" class="img-thumbnail" style="max-width:200px; height:auto;" alt="Ürün Resmi" />
+                    }
+                    else
+                    {
+                        <p class="mt-2">Resim Yok</p>
+                    }
+                </div>
+            </div>
+
+            <hr />
+
+            <form asp-controller="Products" asp-action="Delete" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+
+                <button type="submit" class="btn btn-danger me-2"><i class="fas fa-trash"></i> Sil</button>
+                <a asp-area="Admin" asp-controller="Products" asp-action="Index" class="btn btn-secondary"><i class="fas fa-times"></i> İptal</a>
+            </form>
+        </div>
+    </div>
+</div>

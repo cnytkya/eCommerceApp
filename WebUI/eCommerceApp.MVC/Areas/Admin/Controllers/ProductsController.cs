@@ -188,5 +188,61 @@ namespace eCommerceApp.MVC.Areas.Admin.Controllers
             await PrepareSubcategoryViewBag(model.SubcategoryId);
             return View(model);
         }
+
+        [HttpGet] //CRUD --> Delete(Get)
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            //Sayfa başlığı bilgisi View'a aktarmak için burda yazılabilir.
+            //ViewData["Title"] = "Ürün Silme Onayı";
+
+            //Silinmek istenen ürün, id'ye göre servis üzerinden getiriliyor.
+            var productDto = await _productService.GetProductByIdAsync(id);
+            //Eğer ürün bulunmazsa, hata mesajı gönder ve Product/Index'e yönlendir.
+            if (productDto == null)
+            {
+                TempData["ErrorMessage"] = "Ürün bulunamadı!";
+                return RedirectToAction(nameof(Index));
+            }
+            //Ürün bulunduysa, silme onay sayfasına productDto bilgisiyle git.
+            return View(productDto);
+        }
+        //CRUD --> Delete(Post)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            //Silinmek istenen ürün, id'ye göre servis üzerinden getiriliyor.
+            var productDto = await _productService.GetProductByIdAsync(id);
+
+            var (succedeed, errors) = await _productService.DeleteProductByIdAsync(id);
+
+            if (succedeed)
+            {
+                //eğer silme işlemi başarıylsa, ürünün resmi fiziksel dosya sisteminden de silinsin.
+                if (!string.IsNullOrEmpty(productDto?.ImageUrl))
+                {
+                    //wwwroot dizisinin fiziksel yolu.
+                    string wwwRootPath = _webHostEnvironment.WebRootPath;
+                    //Eski dosya yolu oluşturuluyor(ImageUrl'deki ~(altgr + ü'ye iki kere basılır) ve / düzeltiliyor)
+                    string oldFilePath = Path.Combine(
+                        wwwRootPath,productDto.ImageUrl.TrimStart('~', '/').Replace("/","\\")
+                    );
+                    //Eğer dosya gerçekten varsa, fiziksel olarak siliniyor
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+                //Başarı mesajı TempData ile Index sayfasında gösterimek üzere ayarlanır
+                TempData["SuccessMessage"] = "Ürün başarıyla silindi.";
+            }
+            else
+            {
+                //eğer silme başarısza, gelen hata mesajları TempData'ya yazılıyor.
+                TempData["ErrorMessage"] = "Ürün silinirken bir hata oluştu: " + string.Join(", ", errors);
+            }
+            //silme işleminden sonra tekrar Ürünler sayfasına kullanıcıyı yönlendirelim
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProductDto>
+﻿@using System.Globalization
+@model IEnumerable<ProductDto>
 
 @{
     ViewData["Title"] = "Ürünler";
@@ -52,7 +53,7 @@
                             </td>
                             <td>@item.Name</td>
                             <td>@item.SKU</td>
-                            <td>@item.Price</td>
+                            <td>@item.Price?.ToString("C2",new CultureInfo("tr-TR"))</td>
                             <td>@item.Stock</td>
                             <td>@item.SubcategoryName</td>
                             <td>@item.CategoryName</td>

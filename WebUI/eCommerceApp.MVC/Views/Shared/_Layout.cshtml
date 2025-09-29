@@ -7,68 +7,220 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/eCommerceApp.MVC.styles.css" asp-append-version="true" />
-
     <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="~/css/clientnavbar.css" rel="stylesheet" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-modern fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img class="logo-image d-inline-block align-text-top me-2 rounded-circle" style="height:45px;width:75px" src="/img/logo/logo.png" alt="Logo">
+                    <span class="brand-text">E-Trade</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
+                <div class="search-container d-none d-lg-block">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search products...">
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <a href="#" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">3</span>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="search-container d-lg-none mb-3">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search products...">
+                    </div>
+
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <li class="nav-item dropdown mega-dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Categories
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Electronics</a></li>
-                                <li><a class="dropdown-item" href="#">Clothing</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Books</a></li>
+                            <ul class="dropdown-menu mega-menu" aria-labelledby="navbarDropdown">
+                                <div class="mega-menu-content">
+                                    <!-- Electronics Column -->
+                                    <div class="mega-menu-column">
+                                        <h6><i class="fas fa-laptop me-2"></i>Electronics</h6>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Smartphones <span class="category-badge">New</span></span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Laptops & Computers</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>TV & Home Theater</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Cameras & Photography</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Audio & Headphones</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Wearable Technology</span>
+                                        </a>
+                                    </div>
+
+                                    <!-- Clothing Column -->
+                                    <div class="mega-menu-column">
+                                        <h6><i class="fas fa-tshirt me-2"></i>Clothing</h6>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Men's Fashion</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Women's Fashion</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Kids & Babies</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Shoes & Footwear</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Accessories</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Sportswear</span>
+                                        </a>
+                                    </div>
+
+                                    <!-- Home & Garden Column -->
+                                    <div class="mega-menu-column">
+                                        <h6><i class="fas fa-home me-2"></i>Home & Garden</h6>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Furniture</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Home Decor</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Kitchen & Dining</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Bed & Bath</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Garden & Outdoor</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Lighting</span>
+                                        </a>
+                                    </div>
+
+                                    <!-- Sports & More Column -->
+                                    <div class="mega-menu-column">
+                                        <h6><i class="fas fa-dumbbell me-2"></i>Sports & More</h6>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Books & Media</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Sports & Outdoors</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Toys & Games</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Beauty & Health</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>Automotive</span>
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <span>View All Categories <span class="category-badge">+</span></span>
+                                        </a>
+                                    </div>
+                                </div>
                             </ul>
                         </li>
                     </ul>
-                    <div class="d-flex">
-                        <a class="btn btn-success me-2" asp-area="Admin" asp-controller="Account" asp-action="Login">Login</a>
-                        <a class="btn btn-primary" asp-area="Admin" asp-controller="Account" asp-action="Register">Register</a>
+                    <div class="d-flex flex-column flex-lg-row">
+                        <a class="btn btn-login me-lg-2 mb-2 mb-lg-0" asp-area="Admin" asp-controller="Account" asp-action="Login">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                        <a class="btn btn-register" asp-area="Admin" asp-controller="Account" asp-action="Register">
+                            <i class="fas fa-user-plus me-2"></i>Register
+                        </a>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    <div class="container" style="margin-top: 100px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted fixed-bottom">
+    <footer class="border-top footer text-muted">
         <div class="container text-center">
             &copy; 2025 - E-Trade - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/toastr/toastr.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-modern');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Active nav link
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentLocation = location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                if(link.getAttribute('href') === currentLocation) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Mega dropdown hover effect
+            const megaDropdown = document.querySelector('.mega-dropdown');
+            const megaMenu = document.querySelector('.mega-menu');
+
+            if (megaDropdown && megaMenu) {
+                megaDropdown.addEventListener('mouseenter', function() {
+                    megaMenu.style.display = 'block';
+                });
+
+                megaDropdown.addEventListener('mouseleave', function() {
+                    megaMenu.style.display = 'none';
+                });
+            }
+        });
+
         // Toastr ayarları
         toastr.options = {
             "closeButton": true,
@@ -89,7 +241,6 @@
         };
 
         // TempData'dan gelen mesajları göster
-        // Bu kısım, Login gibi işlemler sonrası yönlendirmelerde kullanılacak.
         var successMessage = '@TempData["SuccessMessage"]';
         if (successMessage && successMessage.trim() !== '') {
             toastr.success(successMessage);
@@ -99,18 +250,8 @@
         if (errorMessage && errorMessage.trim() !== '') {
             toastr.error(errorMessage);
         }
-
-        // İsteğe bağlı olarak bilgi ve uyarı mesajları için de ekleyebilirsiniz
-        // var infoMessage = '@TempData["InfoMessage"]';
-        // if (infoMessage && infoMessage.trim() !== '') {
-        //     toastr.info(infoMessage);
-        // }
-
-        // var warningMessage = '@TempData["WarningMessage"]';
-        // if (warningMessage && warningMessage.trim() !== '') {
-        //     toastr.warning(warningMessage);
-        // }
     </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
