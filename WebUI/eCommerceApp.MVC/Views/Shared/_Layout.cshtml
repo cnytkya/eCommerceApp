@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - E-Commerce</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/css/client-side.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/eCommerceApp.MVC.styles.css" asp-append-version="true" />
     <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="~/css/clientnavbar.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -167,15 +167,56 @@
         </nav>
     </header>
 
-    <div class="container" style="margin-top: 100px;">
-        <main role="main" class="pb-3">
+    <div class="container-fluid p-0">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container text-center">
-            &copy; 2025 - E-Trade - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer-modern">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h5>E-Trade</h5>
+                    <p>Modern alışveriş deneyimini keşfedin. En kaliteli ürünler, hızlı teslimat ve güvenli alışveriş.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5>Hızlı Linkler</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Ana Sayfa</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Hakkımızda</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Ürünler</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Müşteri Hizmetleri</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Sıkça Sorulan Sorular</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>İade Politikası</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Gizlilik Politikası</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Şartlar ve Koşullar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>İletişim</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i>İstanbul, Türkiye</a></li>
+                        <li><a href="tel:+905551234567"><i class="fas fa-phone"></i>+90 (555) 123-4567</a></li>
+                        <li><a href="mailto:info@etrade.com"><i class="fas fa-envelope"></i>info@etrade.com</a></li>
+                        <li><a href="#"><i class="fas fa-clock"></i>7/24 Müşteri Desteği</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 E-Trade - Tüm hakları saklıdır. <a asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a></p>
+            </div>
         </div>
     </footer>
 

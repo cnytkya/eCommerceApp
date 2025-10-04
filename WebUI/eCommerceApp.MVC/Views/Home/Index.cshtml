@@ -1,7 +1,299 @@
-﻿<header class="hero-section text-white d-flex align-items-center justify-content-center text-center" style="background-image: url('https://source.unsplash.com/1920x600/?ecommerce,fashion,tech');">
-    <div class="container">
-        <h1 class="display-4 fw-bold mb-4">Yeni Sezon Ürünleri Keşfet</h1>
-        <p class="lead mb-5">En yeni trendler ve özel indirimlerle karşınızdayız.</p>
-        <a href="products.html" class="btn btn-primary btn-lg rounded-pill px-5 py-3">Şimdi Alışverişe Başla</a>
+﻿@{
+    ViewData["Title"] = "Ana Sayfa - E-Trade";
+}
+
+<!-- Hero Section -->
+<!-- Hero Section with Winter Theme -->
+<section class="hero-section text-white winter-theme">
+    <!-- Kar Yağışı -->
+    <div class="snow-container">
+        <div class="snowflake small"></div>
+        <div class="snowflake medium"></div>
+        <div class="snowflake large"></div>
+        <div class="snowflake small"></div>
+        <div class="snowflake medium different"></div>
+        <div class="snowflake large"></div>
+        <div class="snowflake small"></div>
+        <div class="snowflake medium"></div>
+        <div class="snowflake large different"></div>
+        <div class="snowflake xlarge"></div>
+        <div class="snowflake small windy"></div>
+        <div class="snowflake medium"></div>
+        <div class="snowflake large windy"></div>
+        <div class="snowflake small"></div>
+        <div class="snowflake medium different"></div>
+        <div class="snowflake large"></div>
+        <div class="snowflake small"></div>
+        <div class="snowflake medium"></div>
+        <div class="snowflake large"></div>
+        <div class="snowflake xlarge windy"></div>
     </div>
-</header>
+
+    <!-- Kar Birikimi -->
+    <div class="snow-accumulation"></div>
+
+    <!-- Mevcut animasyonlar -->
+    <div class="hero-slideshow"></div>
+    <div class="hero-slideshow"></div>
+    <div class="hero-slideshow"></div>
+
+    <div class="hero-animated-bg"></div>
+
+    <div class="container position-relative" style="z-index: 3;">
+        <div class="hero-content">
+            <h1 class="hero-title winter-title">Kışın Sıcak Fırsatları</h1>
+            <p class="hero-subtitle">Kışa özel indirimlerle sıcacık alışveriş keyfi! 🎄⛄</p>
+            <div class="hero-cta-pulse">
+                <a href="#products" class="btn btn-hero btn-winter px-5 py-3">
+                    <i class="fas fa-snowflake me-2"></i>Kış Fırsatlarını Keşfet
+                </a>
+            </div>
+
+            <!-- Kış İndirim Banner'ı -->
+            <div class="mt-4">
+                <span class="badge bg-danger px-3 py-2 fs-6 animate-pulse">
+                    🎅 KIŞ İNDİRİMLERİ BAŞLADI! %40'A VARAN İNDİRİMLER
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Popüler Kategoriler</h2>
+            <p class="text-muted">İlgi alanınıza göre keşfedin</p>
+        </div>
+
+        <!-- Dinamik View Component -->
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h4>Elektronik</h4>
+                    <p class="text-muted">125+ Ürün</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h4>Giyim</h4>
+                    <p class="text-muted">89+ Ürün</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h4>Ev & Yaşam</h4>
+                    <p class="text-muted">67+ Ürün</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h4>Spor</h4>
+                    <p class="text-muted">42+ Ürün</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section id="products" class="products-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Öne Çıkan Ürünler</h2>
+            <p class="text-muted">En çok satan ve yeni eklenen ürünler</p>
+        </div>
+        <div class="row g-4">
+            <!-- Product 1 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card">
+                    <div class="product-badge">YENİ</div>
+                    <img src="https://source.unsplash.com/400x300/?laptop,tech" class="product-image" alt="Gaming Laptop">
+                    <div class="product-info">
+                        <div class="product-category">Elektronik</div>
+                        <h3 class="product-name">Gaming Laptop Pro</h3>
+                        <p class="product-description">Yüksek performanslı gaming laptop, RTX 4060 ekran kartı</p>
+                        <div class="product-price">₺24.999</div>
+                        <div class="product-stock">
+                            Stok: <span class="stock-badge stock-in">Stokta</span>
+                        </div>
+                        <button class="btn-add-to-cart">
+                            <i class="fas fa-shopping-cart"></i>Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card">
+                    <img src="https://source.unsplash.com/400x300/?sneakers,shoes" class="product-image" alt="Spor Ayakkabı">
+                    <div class="product-info">
+                        <div class="product-category">Giyim</div>
+                        <h3 class="product-name">Premium Spor Ayakkabı</h3>
+                        <p class="product-description">Rahat ve şık tasarım, günlük kullanım için ideal</p>
+                        <div class="product-price">₺1.299</div>
+                        <div class="product-stock">
+                            Stok: <span class="stock-badge stock-low">Son 5 Ürün</span>
+                        </div>
+                        <button class="btn-add-to-cart">
+                            <i class="fas fa-shopping-cart"></i>Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card">
+                    <div class="product-badge">%25 İNDİRİM</div>
+                    <img src="https://source.unsplash.com/400x300/?smartphone,phone" class="product-image" alt="Akıllı Telefon">
+                    <div class="product-info">
+                        <div class="product-category">Elektronik</div>
+                        <h3 class="product-name">Flagship Smartphone</h3>
+                        <p class="product-description">128GB hafıza, çift kamera, hızlı şarj</p>
+                        <div class="product-price">
+                            <span style="text-decoration: line-through; color: #94a3b8; font-size: 1rem;">₺15.999</span>
+                            ₺11.999
+                        </div>
+                        <div class="product-stock">
+                            Stok: <span class="stock-badge stock-in">Stokta</span>
+                        </div>
+                        <button class="btn-add-to-cart">
+                            <i class="fas fa-shopping-cart"></i>Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card">
+                    <img src="https://source.unsplash.com/400x300/?watch,smartwatch" class="product-image" alt="Akıllı Saat">
+                    <div class="product-info">
+                        <div class="product-category">Elektronik</div>
+                        <h3 class="product-name">Smart Watch Pro</h3>
+                        <p class="product-description">Spor takip, kalp atışı ölçüm, su geçirmez</p>
+                        <div class="product-price">₺2.499</div>
+                        <div class="product-stock">
+                            Stok: <span class="stock-badge stock-out">Stokta Yok</span>
+                        </div>
+                        <button class="btn-add-to-cart" disabled>
+                            <i class="fas fa-bell"></i>Stok Gelince Haber Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h4 class="feature-title">Ücretsiz Kargo</h4>
+                    <p class="feature-description">150 TL ve üzeri alışverişlerde ücretsiz kargo imkanı</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 class="feature-title">Güvenli Alışveriş</h4>
+                    <p class="feature-description">256-bit SSL şifreleme ile güvenli ödeme</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4 class="feature-title">7/24 Destek</h4>
+                    <p class="feature-description">Müşteri hizmetleri ekibimiz her zaman yanınızda</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section">
+    <div class="container">
+        <div class="newsletter-content">
+            <h2 class="mb-3">Bültenimize Abone Olun</h2>
+            <p class="mb-4">Yeni ürünler ve özel indirimlerden ilk siz haberdar olun</p>
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="E-posta adresiniz">
+                <button class="btn-newsletter">Abone Ol</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Scroll animasyonları
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Gözlemlenecek elementler
+            const elementsToAnimate = document.querySelectorAll('.category-card, .product-card, .feature-item');
+            elementsToAnimate.forEach(el => {
+                observer.observe(el);
+            });
+
+            // Sepete ekle butonları
+            const addToCartButtons = document.querySelectorAll('.btn-add-to-cart:not(:disabled)');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productName = this.closest('.product-card').querySelector('.product-name').textContent;
+                    const originalText = this.innerHTML;
+
+                    this.innerHTML = '<i class="fas fa-check"></i>Eklendi';
+                    this.style.background = 'var(--accent-color)';
+
+                    // Toast mesajı göster
+                    if (typeof toastr !== 'undefined') {
+                        toastr.success(`${productName} sepete eklendi!`);
+                    }
+
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.background = '';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+}
