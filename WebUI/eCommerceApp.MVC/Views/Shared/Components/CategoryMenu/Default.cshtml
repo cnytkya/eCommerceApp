@@ -1,0 +1,31 @@
+﻿@model IEnumerable<CategoryDto>
+
+<ul class="dropdown-menu mega-menu" aria-labelledby="navbarDropdown">
+    <div class="mega-menu-content">
+        <!-- Kategoriler & Alt kategoriler -->
+        @foreach (var item in Model)
+        {
+            <div class="mega-menu-column">
+                <h5 class="text-white">
+                    <i class="fas fa-box me-2"></i>@item.Name
+                </h5>
+                @if (item.SubCategories != null && item.SubCategories.Any())
+                {
+                    @foreach (var subcategory in item.SubCategories)
+                    {
+                        <a class="dropdown-item" href="#">
+                            <span>@subcategory.Name</span>
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a class="dropdown-item disabled" href="#">
+                        <span>Alt Kategori Yok</span>
+                    </a>
+                }
+            </div>
+        }
+        <span class="text-white">View All Categories <span class="category-badge">+</span></span>
+    </div>
+</ul>

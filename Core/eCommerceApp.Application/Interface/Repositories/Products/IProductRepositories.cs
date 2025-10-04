@@ -11,5 +11,9 @@ namespace eCommerceApp.Application.Interface.Repositories.Products
         Task<IEnumerable<Product>> GetAllProductsWithSubcategoryAsync();
         //ID'ye ürünü alt kategorisiyle birlikte asenkron olarak getir.
         Task<Product?> GetProductWithSubcategoryIdAsync(Guid id);
+
+        //yeni metot: alt kategoriye bağlı ürünlerin sayısını getiren fonk.
+        Task<int> CountProductsBySubcategoryIdAsync(Guid subcategoryId);
+
     }
 }

@@ -24,6 +24,8 @@ namespace eCommerceApp.Application.Interface.Services
 
         Task<SubCategoryDto> GetSubcategoryByIdAsync(Guid id);//alt kategoriyi id'ye göre çekecek metot.
 
+        //Yeni metot: kategori ve ürün sayısını gösterecek fonk.
+        Task<IEnumerable<CategoryWithProductCountDto>> GetCategoriesWithProductCountsAsync();
         #endregion
     }
 }

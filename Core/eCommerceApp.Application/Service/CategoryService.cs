@@ -110,6 +110,7 @@ namespace eCommerceApp.Application.Service
             return _mapper.Map<IEnumerable<CategoryDto>>(categories);
         }
 
+
         public async Task<CategoryDto?> GetCategoryByIdAsync(Guid id)
         {
             //kategoriyi id'ye göre getir.
@@ -177,6 +178,43 @@ namespace eCommerceApp.Application.Service
             _subCategoryRepo.Update(subcategory);
             await _categoryRepo.SaveChangesAync();
             return (true, Enumerable.Empty<string>());
+        }
+        public async Task<IEnumerable<CategoryWithProductCountDto>> GetCategoriesWithProductCountsAsync()
+        {
+            var categories = await _categoryRepo.GetAllCategoriesWithSubcategoriesAsync();
+            var result = new List<CategoryWithProductCountDto>();
+
+            foreach (var category in categories)
+            {
+                var productCount = await GetProductCountByCategoryAsync(category.Id);
+                result.Add(new CategoryWithProductCountDto
+                {
+                    CategoryId = category.Id,
+                    CategoryName = category.Name,
+                    Slug = category.Slug,
+                    ProductCount = productCount,
+                    SubCategories = category.Subcategories.Select(sc => new SubCategoryDto
+                    {
+                        Id = sc.Id,
+                        Name = sc.Name,
+                        Slug = sc.Slug
+                    }).ToList()
+                });
+            }
+            return result;
+        }
+
+        public async Task<int> GetProductCountByCategoryAsync(Guid categoryId)
+        {
+            var subcategories = await _subCategoryRepo.FindAsync(sc => sc.CategoryId == categoryId);
+            var subcategoryIds = subcategories.Select(sc =>sc.Id);
+
+            var productCount = 0;
+            foreach (var subcategoryId in subcategoryIds)
+            {
+                productCount += await _productRepositories.CountProductsBySubcategoryIdAsync(categoryId);
+            }
+            return productCount;
         }
     }
 }

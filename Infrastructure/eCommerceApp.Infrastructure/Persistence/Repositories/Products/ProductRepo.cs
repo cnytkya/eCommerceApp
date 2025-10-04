@@ -10,6 +10,7 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories.Products
         {
         }
 
+
         public async Task<IEnumerable<Product>> GetAllProductsWithSubcategoryAsync()
         {
             //Ürünleri, ait oldukları alt kategorileri ile birlikte getir.
@@ -24,6 +25,10 @@ namespace eCommerceApp.Infrastructure.Persistence.Repositories.Products
             return await _dbSet.Include(p => p.Subcategory)
                 .ThenInclude(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
+        }
+        public async Task<int> CountProductsBySubcategoryIdAsync(Guid subcategoryId)//Belirli bir kategoriye ait aktif ürün sayısını asenkron olarak alır ve sayar.
+        {
+            return await _dbSet.CountAsync(p => p.SubcategoryId == subcategoryId);
         }
     }
 }
