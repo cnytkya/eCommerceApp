@@ -1,4 +1,5 @@
-﻿using eCommerceApp.Application.Interface.Services;
+﻿using eCommerceApp.Application.DTOs.Category;
+using eCommerceApp.Application.Interface.Services;
 using eCommerceApp.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +18,9 @@ namespace eCommerceApp.MVC.ViewComponents
         {
             try
             {
-                //hata yoksa çalışacak kod bloğu
-                var categoriesWithCount = await _categoryService.GetCategoriesWithProductCountsAsync();
+                var categoriesWithCounts = await _categoryService.GetCategoriesWithProductCountsAsync();
 
-                var popularCategories = categoriesWithCount
+                var popularCategories = categoriesWithCounts
                     .Where(c => c.ProductCount > 0)
                     .OrderByDescending(c => c.ProductCount)
                     .Take(8)
@@ -28,14 +28,19 @@ namespace eCommerceApp.MVC.ViewComponents
                     {
                         Id = c.CategoryId,
                         Name = c.CategoryName,
+                        Icon = GetCategoryIcon(c.CategoryName),
                         ProductCount = c.ProductCount,
-                        URL = $"/categories/{c.Slug}"
-                    }).ToList();
+                        Url = $"/categories/{c.Slug}",
+                        Color = GetCategoryColor(c.CategoryName)
+                    })
+                    .ToList();
+
                 return View(popularCategories);
             }
             catch (Exception ex)
             {
-                //hata varsa ex fırlatacak
+                // Log the exception
+                // _logger.LogError(ex, "Error loading popular categories");
                 return View(new List<CategoryViewModel>());
             }
         }
@@ -53,8 +58,24 @@ namespace eCommerceApp.MVC.ViewComponents
                 string name when name.Contains("oyuncak") => "fas fa-gamepad",
                 string name when name.Contains("mücevher") || name.Contains("takı") => "fas fa-gem",
                 string name when name.Contains("ayakkabı") => "fas fa-shoe-prints",
-                string name when name.Contains("çanta") => "fas fa-brifecase",
-                _ =>"fas fa-shopping-bag"
+                string name when name.Contains("çanta") => "fas fa-briefcase",
+                _ => "fas fa-shopping-bag"
+            };
+        }
+
+        private string GetCategoryColor(string categoryName)
+        {
+            return categoryName.ToLower() switch
+            {
+                string name when name.Contains("elektronik") || name.Contains("teknoloji") => "#6366f1",
+                string name when name.Contains("giyim") || name.Contains("moda") => "#8b5cf6",
+                string name when name.Contains("ev") || name.Contains("yaşam") => "#06d6a0",
+                string name when name.Contains("spor") => "#f59e0b",
+                string name when name.Contains("kozmetik") || name.Contains("güzellik") => "#ec4899",
+                string name when name.Contains("kitap") => "#10b981",
+                string name when name.Contains("oyuncak") => "#f97316",
+                string name when name.Contains("mücevher") || name.Contains("takı") => "#8b5cf6",
+                _ => "#6366f1"
             };
         }
     }
